@@ -1,0 +1,302 @@
+/* Style and regroup some block fields. */
+/*
+.components-panel__body.is-opened {
+    display: flex;
+    flex-wrap: wrap;
+
+    div[data-lazyblocks-control-name] {
+        width: 100%;
+    }
+}
+
+div[data-lazyblocks-control-name] div[data-wp-component="InputBase"],
+div[data-lazyblocks-control-name] .components-base-control__field {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
+
+div[data-lazyblocks-control-name="additional-css"] .components-base-control__field,
+div[data-lazyblocks-control-name="additional-section-content-css"] .components-base-control__field {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+div[data-lazyblocks-control-name] .components-base-control__field {
+    background-color: lightgray;
+    padding: 2px;
+}
+
+div[data-lazyblocks-control-name] .components-base-control__label,
+div[data-lazyblocks-control-name] .components-text-control__input,
+div[data-lazyblocks-control-name] .components-input-control__container,
+div[data-lazyblocks-control-name] .components-flex-item {
+    width: 50%;
+}
+
+div[data-lazyblocks-control-name] .components-base-control__label {
+    margin-bottom: 0;
+}
+
+.block-editor-block-inspector div[data-lazyblocks-control-name="margin-inline-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="margin-block-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="margin-inline-end"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="padding-inline-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="padding-block-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="padding-inline-end"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-inline-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-block-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-inline-end"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="inline-size"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="min-inline-size"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="max-inline-size"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="background-color"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="background-image"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="background-repeat"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="background-position"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="font-size"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="line-height"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="font-weight"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="font-style"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="text-decoration"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="text-transform"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-image"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-position"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-repeat"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-image"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-position"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-repeat"].lazyblocks-component-base-control {
+    margin-bottom: 0;
+
+    .components-base-control {
+        margin-bottom: 0;
+
+        .components-base-control__field {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.block-editor-block-inspector div[data-lazyblocks-control-name="margin-inline-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="margin-block-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="margin-inline-end"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="margin-block-end"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="padding-inline-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="padding-block-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="padding-inline-end"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="padding-block-end"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-inline-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-block-start"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-inline-end"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-block-end"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="inline-size"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="block-size"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="min-inline-size"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="min-block-size"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="max-inline-size"].lazyblocks-component-base-control,
+.block-editor-block-inspector div[data-lazyblocks-control-name="max-block-size"].lazyblocks-component-base-control {
+
+    .components-base-control {
+
+        .components-base-control__field {
+
+            label {
+                width: 70%;
+            }
+
+            input {
+                width: 30%;
+            }
+        }
+    }
+}
+*/
+/* Display some fields depending on previous fields values */
+/*
+.block-editor-block-inspector div[data-lazyblocks-control-name="background-image"]:has(.components-text-control__input:placeholder-shown) {
+    margin-bottom: 3.2rem;
+
+    & ~ div[data-lazyblocks-control-name="background-repeat"],
+    & ~ div[data-lazyblocks-control-name="background-position"],
+    & ~ div[data-lazyblocks-control-name="background-size"] {
+        display: none;
+    }
+}
+
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-image"]:has(.components-text-control__input:placeholder-shown) {
+    margin-bottom: 3.2rem;
+
+    & ~ div[data-lazyblocks-control-name="before-bg-position"],
+    & ~ div[data-lazyblocks-control-name="before-bg-repeat"],
+    & ~ div[data-lazyblocks-control-name="before-bg-size"] {
+        display: none;
+    }
+}
+
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-image"]:has(.components-text-control__input:placeholder-shown) {
+    margin-bottom: 3.2rem;
+
+    & ~ div[data-lazyblocks-control-name="after-bg-position"],
+    & ~ div[data-lazyblocks-control-name="after-bg-repeat"],
+    & ~ div[data-lazyblocks-control-name="after-bg-size"] {
+        display: none;
+    }
+}
+
+.block-editor-block-inspector div[data-lazyblocks-control-name="gap"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-inline-start"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-inline-end"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-block-start"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="inset-block-end"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="z-index"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-inline-size"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-block-size"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-z-index"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-color"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-image"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-position"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-repeat"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-size"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-bg-transform"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-inline-size"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-block-size"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-z-index"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-color"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-image"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-position"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-repeat"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-size"],
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-bg-transform"] {
+    display: none;
+}
+
+.block-editor-block-inspector div[data-lazyblocks-control-name="display"]:has(option[value="flex"]:checked),
+.block-editor-block-inspector div[data-lazyblocks-control-name="display"]:has(option[value="grid"]:checked),
+.block-editor-block-inspector div[data-lazyblocks-control-name="display"]:has(option[value="inline-flex"]:checked),
+.block-editor-block-inspector div[data-lazyblocks-control-name="display"]:has(option[value="inline-grid"]:checked) {
+
+    & ~ div[data-lazyblocks-control-name="gap"] {
+        display: block;
+    }
+}
+
+.block-editor-block-inspector div[data-lazyblocks-control-name="position"]:has(option[value="relative"]:checked),
+.block-editor-block-inspector div[data-lazyblocks-control-name="position"]:has(option[value="absolute"]:checked),
+.block-editor-block-inspector div[data-lazyblocks-control-name="position"]:has(option[value="fixed"]:checked),
+.block-editor-block-inspector div[data-lazyblocks-control-name="position"]:has(option[value="sticky"]:checked) {
+
+    & ~ div[data-lazyblocks-control-name="inset-inline-start"],
+    & ~ div[data-lazyblocks-control-name="inset-inline-end"],
+    & ~ div[data-lazyblocks-control-name="inset-block-start"],
+    & ~ div[data-lazyblocks-control-name="inset-block-end"],
+    & ~ div[data-lazyblocks-control-name="z-index"] {
+        display: block;
+    }
+}
+
+.block-editor-block-inspector div[data-lazyblocks-control-name="before-pseudo-element"]:has(.components-form-toggle__input:checked) {
+
+    & ~ div[data-lazyblocks-control-name="before-inline-size"],
+    & ~ div[data-lazyblocks-control-name="before-block-size"],
+    & ~ div[data-lazyblocks-control-name="before-z-index"],
+    & ~ div[data-lazyblocks-control-name="before-bg-color"],
+    & ~ div[data-lazyblocks-control-name="before-bg-image"],
+    & ~ div[data-lazyblocks-control-name="before-bg-position"],
+    & ~ div[data-lazyblocks-control-name="before-bg-repeat"],
+    & ~ div[data-lazyblocks-control-name="before-bg-size"],
+    & ~ div[data-lazyblocks-control-name="before-bg-transform"] {
+        display: block;
+    }
+}
+
+.block-editor-block-inspector div[data-lazyblocks-control-name="after-pseudo-element"]:has(.components-form-toggle__input:checked) {
+
+    & ~ div[data-lazyblocks-control-name="after-inline-size"],
+    & ~ div[data-lazyblocks-control-name="after-block-size"],
+    & ~ div[data-lazyblocks-control-name="after-z-index"],
+    & ~ div[data-lazyblocks-control-name="after-bg-color"],
+    & ~ div[data-lazyblocks-control-name="after-bg-image"],
+    & ~ div[data-lazyblocks-control-name="after-bg-position"],
+    & ~ div[data-lazyblocks-control-name="after-bg-repeat"],
+    & ~ div[data-lazyblocks-control-name="after-bg-size"],
+    & ~ div[data-lazyblocks-control-name="after-bg-transform"] {
+        display: block;
+    }
+}
+*/
+/* Disable big frames in the editor (to try to achieve near the same layout than the front-end). */
+/*
+.lazyblock,
+.lzb-preview-server,
+.lazyblock-inner-blocks {
+    display: contents;
+}
+
+.lazyblock .lzb-content-title,
+.lazyblock .lzb-content-controls {
+    display: none;
+}
+*/
+
+/* Disable inserter preview that triggers the Edit function (yes, that works) */
+.components-popover .block-editor-inserter__preview-container {
+    display: none;
+}
+
+.components-panel__body .components-panel__body-title,
+.components-panel__body .components-panel__body-title:hover {
+    border-block-end: 0.1px solid lightgray;
+}
+
+.media-query {
+    padding-block-start: 0.5rem;
+    padding-block-end: 0.5rem;
+    margin-block-end: 0.5rem;
+    position: relative;
+}
+
+.media-query .delete {
+    position: absolute;
+    inset-block-start: 1rem;
+    inset-inline-end: 0;
+}
+
+.add-media-query {
+    display: block;
+    inline-size: 100%;
+    margin-block-start: 1rem;
+}
+
+.media-query .components-base-control {
+    margin-block-end: 0;
+}
+
+.components-panel__body .media-query .components-base-control__label {
+    margin-block-end: 0;
+    display: inline;
+}
+
+.components-panel__body .media-query .components-text-control__input {
+    inline-size: 6rem;
+}
+
+.components-panel__body .media-query .components-base-control__field::after {
+    content: " px)";
+}
+
+/* Styles for Monaco Editor */
+.interface-complementary-area:has(.components-panel__row.monaco-editor:focus-within),
+.interface-interface-skeleton__sidebar:has(.components-panel__row.monaco-editor:focus-within) {
+    overflow: visible;
+}
+
+.components-panel__row.monaco-editor {
+    block-size: 5rem;
+}
+.components-panel__row.monaco-editor:focus-within {
+    inline-size: 75rem;
+    inset-inline-start: -50rem;
+    block-size: 40rem;
+}

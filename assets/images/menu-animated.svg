@@ -1,0 +1,35 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="5F6368" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        rect {
+            transform-box: fill-box;
+            transition: scale .2s, rotate .2s;
+        }
+        #rect-1 {
+            transform-origin: 100%;
+        }
+
+        #rect-2,
+        #rect-3 {
+            transform-origin: center center;
+        }
+
+        .menuOpen #rect-1,
+        .menuOpen #rect-4 {
+            scale: 0 100%;
+        }
+
+        .menuOpen #rect-2 {
+            rotate: 45deg;
+            scale: 1.2 100%;
+        }
+
+        .menuOpen #rect-3 {
+            rotate: 135deg;
+            scale: 1.2 100%;
+        }
+    </style>
+    <rect id="rect-1" x="3" y="3" width="18" height="2"/>
+    <rect id="rect-2" x="3" y="11" width="18" height="2"/>
+    <rect id="rect-3" x="3" y="11" width="18" height="2"/>
+    <rect id="rect-4" x="3" y="19" width="18" height="2"/>
+</svg>

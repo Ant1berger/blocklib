@@ -1,0 +1,8 @@
+
+#sub-accordion-section-colors_section .customize-control,
+#sub-accordion-section-typography_section .customize-control {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 1rem;
+    align-items: baseline;
+}
