@@ -13,7 +13,7 @@ export default function save(props) {
                 className={blockName + blockClasses}
                 value={ content }
             />
-            { !blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
+            { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
             { renderedMediaQueries && <style>{renderedMediaQueries}</style> }
         </Fragment>
     )

@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import MonacoEditor from '@monaco-editor/react';
-import { PanelBody, PanelRow, TextControl, Button, SelectControl } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl, Button, SelectControl, ToggleControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import { useSelect } from '@wordpress/data';
 import metadata from './block.json';
@@ -63,27 +63,6 @@ export default function Edit(props) {
             uniqueIds.push( uniqueId );
         }
     }, [blockName] );
-
-    // Check if the block is the first of its kind in the page to avoid injecting the <style> tag multiple times.
-    useEffect(() => {
-        if( blockList && blockList.length > 1 ) {
-            blockList.forEach(block => {
-                if( block.id.includes('blocklib-' + blockName) ) {
-                    if( block.id.includes(uniqueId) ) {
-                        setAttributes({ blockStylesTag: false });
-                        return
-                    } else {
-                        setAttributes({ blockStylesTag: true });
-                        return
-                    }
-                } else {
-                    setAttributes({ blockStylesTag: false });
-                }
-            });
-        } else if( blockList && blockList.length == 1 ) {
-            setAttributes({ blockStylesTag: false });
-        }
-    }, [blockList, blockStylesTag]);
 
     // Generates the CSS from the theme options.
     const handleThemeOptionsForModifiers = (optionId, cssProp) => {
@@ -211,6 +190,15 @@ ${query.css}
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
                         placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
                     />
+                    <ToggleControl
+                        label={ __( 'Insert block\'s <style> tag', 'bloclklib' ) }
+                        checked={ !! blockStylesTag }
+                        onChange={ () =>
+                            setAttributes( {
+                                blockStylesTag: ! blockStylesTag,
+                            } )
+                        }
+                    />
                 </PanelBody>
                 <PanelBody title={ __( 'Spacing, sizing, moving...', 'bloclklib' ) } initialOpen={true}>
                     {mediaQueries.map((query, index) => (
@@ -252,7 +240,7 @@ ${query.css}
                 onChange={ ( content ) => props.setAttributes( { content } ) }
                 allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/image', 'core/subscript', 'core/superscript' ] }
             />
-            { !blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
+            { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
             { renderedMediaQueries && <style>{renderedMediaQueries}</style> }
         </Fragment>
     )

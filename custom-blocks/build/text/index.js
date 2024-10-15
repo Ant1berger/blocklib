@@ -1,1 +1,1459 @@
-(()=>{"use strict";var e={n:t=>{var n=t&&t.__esModule?()=>t.default:()=>t;return e.d(n,{a:n}),n},d:(t,n)=>{for(var r in n)e.o(n,r)&&!e.o(t,r)&&Object.defineProperty(t,r,{enumerable:!0,get:n[r]})},o:(e,t)=>Object.prototype.hasOwnProperty.call(e,t)};const t=window.wp.blocks,n=window.wp.i18n,r=window.wp.blockEditor,o=window.wp.element;function i(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function c(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,r)}return n}function a(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{};t%2?c(Object(n),!0).forEach((function(t){i(e,t,n[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):c(Object(n)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))}))}return e}function l(e,t){(null==t||t>e.length)&&(t=e.length);for(var n=0,r=new Array(t);n<t;n++)r[n]=e[n];return r}function u(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function s(e,t){var n=Object.keys(e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(e);t&&(r=r.filter((function(t){return Object.getOwnPropertyDescriptor(e,t).enumerable}))),n.push.apply(n,r)}return n}function d(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{};t%2?s(Object(n),!0).forEach((function(t){u(e,t,n[t])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(n)):s(Object(n)).forEach((function(t){Object.defineProperty(e,t,Object.getOwnPropertyDescriptor(n,t))}))}return e}function f(e){return function t(){for(var n=this,r=arguments.length,o=new Array(r),i=0;i<r;i++)o[i]=arguments[i];return o.length>=e.length?e.apply(this,o):function(){for(var e=arguments.length,r=new Array(e),i=0;i<e;i++)r[i]=arguments[i];return t.apply(n,[].concat(o,r))}}}function g(e){return{}.toString.call(e).includes("Object")}function h(e){return"function"==typeof e}var p=f((function(e,t){throw new Error(e[t]||e.default)}))({initialIsRequired:"initial state is required",initialType:"initial state should be an object",initialContent:"initial state shouldn't be an empty object",handlerType:"handler should be an object or a function",handlersType:"all handlers should be a functions",selectorType:"selector should be a function",changeType:"provided value of changes should be an object",changeField:'it seams you want to change a field in the state which is not specified in the "initial" state',default:"an unknown error accured in `state-local` package"}),b=function(e,t){return g(t)||p("changeType"),Object.keys(t).some((function(t){return n=e,r=t,!Object.prototype.hasOwnProperty.call(n,r);var n,r}))&&p("changeField"),t},m=function(e){h(e)||p("selectorType")},y=function(e){h(e)||g(e)||p("handlerType"),g(e)&&Object.values(e).some((function(e){return!h(e)}))&&p("handlersType")},v=function(e){var t;e||p("initialIsRequired"),g(e)||p("initialType"),t=e,Object.keys(t).length||p("initialContent")};function w(e,t){return h(t)?t(e.current):t}function j(e,t){return e.current=d(d({},e.current),t),t}function O(e,t,n){return h(t)?t(e.current):Object.keys(n).forEach((function(n){var r;return null===(r=t[n])||void 0===r?void 0:r.call(t,e.current[n])})),n}const k=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};v(e),y(t);var n={current:e},r=f(O)(n,t),o=f(j)(n),i=f(b)(e),c=f(w)(n);return[function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:function(e){return e};return m(e),e(n.current)},function(e){!function(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return function(e){return t.reduceRight((function(e,t){return t(e)}),e)}}(r,o,i,c)(e)}]};var M,x={configIsRequired:"the configuration object is required",configType:"the configuration object should be an object",default:"an unknown error accured in `@monaco-editor/loader` package",deprecation:"Deprecation warning!\n    You are using deprecated way of configuration.\n\n    Instead of using\n      monaco.config({ urls: { monacoBase: '...' } })\n    use\n      monaco.config({ paths: { vs: '...' } })\n\n    For more please check the link https://github.com/suren-atoyan/monaco-loader#config\n  "},C=(M=function(e,t){throw new Error(e[t]||e.default)},function e(){for(var t=this,n=arguments.length,r=new Array(n),o=0;o<n;o++)r[o]=arguments[o];return r.length>=M.length?M.apply(this,r):function(){for(var n=arguments.length,o=new Array(n),i=0;i<n;i++)o[i]=arguments[i];return e.apply(t,[].concat(r,o))}})(x);const E={config:function(e){return e||C("configIsRequired"),t=e,{}.toString.call(t).includes("Object")||C("configType"),e.urls?(console.warn(x.deprecation),{paths:{vs:e.urls.monacoBase}}):e;var t}},S=function e(t,n){return Object.keys(n).forEach((function(r){n[r]instanceof Object&&t[r]&&Object.assign(n[r],e(t[r],n[r]))})),a(a({},t),n)};var P={type:"cancelation",msg:"operation is manually canceled"};const _=function(e){var t=!1,n=new Promise((function(n,r){e.then((function(e){return t?r(P):n(e)})),e.catch(r)}));return n.cancel=function(){return t=!0},n};var R,T=function(e){if(Array.isArray(e))return e}(R=k({config:{paths:{vs:"https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs"}},isInitialized:!1,resolve:null,reject:null,monaco:null}))||function(e){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(e)){var t=[],_n=!0,n=!1,r=void 0;try{for(var o,i=e[Symbol.iterator]();!(_n=(o=i.next()).done)&&(t.push(o.value),2!==t.length);_n=!0);}catch(e){n=!0,r=e}finally{try{_n||null==i.return||i.return()}finally{if(n)throw r}}return t}}(R)||function(e){if(e){if("string"==typeof e)return l(e,2);var t=Object.prototype.toString.call(e).slice(8,-1);return"Object"===t&&e.constructor&&(t=e.constructor.name),"Map"===t||"Set"===t?Array.from(e):"Arguments"===t||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t)?l(e,2):void 0}}(R)||function(){throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}(),I=T[0],L=T[1];function N(e){return document.body.appendChild(e)}function A(e){var t,n,r=I((function(e){return{config:e.config,reject:e.reject}})),o=(t="".concat(r.config.paths.vs,"/loader.js"),n=document.createElement("script"),t&&(n.src=t),n);return o.onload=function(){return e()},o.onerror=r.reject,o}function V(){var e=I((function(e){return{config:e.config,resolve:e.resolve,reject:e.reject}})),t=window.require;t.config(e.config),t(["vs/editor/editor.main"],(function(t){q(t),e.resolve(t)}),(function(t){e.reject(t)}))}function q(e){I().monaco||L({monaco:e})}var D=new Promise((function(e,t){return L({resolve:e,reject:t})})),F={config:function(e){var t=E.config(e),n=t.monaco,r=function(e,t){if(null==e)return{};var n,r,o=function(e,t){if(null==e)return{};var n,r,o={},i=Object.keys(e);for(r=0;r<i.length;r++)n=i[r],t.indexOf(n)>=0||(o[n]=e[n]);return o}(e,t);if(Object.getOwnPropertySymbols){var i=Object.getOwnPropertySymbols(e);for(r=0;r<i.length;r++)n=i[r],t.indexOf(n)>=0||Object.prototype.propertyIsEnumerable.call(e,n)&&(o[n]=e[n])}return o}(t,["monaco"]);L((function(e){return{config:S(e.config,r),monaco:n}}))},init:function(){var e=I((function(e){return{monaco:e.monaco,isInitialized:e.isInitialized,resolve:e.resolve}}));if(!e.isInitialized){if(L({isInitialized:!0}),e.monaco)return e.resolve(e.monaco),_(D);if(window.monaco&&window.monaco.editor)return q(window.monaco),e.resolve(window.monaco),_(D);!function(){for(var e=arguments.length,t=new Array(e),n=0;n<e;n++)t[n]=arguments[n];return function(e){return t.reduceRight((function(e,t){return t(e)}),e)}}(N,A)(V)}return _(D)},__getMonacoInstance:function(){return I((function(e){return e.monaco}))}};const B=F,U=window.React;var $={display:"flex",position:"relative",textAlign:"initial"},z={width:"100%"},Q={display:"none"},W={container:{display:"flex",height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}},H=function({children:e}){return U.createElement("div",{style:W.container},e)},Z=(0,U.memo)((function({width:e,height:t,isEditorReady:n,loading:r,_ref:o,className:i,wrapperProps:c}){return U.createElement("section",{style:{...$,width:e,height:t},...c},!n&&U.createElement(H,null,r),U.createElement("div",{ref:o,style:{...z,...!n&&Q},className:i}))})),J=function(e){(0,U.useEffect)(e,[])},X=function(e,t,n=!0){let r=(0,U.useRef)(!0);(0,U.useEffect)(r.current||!n?()=>{r.current=!1}:e,t)};function Y(){}function G(e,t,n,r){return function(e,t){return e.editor.getModel(K(e,t))}(e,r)||function(e,t,n,r){return e.editor.createModel(t,n,r?K(e,r):void 0)}(e,t,n,r)}function K(e,t){return e.Uri.parse(t)}(0,U.memo)((function({original:e,modified:t,language:n,originalLanguage:r,modifiedLanguage:o,originalModelPath:i,modifiedModelPath:c,keepCurrentOriginalModel:a=!1,keepCurrentModifiedModel:l=!1,theme:u="light",loading:s="Loading...",options:d={},height:f="100%",width:g="100%",className:h,wrapperProps:p={},beforeMount:b=Y,onMount:m=Y}){let[y,v]=(0,U.useState)(!1),[w,j]=(0,U.useState)(!0),O=(0,U.useRef)(null),k=(0,U.useRef)(null),M=(0,U.useRef)(null),x=(0,U.useRef)(m),C=(0,U.useRef)(b),E=(0,U.useRef)(!1);J((()=>{let e=B.init();return e.then((e=>(k.current=e)&&j(!1))).catch((e=>"cancelation"!==e?.type&&console.error("Monaco initialization: error:",e))),()=>O.current?function(){let e=O.current?.getModel();a||e?.original?.dispose(),l||e?.modified?.dispose(),O.current?.dispose()}():e.cancel()})),X((()=>{if(O.current&&k.current){let t=O.current.getOriginalEditor(),o=G(k.current,e||"",r||n||"text",i||"");o!==t.getModel()&&t.setModel(o)}}),[i],y),X((()=>{if(O.current&&k.current){let e=O.current.getModifiedEditor(),r=G(k.current,t||"",o||n||"text",c||"");r!==e.getModel()&&e.setModel(r)}}),[c],y),X((()=>{let e=O.current.getModifiedEditor();e.getOption(k.current.editor.EditorOption.readOnly)?e.setValue(t||""):t!==e.getValue()&&(e.executeEdits("",[{range:e.getModel().getFullModelRange(),text:t||"",forceMoveMarkers:!0}]),e.pushUndoStop())}),[t],y),X((()=>{O.current?.getModel()?.original.setValue(e||"")}),[e],y),X((()=>{let{original:e,modified:t}=O.current.getModel();k.current.editor.setModelLanguage(e,r||n||"text"),k.current.editor.setModelLanguage(t,o||n||"text")}),[n,r,o],y),X((()=>{k.current?.editor.setTheme(u)}),[u],y),X((()=>{O.current?.updateOptions(d)}),[d],y);let S=(0,U.useCallback)((()=>{if(!k.current)return;C.current(k.current);let a=G(k.current,e||"",r||n||"text",i||""),l=G(k.current,t||"",o||n||"text",c||"");O.current?.setModel({original:a,modified:l})}),[n,t,o,e,r,i,c]),P=(0,U.useCallback)((()=>{!E.current&&M.current&&(O.current=k.current.editor.createDiffEditor(M.current,{automaticLayout:!0,...d}),S(),k.current?.editor.setTheme(u),v(!0),E.current=!0)}),[d,u,S]);return(0,U.useEffect)((()=>{y&&x.current(O.current,k.current)}),[y]),(0,U.useEffect)((()=>{!w&&!y&&P()}),[w,y,P]),U.createElement(Z,{width:g,height:f,isEditorReady:y,loading:s,_ref:M,className:h,wrapperProps:p})}));var ee=new Map,te=(0,U.memo)((function({defaultValue:e,defaultLanguage:t,defaultPath:n,value:r,language:o,path:i,theme:c="light",line:a,loading:l="Loading...",options:u={},overrideServices:s={},saveViewState:d=!0,keepCurrentModel:f=!1,width:g="100%",height:h="100%",className:p,wrapperProps:b={},beforeMount:m=Y,onMount:y=Y,onChange:v,onValidate:w=Y}){let[j,O]=(0,U.useState)(!1),[k,M]=(0,U.useState)(!0),x=(0,U.useRef)(null),C=(0,U.useRef)(null),E=(0,U.useRef)(null),S=(0,U.useRef)(y),P=(0,U.useRef)(m),_=(0,U.useRef)(),R=(0,U.useRef)(r),T=function(e){let t=(0,U.useRef)();return(0,U.useEffect)((()=>{t.current=e}),[e]),t.current}(i),I=(0,U.useRef)(!1),L=(0,U.useRef)(!1);J((()=>{let e=B.init();return e.then((e=>(x.current=e)&&M(!1))).catch((e=>"cancelation"!==e?.type&&console.error("Monaco initialization: error:",e))),()=>C.current?(_.current?.dispose(),f?d&&ee.set(i,C.current.saveViewState()):C.current.getModel()?.dispose(),void C.current.dispose()):e.cancel()})),X((()=>{let c=G(x.current,e||r||"",t||o||"",i||n||"");c!==C.current?.getModel()&&(d&&ee.set(T,C.current?.saveViewState()),C.current?.setModel(c),d&&C.current?.restoreViewState(ee.get(i)))}),[i],j),X((()=>{C.current?.updateOptions(u)}),[u],j),X((()=>{!C.current||void 0===r||(C.current.getOption(x.current.editor.EditorOption.readOnly)?C.current.setValue(r):r!==C.current.getValue()&&(L.current=!0,C.current.executeEdits("",[{range:C.current.getModel().getFullModelRange(),text:r,forceMoveMarkers:!0}]),C.current.pushUndoStop(),L.current=!1))}),[r],j),X((()=>{let e=C.current?.getModel();e&&o&&x.current?.editor.setModelLanguage(e,o)}),[o],j),X((()=>{void 0!==a&&C.current?.revealLine(a)}),[a],j),X((()=>{x.current?.editor.setTheme(c)}),[c],j);let N=(0,U.useCallback)((()=>{if(E.current&&x.current&&!I.current){P.current(x.current);let l=i||n,f=G(x.current,r||e||"",t||o||"",l||"");C.current=x.current?.editor.create(E.current,{model:f,automaticLayout:!0,...u},s),d&&C.current.restoreViewState(ee.get(l)),x.current.editor.setTheme(c),void 0!==a&&C.current.revealLine(a),O(!0),I.current=!0}}),[e,t,n,r,o,i,u,s,d,c,a]);return(0,U.useEffect)((()=>{j&&S.current(C.current,x.current)}),[j]),(0,U.useEffect)((()=>{!k&&!j&&N()}),[k,j,N]),R.current=r,(0,U.useEffect)((()=>{j&&v&&(_.current?.dispose(),_.current=C.current?.onDidChangeModelContent((e=>{L.current||v(C.current.getValue(),e)})))}),[j,v]),(0,U.useEffect)((()=>{if(j){let e=x.current.editor.onDidChangeMarkers((e=>{let t=C.current.getModel()?.uri;if(t&&e.find((e=>e.path===t.path))){let e=x.current.editor.getModelMarkers({resource:t});w?.(e)}}));return()=>{e?.dispose()}}return()=>{}}),[j,w]),U.createElement(Z,{width:g,height:h,isEditorReady:j,loading:l,_ref:E,className:p,wrapperProps:b})}));const ne=window.wp.components,re=(window.wp.data,JSON.parse('{"UU":"custom-blocks/text"}')),oe=window.wp.apiFetch;var ie=e.n(oe);const ce=window.ReactJSXRuntime,ae=({defaultValue:e,value:t,onChange:n})=>(0,ce.jsx)(te,{height:"100%",language:"css",theme:"vs-dark",defaultValue:e,value:t,onChange:e=>n(e),options:{minimap:{enabled:!1},automaticLayout:!0,lineNumbers:!1}}),le=[],ue=(0,ce.jsx)("svg",{xmlns:"http://www.w3.org/2000/svg",height:"48px",viewBox:"0 -960 960 960",width:"48px",fill:"#000000",children:(0,ce.jsx)("path",{d:"M160-200v-60h386v60H160Zm0-167v-60h640v60H160Zm0-166v-60h640v60H160Zm0-167v-60h640v60H160Z"})});(0,t.registerBlockType)(re.UU,{icon:ue,edit:function(e){const{attributes:t,setAttributes:i,clientId:c}=e,{tag:a,uniqueId:l,blockStyles:u,blockClasses:s,blockName:d,selectedColorClass:f,selectedFontClass:g,manualClasses:h,mediaQueries:p=[],renderedMediaQueries:b,blockStylesTag:m,content:y}=t,[v,w]=(0,o.useState)(a),[j,O]=(0,o.useState)({});(0,o.useEffect)((()=>{ie()({path:"/wp/v2/settings"}).then((e=>{O(e)})).catch((e=>{console.error("Erreur lors de la récupération des options de thème :",e)}))}),[]),(0,o.useEffect)((()=>{i({blockName:re.UU.slice(14)})}),[]),(0,o.useEffect)((()=>{if(null===l||""===l||le.includes(l)){const e="blocklib-"+d+"-"+c.substr(2,9).replace("-","");i({uniqueId:e}),le.push(e)}else le.push(l)}),[d]),(0,o.useEffect)((()=>{blockList&&blockList.length>1?blockList.forEach((e=>{if(e.id.includes("blocklib-"+d))return e.id.includes(l)?void i({blockStylesTag:!1}):void i({blockStylesTag:!0});i({blockStylesTag:!1})})):blockList&&1==blockList.length&&i({blockStylesTag:!1})}),[blockList,m]);const k=(e,t)=>{let n="";for(const r in e)e[r]&&(n+=`.${d}.-${r} {\n    ${t}: var(--${r});\n}\n`);return n},M=(e,t)=>{let n=[{label:t,value:""}];for(const t in e)e[t]&&n.push({label:t,value:"-"+t});return n};i({blockStyles:`.${d} {\n    margin: 0;\n    text-wrap: balance;\n    hyphens: auto;\n}\n${k(j.theme_colors,"color")}\n${k(j.theme_fonts,"font-family")}\n`});const x=(e,t,n)=>{const r=p.map(((r,o)=>o===e?{...r,[t]:n}:r));i({mediaQueries:r})};return i({renderedMediaQueries:p.map((e=>e.minWidth&&e.css?"0"!==e.minWidth?`@media (min-width: ${e.minWidth}px) {\n${e.css}\n}`:`${e.css}`:null)).join("\n")}),i({blockClasses:(()=>{let e="";return f&&(e+=" "+f),g&&(e+=" "+g),h&&(e+=" "+h),e})()}),(0,ce.jsxs)(o.Fragment,{...(0,r.useBlockProps)(),children:[(0,ce.jsxs)(r.InspectorControls,{children:[(0,ce.jsxs)(ne.PanelBody,{title:(0,n.__)("Base settings","bloclklib"),children:[(0,ce.jsx)(ne.TextControl,{label:(0,n.__)("Tag","bloclklib"),value:a||"p",onChange:e=>{""===e.trim()&&(e="p"),w(e),i({tag:e})},placeholder:(0,n.__)("Use any HTML tag","blocklib")}),(0,ce.jsx)(ne.SelectControl,{label:(0,n.__)("Font","bloclklib"),options:M(j.theme_fonts,(0,n.__)("Select a font","bloclklib")),value:g,onChange:e=>i({selectedFontClass:e})}),(0,ce.jsx)(ne.SelectControl,{label:(0,n.__)("Color","bloclklib"),options:M(j.theme_colors,(0,n.__)("Select a color","bloclklib")),value:f,onChange:e=>i({selectedColorClass:e})}),(0,ce.jsx)(ne.TextControl,{label:(0,n.__)("Classes","bloclklib"),value:h||"",onChange:e=>i({manualClasses:e}),placeholder:(0,n.__)("Add HTML classes if needed","blocklib")})]}),(0,ce.jsxs)(ne.PanelBody,{title:(0,n.__)("Spacing, sizing, moving...","bloclklib"),initialOpen:!0,children:[p.map(((e,t)=>(0,ce.jsxs)("div",{className:"media-query",children:[(0,ce.jsx)(ne.TextControl,{label:(0,n.__)("@media (min-width: ","bloclklib"),value:e.minWidth,onChange:e=>x(t,"minWidth",e)}),(0,ce.jsx)(ne.PanelRow,{className:"monaco-editor",children:(0,ce.jsx)(ae,{defaultValue:"#"+l+" {}",value:e.css,onChange:e=>x(t,"css",e)})}),(0,ce.jsx)(ne.Button,{isDestructive:!0,variant:"secondary",size:"small",icon:"trash",className:"delete",onClick:()=>(e=>{const t=p.filter(((t,n)=>n!==e));i({mediaQueries:t})})(t)})]},t))),(0,ce.jsx)(ne.Button,{variant:"primary",onClick:()=>{i({mediaQueries:[...p,{minWidth:"",css:""}]})},className:"add-media-query",children:(0,n.__)("Add a media query","bloclklib")})]})]}),(0,ce.jsx)(r.RichText,{tagName:a,id:l,placeholder:(0,n.__)("Write your content here","blocklib"),value:y,className:d+s,onChange:t=>e.setAttributes({content:t}),allowedFormats:["core/bold","core/italic","core/underline","core/strikethrough","core/link","core/code","core/image","core/subscript","core/superscript"]}),!m&&(0,ce.jsx)("style",{id:"blockstyles-"+d,children:u}),b&&(0,ce.jsx)("style",{children:b})]})},save:function(e){const{attributes:t}=e,{tag:n,uniqueId:i,blockStyles:c,blockClasses:a,blockName:l,renderedMediaQueries:u,blockStylesTag:s,content:d}=t;return(0,ce.jsxs)(o.Fragment,{...r.useBlockProps.save(),children:[(0,ce.jsx)(r.RichText.Content,{tagName:n,id:i,className:l+a,value:d}),!s&&(0,ce.jsx)("style",{id:"blockstyles-"+l,children:c}),u&&(0,ce.jsx)("style",{children:u})]})}})})();
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/_virtual/_rollupPluginBabelHelpers.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/_virtual/_rollupPluginBabelHelpers.js ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   arrayLikeToArray: () => (/* binding */ _arrayLikeToArray),
+/* harmony export */   arrayWithHoles: () => (/* binding */ _arrayWithHoles),
+/* harmony export */   defineProperty: () => (/* binding */ _defineProperty),
+/* harmony export */   iterableToArrayLimit: () => (/* binding */ _iterableToArrayLimit),
+/* harmony export */   nonIterableRest: () => (/* binding */ _nonIterableRest),
+/* harmony export */   objectSpread2: () => (/* binding */ _objectSpread2),
+/* harmony export */   objectWithoutProperties: () => (/* binding */ _objectWithoutProperties),
+/* harmony export */   objectWithoutPropertiesLoose: () => (/* binding */ _objectWithoutPropertiesLoose),
+/* harmony export */   slicedToArray: () => (/* binding */ _slicedToArray),
+/* harmony export */   unsupportedIterableToArray: () => (/* binding */ _unsupportedIterableToArray)
+/* harmony export */ });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+
+  var target = _objectWithoutPropertiesLoose(source, excluded);
+
+  var key, i;
+
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+  return arr2;
+}
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/config/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/config/index.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var config = {
+  paths: {
+    vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs'
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (config);
+
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/index.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _loader_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _loader_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./loader/index.js */ "./node_modules/@monaco-editor/loader/lib/es/loader/index.js");
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/loader/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/loader/index.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _virtual_rollupPluginBabelHelpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_virtual/_rollupPluginBabelHelpers.js */ "./node_modules/@monaco-editor/loader/lib/es/_virtual/_rollupPluginBabelHelpers.js");
+/* harmony import */ var state_local__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! state-local */ "./node_modules/state-local/lib/es/state-local.js");
+/* harmony import */ var _config_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config/index.js */ "./node_modules/@monaco-editor/loader/lib/es/config/index.js");
+/* harmony import */ var _validators_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validators/index.js */ "./node_modules/@monaco-editor/loader/lib/es/validators/index.js");
+/* harmony import */ var _utils_compose_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/compose.js */ "./node_modules/@monaco-editor/loader/lib/es/utils/compose.js");
+/* harmony import */ var _utils_deepMerge_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/deepMerge.js */ "./node_modules/@monaco-editor/loader/lib/es/utils/deepMerge.js");
+/* harmony import */ var _utils_makeCancelable_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/makeCancelable.js */ "./node_modules/@monaco-editor/loader/lib/es/utils/makeCancelable.js");
+
+
+
+
+
+
+
+
+/** the local state of the module */
+
+var _state$create = state_local__WEBPACK_IMPORTED_MODULE_1__["default"].create({
+  config: _config_index_js__WEBPACK_IMPORTED_MODULE_2__["default"],
+  isInitialized: false,
+  resolve: null,
+  reject: null,
+  monaco: null
+}),
+    _state$create2 = (0,_virtual_rollupPluginBabelHelpers_js__WEBPACK_IMPORTED_MODULE_0__.slicedToArray)(_state$create, 2),
+    getState = _state$create2[0],
+    setState = _state$create2[1];
+/**
+ * set the loader configuration
+ * @param {Object} config - the configuration object
+ */
+
+
+function config(globalConfig) {
+  var _validators$config = _validators_index_js__WEBPACK_IMPORTED_MODULE_3__["default"].config(globalConfig),
+      monaco = _validators$config.monaco,
+      config = (0,_virtual_rollupPluginBabelHelpers_js__WEBPACK_IMPORTED_MODULE_0__.objectWithoutProperties)(_validators$config, ["monaco"]);
+
+  setState(function (state) {
+    return {
+      config: (0,_utils_deepMerge_js__WEBPACK_IMPORTED_MODULE_5__["default"])(state.config, config),
+      monaco: monaco
+    };
+  });
+}
+/**
+ * handles the initialization of the monaco-editor
+ * @return {Promise} - returns an instance of monaco (with a cancelable promise)
+ */
+
+
+function init() {
+  var state = getState(function (_ref) {
+    var monaco = _ref.monaco,
+        isInitialized = _ref.isInitialized,
+        resolve = _ref.resolve;
+    return {
+      monaco: monaco,
+      isInitialized: isInitialized,
+      resolve: resolve
+    };
+  });
+
+  if (!state.isInitialized) {
+    setState({
+      isInitialized: true
+    });
+
+    if (state.monaco) {
+      state.resolve(state.monaco);
+      return (0,_utils_makeCancelable_js__WEBPACK_IMPORTED_MODULE_6__["default"])(wrapperPromise);
+    }
+
+    if (window.monaco && window.monaco.editor) {
+      storeMonacoInstance(window.monaco);
+      state.resolve(window.monaco);
+      return (0,_utils_makeCancelable_js__WEBPACK_IMPORTED_MODULE_6__["default"])(wrapperPromise);
+    }
+
+    (0,_utils_compose_js__WEBPACK_IMPORTED_MODULE_4__["default"])(injectScripts, getMonacoLoaderScript)(configureLoader);
+  }
+
+  return (0,_utils_makeCancelable_js__WEBPACK_IMPORTED_MODULE_6__["default"])(wrapperPromise);
+}
+/**
+ * injects provided scripts into the document.body
+ * @param {Object} script - an HTML script element
+ * @return {Object} - the injected HTML script element
+ */
+
+
+function injectScripts(script) {
+  return document.body.appendChild(script);
+}
+/**
+ * creates an HTML script element with/without provided src
+ * @param {string} [src] - the source path of the script
+ * @return {Object} - the created HTML script element
+ */
+
+
+function createScript(src) {
+  var script = document.createElement('script');
+  return src && (script.src = src), script;
+}
+/**
+ * creates an HTML script element with the monaco loader src
+ * @return {Object} - the created HTML script element
+ */
+
+
+function getMonacoLoaderScript(configureLoader) {
+  var state = getState(function (_ref2) {
+    var config = _ref2.config,
+        reject = _ref2.reject;
+    return {
+      config: config,
+      reject: reject
+    };
+  });
+  var loaderScript = createScript("".concat(state.config.paths.vs, "/loader.js"));
+
+  loaderScript.onload = function () {
+    return configureLoader();
+  };
+
+  loaderScript.onerror = state.reject;
+  return loaderScript;
+}
+/**
+ * configures the monaco loader
+ */
+
+
+function configureLoader() {
+  var state = getState(function (_ref3) {
+    var config = _ref3.config,
+        resolve = _ref3.resolve,
+        reject = _ref3.reject;
+    return {
+      config: config,
+      resolve: resolve,
+      reject: reject
+    };
+  });
+  var require = window.require;
+
+  require.config(state.config);
+
+  require(['vs/editor/editor.main'], function (monaco) {
+    storeMonacoInstance(monaco);
+    state.resolve(monaco);
+  }, function (error) {
+    state.reject(error);
+  });
+}
+/**
+ * store monaco instance in local state
+ */
+
+
+function storeMonacoInstance(monaco) {
+  if (!getState().monaco) {
+    setState({
+      monaco: monaco
+    });
+  }
+}
+/**
+ * internal helper function
+ * extracts stored monaco instance
+ * @return {Object|null} - the monaco instance
+ */
+
+
+function __getMonacoInstance() {
+  return getState(function (_ref4) {
+    var monaco = _ref4.monaco;
+    return monaco;
+  });
+}
+
+var wrapperPromise = new Promise(function (resolve, reject) {
+  return setState({
+    resolve: resolve,
+    reject: reject
+  });
+});
+var loader = {
+  config: config,
+  init: init,
+  __getMonacoInstance: __getMonacoInstance
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (loader);
+
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/utils/compose.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/utils/compose.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var compose = function compose() {
+  for (var _len = arguments.length, fns = new Array(_len), _key = 0; _key < _len; _key++) {
+    fns[_key] = arguments[_key];
+  }
+
+  return function (x) {
+    return fns.reduceRight(function (y, f) {
+      return f(y);
+    }, x);
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (compose);
+
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/utils/curry.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/utils/curry.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function curry(fn) {
+  return function curried() {
+    var _this = this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return args.length >= fn.length ? fn.apply(this, args) : function () {
+      for (var _len2 = arguments.length, nextArgs = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        nextArgs[_key2] = arguments[_key2];
+      }
+
+      return curried.apply(_this, [].concat(args, nextArgs));
+    };
+  };
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (curry);
+
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/utils/deepMerge.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/utils/deepMerge.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _virtual_rollupPluginBabelHelpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_virtual/_rollupPluginBabelHelpers.js */ "./node_modules/@monaco-editor/loader/lib/es/_virtual/_rollupPluginBabelHelpers.js");
+
+
+function merge(target, source) {
+  Object.keys(source).forEach(function (key) {
+    if (source[key] instanceof Object) {
+      if (target[key]) {
+        Object.assign(source[key], merge(target[key], source[key]));
+      }
+    }
+  });
+  return (0,_virtual_rollupPluginBabelHelpers_js__WEBPACK_IMPORTED_MODULE_0__.objectSpread2)((0,_virtual_rollupPluginBabelHelpers_js__WEBPACK_IMPORTED_MODULE_0__.objectSpread2)({}, target), source);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (merge);
+
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/utils/isObject.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/utils/isObject.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function isObject(value) {
+  return {}.toString.call(value).includes('Object');
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (isObject);
+
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/utils/makeCancelable.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/utils/makeCancelable.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CANCELATION_MESSAGE: () => (/* binding */ CANCELATION_MESSAGE),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// The source (has been changed) is https://github.com/facebook/react/issues/5465#issuecomment-157888325
+var CANCELATION_MESSAGE = {
+  type: 'cancelation',
+  msg: 'operation is manually canceled'
+};
+
+function makeCancelable(promise) {
+  var hasCanceled_ = false;
+  var wrappedPromise = new Promise(function (resolve, reject) {
+    promise.then(function (val) {
+      return hasCanceled_ ? reject(CANCELATION_MESSAGE) : resolve(val);
+    });
+    promise["catch"](reject);
+  });
+  return wrappedPromise.cancel = function () {
+    return hasCanceled_ = true;
+  }, wrappedPromise;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (makeCancelable);
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/loader/lib/es/validators/index.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@monaco-editor/loader/lib/es/validators/index.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   errorHandler: () => (/* binding */ errorHandler),
+/* harmony export */   errorMessages: () => (/* binding */ errorMessages)
+/* harmony export */ });
+/* harmony import */ var _utils_curry_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/curry.js */ "./node_modules/@monaco-editor/loader/lib/es/utils/curry.js");
+/* harmony import */ var _utils_isObject_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/isObject.js */ "./node_modules/@monaco-editor/loader/lib/es/utils/isObject.js");
+
+
+
+/**
+ * validates the configuration object and informs about deprecation
+ * @param {Object} config - the configuration object 
+ * @return {Object} config - the validated configuration object
+ */
+
+function validateConfig(config) {
+  if (!config) errorHandler('configIsRequired');
+  if (!(0,_utils_isObject_js__WEBPACK_IMPORTED_MODULE_1__["default"])(config)) errorHandler('configType');
+
+  if (config.urls) {
+    informAboutDeprecation();
+    return {
+      paths: {
+        vs: config.urls.monacoBase
+      }
+    };
+  }
+
+  return config;
+}
+/**
+ * logs deprecation message
+ */
+
+
+function informAboutDeprecation() {
+  console.warn(errorMessages.deprecation);
+}
+
+function throwError(errorMessages, type) {
+  throw new Error(errorMessages[type] || errorMessages["default"]);
+}
+
+var errorMessages = {
+  configIsRequired: 'the configuration object is required',
+  configType: 'the configuration object should be an object',
+  "default": 'an unknown error accured in `@monaco-editor/loader` package',
+  deprecation: "Deprecation warning!\n    You are using deprecated way of configuration.\n\n    Instead of using\n      monaco.config({ urls: { monacoBase: '...' } })\n    use\n      monaco.config({ paths: { vs: '...' } })\n\n    For more please check the link https://github.com/suren-atoyan/monaco-loader#config\n  "
+};
+var errorHandler = (0,_utils_curry_js__WEBPACK_IMPORTED_MODULE_0__["default"])(throwError)(errorMessages);
+var validators = {
+  config: validateConfig
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validators);
+
+
+
+/***/ }),
+
+/***/ "./src/text/edit.js":
+/*!**************************!*\
+  !*** ./src/text/edit.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Edit)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _monaco_editor_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @monaco-editor/react */ "./node_modules/@monaco-editor/react/dist/index.mjs");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./block.json */ "./src/text/block.json");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__);
+
+
+
+
+
+
+
+
+
+
+// Initialize Monaco editor
+
+const MyMonacoEditor = ({
+  defaultValue,
+  value,
+  onChange
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_monaco_editor_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    height: "100%",
+    language: "css",
+    theme: "vs-dark",
+    defaultValue: defaultValue,
+    value: value,
+    onChange: newValue => onChange(newValue),
+    options: {
+      minimap: {
+        enabled: false
+      },
+      automaticLayout: true,
+      lineNumbers: false
+    }
+  });
+};
+
+// Initialize unique IDs array
+const uniqueIds = [];
+function Edit(props) {
+  const {
+    attributes,
+    setAttributes,
+    clientId
+  } = props;
+  const {
+    tag,
+    uniqueId,
+    blockStyles,
+    blockClasses,
+    blockName,
+    selectedColorClass,
+    selectedFontClass,
+    manualClasses,
+    mediaQueries = [],
+    renderedMediaQueries,
+    blockStylesTag,
+    content
+  } = attributes;
+  const [tagName, setTagName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(tag);
+  const [themeOptions, setThemeOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
+
+  // Fetches datas from WP database and pass it to the themeOptions state.
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_8___default()({
+      path: '/wp/v2/settings'
+    }).then(settings => {
+      setThemeOptions(settings);
+    }).catch(error => {
+      console.error('Erreur lors de la récupération des options de thème :', error);
+    });
+  }, []);
+
+  // Set the block name attribute from json "name" path for automatic reuse.
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    setAttributes({
+      blockName: _block_json__WEBPACK_IMPORTED_MODULE_7__.name.slice(14)
+    });
+  }, []);
+
+  // Create a unique and persistent ID for useBlockProps.
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (null === uniqueId || '' === uniqueId || uniqueIds.includes(uniqueId)) {
+      const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
+      setAttributes({
+        uniqueId: newUniqueId
+      });
+      uniqueIds.push(newUniqueId);
+    } else {
+      uniqueIds.push(uniqueId);
+    }
+  }, [blockName]);
+
+  // Generates the CSS from the theme options.
+  const handleThemeOptionsForModifiers = (optionId, cssProp) => {
+    let cssVarsString = '';
+    for (const property in optionId) {
+      if (optionId[property]) {
+        cssVarsString += `.${blockName}.-${property} {
+    ${cssProp}: var(--${property});
+}
+`;
+      }
+    }
+    ;
+    return cssVarsString;
+  };
+
+  // Generates the choices for <select> from the theme options.
+  const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
+    let optionsArray = [{
+      label: emptyOptionText,
+      value: ''
+    }];
+    for (const property in optionId) {
+      if (optionId[property]) {
+        optionsArray.push({
+          label: property,
+          value: '-' + property
+        });
+      }
+    }
+    ;
+    return optionsArray;
+  };
+
+  // Update block's CSS modifiers from theme options.
+  setAttributes({
+    blockStyles: `.${blockName} {
+    margin: 0;
+    text-wrap: balance;
+    hyphens: auto;
+}
+${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'color')}
+${handleThemeOptionsForModifiers(themeOptions.theme_fonts, 'font-family')}
+`
+  });
+
+  // Avoid empty tagName for the rendered component.
+  const updateTagName = newTag => {
+    if (newTag.trim() === '') {
+      newTag = 'p';
+    }
+    setTagName(newTag);
+    setAttributes({
+      tag: newTag
+    });
+  };
+
+  // Add, remove, update and render the instance CSS, organized by media queries.
+  const addMediaQuery = () => {
+    const newQuery = {
+      minWidth: '',
+      css: ''
+    };
+    setAttributes({
+      mediaQueries: [...mediaQueries, newQuery]
+    });
+  };
+  const removeMediaQuery = index => {
+    const updatedQueries = mediaQueries.filter((_, i) => i !== index);
+    setAttributes({
+      mediaQueries: updatedQueries
+    });
+  };
+  const updateMediaQuery = (index, field, value) => {
+    const updatedQueries = mediaQueries.map((query, i) => i === index ? {
+      ...query,
+      [field]: value
+    } : query);
+    setAttributes({
+      mediaQueries: updatedQueries
+    });
+  };
+
+  // Put the returned value in a renderedMediaQueries attribute.
+  const renderMediaQueries = () => {
+    return mediaQueries.map(query => {
+      if (!query.minWidth || !query.css) return null;
+      if (query.minWidth !== '0') {
+        return `@media (min-width: ${query.minWidth}px) {
+${query.css}
+}`;
+      } else {
+        return `${query.css}`;
+      }
+    }).join('\n');
+  };
+  setAttributes({
+    renderedMediaQueries: renderMediaQueries()
+  });
+
+  // Put the returned value in a blockClasses attribute.
+  const buildClasses = () => {
+    let addedClasses = '';
+    if (selectedColorClass) {
+      addedClasses += ' ' + selectedColorClass;
+    }
+    if (selectedFontClass) {
+      addedClasses += ' ' + selectedFontClass;
+    }
+    if (manualClasses) {
+      addedClasses += ' ' + manualClasses;
+    }
+    return addedClasses;
+  };
+  setAttributes({
+    blockClasses: buildClasses()
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)(),
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Base settings', 'bloclklib'),
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tag', 'bloclklib'),
+          value: tag || 'p',
+          onChange: updateTagName,
+          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Use any HTML tag', 'blocklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font', 'bloclklib'),
+          options: handleThemeOptionsForSelects(themeOptions.theme_fonts, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')),
+          value: selectedFontClass,
+          onChange: newValue => setAttributes({
+            selectedFontClass: newValue
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Color', 'bloclklib'),
+          options: handleThemeOptionsForSelects(themeOptions.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')),
+          value: selectedColorClass,
+          onChange: newValue => setAttributes({
+            selectedColorClass: newValue
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Classes', 'bloclklib'),
+          value: manualClasses || '',
+          onChange: value => setAttributes({
+            manualClasses: value
+          }),
+          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add HTML classes if needed', 'blocklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Insert block\'s <style> tag', 'bloclklib'),
+          checked: !!blockStylesTag,
+          onChange: () => setAttributes({
+            blockStylesTag: !blockStylesTag
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Spacing, sizing, moving...', 'bloclklib'),
+        initialOpen: true,
+        children: [mediaQueries.map((query, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+          className: "media-query",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('@media (min-width: ', 'bloclklib'),
+            value: query.minWidth,
+            onChange: value => updateMediaQuery(index, 'minWidth', value)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
+            className: "monaco-editor",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(MyMonacoEditor, {
+              defaultValue: "#" + uniqueId + " {}",
+              value: query.css,
+              onChange: value => updateMediaQuery(index, 'css', value)
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+            isDestructive: true,
+            variant: "secondary",
+            size: "small",
+            icon: "trash",
+            className: "delete",
+            onClick: () => removeMediaQuery(index)
+          })]
+        }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+          variant: "primary",
+          onClick: addMediaQuery,
+          className: "add-media-query",
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add a media query', 'bloclklib')
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+      tagName: tag,
+      id: uniqueId,
+      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Write your content here', 'blocklib'),
+      value: content,
+      className: blockName + blockClasses,
+      onChange: content => props.setAttributes({
+        content
+      }),
+      allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/image', 'core/subscript', 'core/superscript']
+    }), blockStylesTag && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("style", {
+      id: 'blockstyles-' + blockName,
+      children: blockStyles
+    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("style", {
+      children: renderedMediaQueries
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./src/text/save.js":
+/*!**************************!*\
+  !*** ./src/text/save.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ save)
+/* harmony export */ });
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+function save(props) {
+  const {
+    attributes
+  } = props;
+  const {
+    tag,
+    uniqueId,
+    blockStyles,
+    blockClasses,
+    blockName,
+    renderedMediaQueries,
+    blockStylesTag,
+    content
+  } = attributes;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+    ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
+      tagName: tag,
+      id: uniqueId,
+      className: blockName + blockClasses,
+      value: content
+    }), blockStylesTag && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("style", {
+      id: 'blockstyles-' + blockName,
+      children: blockStyles
+    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("style", {
+      children: renderedMediaQueries
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./node_modules/state-local/lib/es/state-local.js":
+/*!********************************************************!*\
+  !*** ./node_modules/state-local/lib/es/state-local.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function compose() {
+  for (var _len = arguments.length, fns = new Array(_len), _key = 0; _key < _len; _key++) {
+    fns[_key] = arguments[_key];
+  }
+
+  return function (x) {
+    return fns.reduceRight(function (y, f) {
+      return f(y);
+    }, x);
+  };
+}
+
+function curry(fn) {
+  return function curried() {
+    var _this = this;
+
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return args.length >= fn.length ? fn.apply(this, args) : function () {
+      for (var _len3 = arguments.length, nextArgs = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        nextArgs[_key3] = arguments[_key3];
+      }
+
+      return curried.apply(_this, [].concat(args, nextArgs));
+    };
+  };
+}
+
+function isObject(value) {
+  return {}.toString.call(value).includes('Object');
+}
+
+function isEmpty(obj) {
+  return !Object.keys(obj).length;
+}
+
+function isFunction(value) {
+  return typeof value === 'function';
+}
+
+function hasOwnProperty(object, property) {
+  return Object.prototype.hasOwnProperty.call(object, property);
+}
+
+function validateChanges(initial, changes) {
+  if (!isObject(changes)) errorHandler('changeType');
+  if (Object.keys(changes).some(function (field) {
+    return !hasOwnProperty(initial, field);
+  })) errorHandler('changeField');
+  return changes;
+}
+
+function validateSelector(selector) {
+  if (!isFunction(selector)) errorHandler('selectorType');
+}
+
+function validateHandler(handler) {
+  if (!(isFunction(handler) || isObject(handler))) errorHandler('handlerType');
+  if (isObject(handler) && Object.values(handler).some(function (_handler) {
+    return !isFunction(_handler);
+  })) errorHandler('handlersType');
+}
+
+function validateInitial(initial) {
+  if (!initial) errorHandler('initialIsRequired');
+  if (!isObject(initial)) errorHandler('initialType');
+  if (isEmpty(initial)) errorHandler('initialContent');
+}
+
+function throwError(errorMessages, type) {
+  throw new Error(errorMessages[type] || errorMessages["default"]);
+}
+
+var errorMessages = {
+  initialIsRequired: 'initial state is required',
+  initialType: 'initial state should be an object',
+  initialContent: 'initial state shouldn\'t be an empty object',
+  handlerType: 'handler should be an object or a function',
+  handlersType: 'all handlers should be a functions',
+  selectorType: 'selector should be a function',
+  changeType: 'provided value of changes should be an object',
+  changeField: 'it seams you want to change a field in the state which is not specified in the "initial" state',
+  "default": 'an unknown error accured in `state-local` package'
+};
+var errorHandler = curry(throwError)(errorMessages);
+var validators = {
+  changes: validateChanges,
+  selector: validateSelector,
+  handler: validateHandler,
+  initial: validateInitial
+};
+
+function create(initial) {
+  var handler = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  validators.initial(initial);
+  validators.handler(handler);
+  var state = {
+    current: initial
+  };
+  var didUpdate = curry(didStateUpdate)(state, handler);
+  var update = curry(updateState)(state);
+  var validate = curry(validators.changes)(initial);
+  var getChanges = curry(extractChanges)(state);
+
+  function getState() {
+    var selector = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function (state) {
+      return state;
+    };
+    validators.selector(selector);
+    return selector(state.current);
+  }
+
+  function setState(causedChanges) {
+    compose(didUpdate, update, validate, getChanges)(causedChanges);
+  }
+
+  return [getState, setState];
+}
+
+function extractChanges(state, causedChanges) {
+  return isFunction(causedChanges) ? causedChanges(state.current) : causedChanges;
+}
+
+function updateState(state, changes) {
+  state.current = _objectSpread2(_objectSpread2({}, state.current), changes);
+  return changes;
+}
+
+function didStateUpdate(state, handler, changes) {
+  isFunction(handler) ? handler(state.current) : Object.keys(changes).forEach(function (field) {
+    var _handler$field;
+
+    return (_handler$field = handler[field]) === null || _handler$field === void 0 ? void 0 : _handler$field.call(handler, state.current[field]);
+  });
+  return changes;
+}
+
+var index = {
+  create: create
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (index);
+
+
+/***/ }),
+
+/***/ "react":
+/*!************************!*\
+  !*** external "React" ***!
+  \************************/
+/***/ ((module) => {
+
+module.exports = window["React"];
+
+/***/ }),
+
+/***/ "react/jsx-runtime":
+/*!**********************************!*\
+  !*** external "ReactJSXRuntime" ***!
+  \**********************************/
+/***/ ((module) => {
+
+module.exports = window["ReactJSXRuntime"];
+
+/***/ }),
+
+/***/ "@wordpress/api-fetch":
+/*!**********************************!*\
+  !*** external ["wp","apiFetch"] ***!
+  \**********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["apiFetch"];
+
+/***/ }),
+
+/***/ "@wordpress/block-editor":
+/*!*************************************!*\
+  !*** external ["wp","blockEditor"] ***!
+  \*************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["blockEditor"];
+
+/***/ }),
+
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
+
+/***/ }),
+
+/***/ "@wordpress/element":
+/*!*********************************!*\
+  !*** external ["wp","element"] ***!
+  \*********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["element"];
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "./node_modules/@monaco-editor/react/dist/index.mjs":
+/*!**********************************************************!*\
+  !*** ./node_modules/@monaco-editor/react/dist/index.mjs ***!
+  \**********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DiffEditor: () => (/* binding */ we),
+/* harmony export */   Editor: () => (/* binding */ de),
+/* harmony export */   "default": () => (/* binding */ Ft),
+/* harmony export */   loader: () => (/* reexport safe */ _monaco_editor_loader__WEBPACK_IMPORTED_MODULE_0__["default"]),
+/* harmony export */   useMonaco: () => (/* binding */ Le)
+/* harmony export */ });
+/* harmony import */ var _monaco_editor_loader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @monaco-editor/loader */ "./node_modules/@monaco-editor/loader/lib/es/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWidth:{width:"100%"},hide:{display:"none"}},v=le;var ae={container:{display:"flex",height:"100%",width:"100%",justifyContent:"center",alignItems:"center"}},Y=ae;function Me({children:e}){return react__WEBPACK_IMPORTED_MODULE_1__.createElement("div",{style:Y.container},e)}var Z=Me;var $=Z;function Ee({width:e,height:r,isEditorReady:n,loading:t,_ref:a,className:m,wrapperProps:E}){return react__WEBPACK_IMPORTED_MODULE_1__.createElement("section",{style:{...v.wrapper,width:e,height:r},...E},!n&&react__WEBPACK_IMPORTED_MODULE_1__.createElement($,null,t),react__WEBPACK_IMPORTED_MODULE_1__.createElement("div",{ref:a,style:{...v.fullWidth,...!n&&v.hide},className:m}))}var ee=Ee;var H=(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(ee);function Ce(e){(0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(e,[])}var k=Ce;function he(e,r,n=!0){let t=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(!0);(0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(t.current||!n?()=>{t.current=!1}:e,r)}var l=he;function D(){}function h(e,r,n,t){return De(e,t)||be(e,r,n,t)}function De(e,r){return e.editor.getModel(te(e,r))}function be(e,r,n,t){return e.editor.createModel(r,n,t?te(e,t):void 0)}function te(e,r){return e.Uri.parse(r)}function Oe({original:e,modified:r,language:n,originalLanguage:t,modifiedLanguage:a,originalModelPath:m,modifiedModelPath:E,keepCurrentOriginalModel:g=!1,keepCurrentModifiedModel:N=!1,theme:x="light",loading:P="Loading...",options:y={},height:V="100%",width:z="100%",className:F,wrapperProps:j={},beforeMount:A=D,onMount:q=D}){let[M,O]=(0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(!1),[T,s]=(0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(!0),u=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null),c=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null),w=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null),d=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(q),o=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(A),b=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(!1);k(()=>{let i=_monaco_editor_loader__WEBPACK_IMPORTED_MODULE_0__["default"].init();return i.then(f=>(c.current=f)&&s(!1)).catch(f=>f?.type!=="cancelation"&&console.error("Monaco initialization: error:",f)),()=>u.current?I():i.cancel()}),l(()=>{if(u.current&&c.current){let i=u.current.getOriginalEditor(),f=h(c.current,e||"",t||n||"text",m||"");f!==i.getModel()&&i.setModel(f)}},[m],M),l(()=>{if(u.current&&c.current){let i=u.current.getModifiedEditor(),f=h(c.current,r||"",a||n||"text",E||"");f!==i.getModel()&&i.setModel(f)}},[E],M),l(()=>{let i=u.current.getModifiedEditor();i.getOption(c.current.editor.EditorOption.readOnly)?i.setValue(r||""):r!==i.getValue()&&(i.executeEdits("",[{range:i.getModel().getFullModelRange(),text:r||"",forceMoveMarkers:!0}]),i.pushUndoStop())},[r],M),l(()=>{u.current?.getModel()?.original.setValue(e||"")},[e],M),l(()=>{let{original:i,modified:f}=u.current.getModel();c.current.editor.setModelLanguage(i,t||n||"text"),c.current.editor.setModelLanguage(f,a||n||"text")},[n,t,a],M),l(()=>{c.current?.editor.setTheme(x)},[x],M),l(()=>{u.current?.updateOptions(y)},[y],M);let L=(0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(()=>{if(!c.current)return;o.current(c.current);let i=h(c.current,e||"",t||n||"text",m||""),f=h(c.current,r||"",a||n||"text",E||"");u.current?.setModel({original:i,modified:f})},[n,r,a,e,t,m,E]),U=(0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(()=>{!b.current&&w.current&&(u.current=c.current.editor.createDiffEditor(w.current,{automaticLayout:!0,...y}),L(),c.current?.editor.setTheme(x),O(!0),b.current=!0)},[y,x,L]);(0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{M&&d.current(u.current,c.current)},[M]),(0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{!T&&!M&&U()},[T,M,U]);function I(){let i=u.current?.getModel();g||i?.original?.dispose(),N||i?.modified?.dispose(),u.current?.dispose()}return react__WEBPACK_IMPORTED_MODULE_1__.createElement(H,{width:z,height:V,isEditorReady:M,loading:P,_ref:w,className:F,wrapperProps:j})}var ie=Oe;var we=(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(ie);function Pe(){let[e,r]=(0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(_monaco_editor_loader__WEBPACK_IMPORTED_MODULE_0__["default"].__getMonacoInstance());return k(()=>{let n;return e||(n=_monaco_editor_loader__WEBPACK_IMPORTED_MODULE_0__["default"].init(),n.then(t=>{r(t)})),()=>n?.cancel()}),e}var Le=Pe;function He(e){let r=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)();return (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{r.current=e},[e]),r.current}var se=He;var _=new Map;function Ve({defaultValue:e,defaultLanguage:r,defaultPath:n,value:t,language:a,path:m,theme:E="light",line:g,loading:N="Loading...",options:x={},overrideServices:P={},saveViewState:y=!0,keepCurrentModel:V=!1,width:z="100%",height:F="100%",className:j,wrapperProps:A={},beforeMount:q=D,onMount:M=D,onChange:O,onValidate:T=D}){let[s,u]=(0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(!1),[c,w]=(0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(!0),d=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null),o=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null),b=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null),L=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(M),U=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(q),I=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(),i=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(t),f=se(m),Q=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(!1),B=(0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(!1);k(()=>{let p=_monaco_editor_loader__WEBPACK_IMPORTED_MODULE_0__["default"].init();return p.then(R=>(d.current=R)&&w(!1)).catch(R=>R?.type!=="cancelation"&&console.error("Monaco initialization: error:",R)),()=>o.current?pe():p.cancel()}),l(()=>{let p=h(d.current,e||t||"",r||a||"",m||n||"");p!==o.current?.getModel()&&(y&&_.set(f,o.current?.saveViewState()),o.current?.setModel(p),y&&o.current?.restoreViewState(_.get(m)))},[m],s),l(()=>{o.current?.updateOptions(x)},[x],s),l(()=>{!o.current||t===void 0||(o.current.getOption(d.current.editor.EditorOption.readOnly)?o.current.setValue(t):t!==o.current.getValue()&&(B.current=!0,o.current.executeEdits("",[{range:o.current.getModel().getFullModelRange(),text:t,forceMoveMarkers:!0}]),o.current.pushUndoStop(),B.current=!1))},[t],s),l(()=>{let p=o.current?.getModel();p&&a&&d.current?.editor.setModelLanguage(p,a)},[a],s),l(()=>{g!==void 0&&o.current?.revealLine(g)},[g],s),l(()=>{d.current?.editor.setTheme(E)},[E],s);let X=(0,react__WEBPACK_IMPORTED_MODULE_1__.useCallback)(()=>{if(!(!b.current||!d.current)&&!Q.current){U.current(d.current);let p=m||n,R=h(d.current,t||e||"",r||a||"",p||"");o.current=d.current?.editor.create(b.current,{model:R,automaticLayout:!0,...x},P),y&&o.current.restoreViewState(_.get(p)),d.current.editor.setTheme(E),g!==void 0&&o.current.revealLine(g),u(!0),Q.current=!0}},[e,r,n,t,a,m,x,P,y,E,g]);(0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{s&&L.current(o.current,d.current)},[s]),(0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{!c&&!s&&X()},[c,s,X]),i.current=t,(0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{s&&O&&(I.current?.dispose(),I.current=o.current?.onDidChangeModelContent(p=>{B.current||O(o.current.getValue(),p)}))},[s,O]),(0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{if(s){let p=d.current.editor.onDidChangeMarkers(R=>{let G=o.current.getModel()?.uri;if(G&&R.find(J=>J.path===G.path)){let J=d.current.editor.getModelMarkers({resource:G});T?.(J)}});return()=>{p?.dispose()}}return()=>{}},[s,T]);function pe(){I.current?.dispose(),V?y&&_.set(m,o.current.saveViewState()):o.current.getModel()?.dispose(),o.current.dispose()}return react__WEBPACK_IMPORTED_MODULE_1__.createElement(H,{width:z,height:F,isEditorReady:s,loading:N,_ref:b,className:j,wrapperProps:A})}var fe=Ve;var de=(0,react__WEBPACK_IMPORTED_MODULE_1__.memo)(fe);var Ft=de;
+//# sourceMappingURL=index.mjs.map
+
+/***/ }),
+
+/***/ "./src/text/block.json":
+/*!*****************************!*\
+  !*** ./src/text/block.json ***!
+  \*****************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/text","version":"0.1.0","title":"Text","category":"text","keywords":["blocklib","text"],"description":"A rich text text.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"content":{"type":"string","source":"html","selector":".text"},"uniqueId":{"type":"string","default":""},"tag":{"type":"string","default":"p"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""},"cssColorModifiers":{"type":"string","default":""},"cssFontModifiers":{"type":"string","default":""},"blockClasses":{"type":"string","default":""},"blockStylesTag":{"type":"boolean","default":false}},"textdomain":"custom-blocks","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!***************************!*\
+  !*** ./src/text/index.js ***!
+  \***************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/text/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./src/text/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/text/block.json");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/**
+ * Registers a new block provided a unique name and an object defining its behavior.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("svg", {
+  xmlns: "http://www.w3.org/2000/svg",
+  height: "48px",
+  viewBox: "0 -960 960 960",
+  width: "48px",
+  fill: "#000000",
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("path", {
+    d: "M160-200v-60h386v60H160Zm0-167v-60h640v60H160Zm0-166v-60h640v60H160Zm0-167v-60h640v60H160Z"
+  })
+});
+
+/**
+ * Every block starts by registering a new block type definition.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__.name, {
+  icon: blockIcon,
+  /**
+   * @see ./edit.js
+   */
+  edit: _edit__WEBPACK_IMPORTED_MODULE_1__["default"],
+  /**
+   * @see ./save.js
+   */
+  save: _save__WEBPACK_IMPORTED_MODULE_2__["default"]
+});
+})();
+
+/******/ })()
+;
+//# sourceMappingURL=index.js.map
