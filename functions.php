@@ -182,13 +182,6 @@ add_action('admin_enqueue_scripts', 'theme_admin_styles');
 // Add styles to Gutenberg editor.
 //****************************
 function add_scripts_to_gutenberg() {
-    wp_enqueue_script(
-        'additional-gutenberg-scripts',
-        get_theme_file_uri('/additional-gutenberg-scripts.js'),
-        [ 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor', 'wp-api-fetch' ],
-        null,
-        true
-    );
     wp_enqueue_style( 'main-styles', get_theme_file_uri('/main-auto-generated-dont-edit-me.css'), array(), '1.0' );
     wp_enqueue_style( 'additional-gutenberg-styles', get_theme_file_uri('/additional-gutenberg-styles.css'), array(), '1.0');
 }
