@@ -1,6 +1,6 @@
 
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import MonacoEditor from '@monaco-editor/react';
 import { PanelBody, PanelRow, TextControl, Button, SelectControl, ToggleControl } from '@wordpress/components';
@@ -32,7 +32,7 @@ const uniqueIds = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, uniqueId, blockStyles, blockClasses, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag, content } = attributes;
+    const { tag, uniqueId, blockStyles, blockClasses, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
 
@@ -91,19 +91,24 @@ export default function Edit(props) {
     // Update block's CSS modifiers from theme options.
     setAttributes({
             blockStyles: `.${blockName} {
-    margin: 0;
-    text-wrap: balance;
-    hyphens: auto;
+    display: flex;
+    justify-content: center;
 }
-${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'color')}
-${handleThemeOptionsForModifiers(themeOptions.theme_fonts, 'font-family')}
+${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'background-color')}
+.section-content {
+    flex-grow: 0;
+    flex-shrink: 0;
+    inline-size: 100%;
+    max-inline-size: 128rem;
+    padding-inline: var(--sectionPadding);
+}
 `
     });
 
     // Avoid empty tagName for the rendered component.
     const updateTagName = (newTag) => {
         if (newTag.trim() === '') {
-            newTag = 'h1';
+            newTag = 'div';
         }
         setTagName(newTag);
         setAttributes({ tag: newTag });
@@ -148,11 +153,8 @@ ${query.css}
     // Put the returned value in a blockClasses attribute.
     const buildClasses = () => {
         let addedClasses = '';
-        if (selectedColorClass) {
-            addedClasses += ' ' + selectedColorClass;
-        }
-        if (selectedFontClass) {
-            addedClasses += ' ' + selectedFontClass;
+        if (selectedBGColorClass) {
+            addedClasses += ' ' + selectedBGColorClass;
         }
         if (manualClasses) {
             addedClasses += ' ' + manualClasses;
@@ -172,16 +174,10 @@ ${query.css}
                         placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
                     />
                     <SelectControl
-                        label={__( 'Font', 'bloclklib' )}
-                        options={handleThemeOptionsForSelects(themeOptions.theme_fonts, __( 'Select a font', 'bloclklib' ))}
-                        value={selectedFontClass}
-                        onChange={(newValue) => setAttributes({ selectedFontClass: newValue })}
-                    />
-                    <SelectControl
                         label={__( 'Color', 'bloclklib' )}
-                        options={handleThemeOptionsForSelects(themeOptions.theme_colors, __( 'Select a color', 'bloclklib' ))}
-                        value={selectedColorClass}
-                        onChange={(newValue) => setAttributes({ selectedColorClass: newValue })}
+                        options={handleThemeOptionsForSelects(themeOptions.theme_colors, __( 'Select a background color', 'bloclklib' ))}
+                        value={selectedBGColorClass}
+                        onChange={(newValue) => setAttributes({ selectedBGColorClass: newValue })}
                     />
                     <TextControl
                         label={ __( 'Classes', 'bloclklib' ) }
@@ -230,16 +226,21 @@ ${query.css}
                     </Button>
                 </PanelBody>
             </InspectorControls>
-            <RichText
-                tagName={ tag }
-                id={ uniqueId }
-                data-block={ clientId }
-                placeholder={ __( 'Write your content here', 'blocklib' ) }
-                value={ content }
-                className={blockName + blockClasses}
-                onChange={ ( content ) => props.setAttributes( { content } ) }
-                allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/image', 'core/subscript', 'core/superscript' ] }
-            />
+            { React.createElement(
+                tag,
+                {
+                    id: uniqueId,
+                    'data-block': clientId,
+                    className: blockName + blockClasses,
+                },
+                <div className="section-content">
+                    <InnerBlocks
+                        template={ [
+                            [ 'custom-blocks/text', { content: __( 'Default section content, put as many components as you like inside.', 'bloclklib' ) } ]
+                        ] }
+                    />
+                </div>
+            ) }
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
             { renderedMediaQueries && <style>{renderedMediaQueries}</style> }
         </Fragment>

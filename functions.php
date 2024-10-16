@@ -120,6 +120,7 @@ add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/title' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/text' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/section' );
 }
 add_action( 'init', 'theme_register_blocks' );
 
@@ -139,7 +140,8 @@ function example_allowed_block_types( $allowed_block_types, $block_editor_contex
         'core/subscript',
         'core/superscript',
         'custom-blocks/text',
-        'custom-blocks/title'
+        'custom-blocks/title',
+        'custom-blocks/section'
     );
 
     return $allowed_block_types;

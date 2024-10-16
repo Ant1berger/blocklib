@@ -5,7 +5,6 @@ import { Fragment, useEffect, useState } from '@wordpress/element';
 import MonacoEditor from '@monaco-editor/react';
 import { PanelBody, PanelRow, TextControl, Button, SelectControl, ToggleControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
-import { useSelect } from '@wordpress/data';
 import metadata from './block.json';
 import apiFetch from '@wordpress/api-fetch';
 
@@ -93,7 +92,7 @@ export default function Edit(props) {
     setAttributes({
             blockStyles: `.${blockName} {
     margin: 0;
-    text-wrap: balance;
+    text-wrap: pretty;
     hyphens: auto;
 }
 ${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'color')}
@@ -234,6 +233,7 @@ ${query.css}
             <RichText
                 tagName={ tag }
                 id={ uniqueId }
+                data-block={ clientId }
                 placeholder={ __( 'Write your content here', 'blocklib' ) }
                 value={ content }
                 className={blockName + blockClasses}
