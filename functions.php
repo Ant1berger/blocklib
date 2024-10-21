@@ -127,26 +127,27 @@ add_action( 'init', 'theme_register_blocks' );
 //****************************
 // We only want our custom blocks in the Gutenberg editor.
 //****************************
-function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
+// function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
 
-    $allowed_block_types = array(
-        'core/bold',
-        'core/italic',
-        'core/underline',
-        'core/strikethrough',
-        'core/link',
-        'core/code',
-        'core/image',
-        'core/subscript',
-        'core/superscript',
-        'custom-blocks/text',
-        'custom-blocks/title',
-        'custom-blocks/section'
-    );
+//     $allowed_block_types = array(
+//         'core/bold',
+//         'core/italic',
+//         'core/underline',
+//         'core/strikethrough',
+//         'core/link',
+//         'core/code',
+//         'core/image',
+//         'core/subscript',
+//         'core/superscript',
+//         'core/paragraph',
+//         'custom-blocks/text',
+//         'custom-blocks/title',
+//         'custom-blocks/section'
+//     );
 
-    return $allowed_block_types;
-}
-add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
+//     return $allowed_block_types;
+// }
+// add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
 
 function handleThemeOptionsForPlaceholders( $optionId ) {
     $css_vars_array = array();

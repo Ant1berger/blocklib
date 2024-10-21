@@ -14,7 +14,7 @@ export default function save(props) {
                 value={ content }
             />
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>{renderedMediaQueries}</style> }
+            { renderedMediaQueries && <style>#{uniqueId + ' {' + renderedMediaQueries + '}'}</style> }
         </Fragment>
     )
 }

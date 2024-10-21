@@ -35,6 +35,7 @@ export default function Edit(props) {
     const { tag, uniqueId, blockStyles, blockClasses, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
+    const blockProps = useBlockProps();
 
     // Fetches datas from WP database and pass it to the themeOptions state.
     useEffect(() => {
@@ -162,7 +163,7 @@ ${query.css}
     setAttributes({blockClasses: buildClasses()});
 
     return (
-        <Fragment {...useBlockProps()}>
+        <Fragment>
             <InspectorControls>
                 <PanelBody title={ __( 'Base settings', 'bloclklib' ) }>
                     <TextControl
@@ -209,7 +210,7 @@ ${query.css}
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
-                                    defaultValue={ "#" + uniqueId + " {}" }
+                                    defaultValue=""
                                     value={query.css}
                                     onChange={(value) => updateMediaQuery(index, 'css', value)}
                                 />
@@ -226,22 +227,21 @@ ${query.css}
                         </div>
                     ))}
                     <Button variant="primary" onClick={addMediaQuery} className="add-media-query">
-                    { __( 'Add a media query', 'bloclklib' ) }
+                        { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
                 </PanelBody>
             </InspectorControls>
-            <RichText
+            <RichText {...blockProps}
                 tagName={ tag }
                 id={ uniqueId }
-                data-block={ clientId }
                 placeholder={ __( 'Write your content here', 'blocklib' ) }
                 value={ content }
                 className={blockName + blockClasses}
-                onChange={ ( content ) => props.setAttributes( { content } ) }
+                onChange={ ( content ) => setAttributes( { content } ) }
                 allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/image', 'core/subscript', 'core/superscript' ] }
             />
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>{renderedMediaQueries}</style> }
+            { renderedMediaQueries && <style>#{uniqueId + ' {' + renderedMediaQueries + '}'}</style> }
         </Fragment>
     )
 }

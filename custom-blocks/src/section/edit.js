@@ -35,6 +35,7 @@ export default function Edit(props) {
     const { tag, uniqueId, blockStyles, blockClasses, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
+    const blockProps = useBlockProps();
 
     // Fetches datas from WP database and pass it to the themeOptions state.
     useEffect(() => {
@@ -164,7 +165,7 @@ ${query.css}
     setAttributes({blockClasses: buildClasses()});
 
     return (
-        <Fragment {...useBlockProps()}>
+        <Fragment>
             <InspectorControls>
                 <PanelBody title={ __( 'Base settings', 'bloclklib' ) }>
                     <TextControl
@@ -205,7 +206,7 @@ ${query.css}
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
-                                    defaultValue={ "#" + uniqueId + " {}" }
+                                    defaultValue=""
                                     value={query.css}
                                     onChange={(value) => updateMediaQuery(index, 'css', value)}
                                 />
@@ -229,8 +230,8 @@ ${query.css}
             { React.createElement(
                 tag,
                 {
+                    ...blockProps,
                     id: uniqueId,
-                    'data-block': clientId,
                     className: blockName + blockClasses,
                 },
                 <div className="section-content">
@@ -242,7 +243,7 @@ ${query.css}
                 </div>
             ) }
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>{renderedMediaQueries}</style> }
+            { renderedMediaQueries && <style>#{uniqueId + ' {' + renderedMediaQueries + '}'}</style> }
         </Fragment>
     )
 }

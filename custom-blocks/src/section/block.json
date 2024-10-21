@@ -14,11 +14,6 @@
         "customClassName": false
 	},
     "attributes": {
-		"content": {
-			"type": "string",
-			"source": "html",
-			"selector": ".title"
-		},
         "uniqueId": {
             "type": "string",
             "default": ""
