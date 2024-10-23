@@ -924,8 +924,8 @@ ${query.css}
     })), blockStylesTag && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
       id: 'blockstyles-' + blockName,
       children: blockStyles
-    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("style", {
-      children: ["#", clientId + ' {' + renderedMediaQueries + '}']
+    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
+      children: '#' + clientId + ' {' + renderedMediaQueries + '}'
     })]
   });
 }
@@ -953,7 +953,8 @@ __webpack_require__.r(__webpack_exports__);
 
 function save(props) {
   const {
-    attributes
+    attributes,
+    clientId
   } = props;
   const {
     tag,
@@ -968,7 +969,7 @@ function save(props) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
     children: [React.createElement(tag, {
-      id: uniqueId,
+      id: clientId,
       className: [blockName, selectedBGColorClass || '', manualClasses || ''].filter(Boolean).join(' ')
     }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "section-content",
@@ -977,7 +978,7 @@ function save(props) {
       id: 'blockstyles-' + blockName,
       children: blockStyles
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("style", {
-      children: ["#", uniqueId + ' {' + renderedMediaQueries + '}']
+      children: ["#", clientId + ' {' + renderedMediaQueries + '}']
     })]
   });
 }

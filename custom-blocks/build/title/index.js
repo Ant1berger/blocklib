@@ -928,12 +928,12 @@ ${query.css}
       onChange: content => setAttributes({
         content
       }),
-      allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/image', 'core/subscript', 'core/superscript']
+      allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language']
     }), blockStylesTag && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
       id: 'blockstyles-' + blockName,
       children: blockStyles
-    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("style", {
-      children: ["#", clientId + ' {' + renderedMediaQueries + '}']
+    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
+      children: '#' + clientId + ' {' + renderedMediaQueries + '}'
     })]
   });
 }
@@ -961,7 +961,8 @@ __webpack_require__.r(__webpack_exports__);
 
 function save(props) {
   const {
-    attributes
+    attributes,
+    clientId
   } = props;
   const {
     tag,
@@ -979,14 +980,14 @@ function save(props) {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
       tagName: tag,
-      id: uniqueId,
+      id: clientId,
       className: [blockName, selectedColorClass || '', selectedFontClass || '', manualClasses || ''].filter(Boolean).join(' '),
       value: content
     }), blockStylesTag && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("style", {
       id: 'blockstyles-' + blockName,
       children: blockStyles
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("style", {
-      children: ["#", uniqueId + ' {' + renderedMediaQueries + '}']
+      children: ["#", clientId + ' {' + renderedMediaQueries + '}']
     })]
   });
 }

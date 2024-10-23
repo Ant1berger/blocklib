@@ -2,7 +2,7 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor'
 import { Fragment } from '@wordpress/element';
 
 export default function save(props) {
-    const { attributes } = props;
+    const { attributes, clientId } = props;
     const { tag, uniqueId, blockStyles, blockName, selectedBGColorClass, manualClasses, renderedMediaQueries, blockStylesTag } = attributes;
 
     return (
@@ -10,7 +10,7 @@ export default function save(props) {
             { React.createElement(
                 tag,
                 {
-                    id: uniqueId,
+                    id: clientId,
                     className: [
                         blockName,
                         selectedBGColorClass || '',
@@ -22,7 +22,7 @@ export default function save(props) {
                 </div>
             ) }
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>#{uniqueId + ' {' + renderedMediaQueries + '}'}</style> }
+            { renderedMediaQueries && <style>#{clientId + ' {' + renderedMediaQueries + '}'}</style> }
         </Fragment>
     )
 }

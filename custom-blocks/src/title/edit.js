@@ -239,10 +239,10 @@ ${query.css}
                     manualClasses || ''
                 ].filter(Boolean).join(' ')}
                 onChange={ ( content ) => setAttributes( { content } ) }
-                allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/image', 'core/subscript', 'core/superscript' ] }
+                allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language' ] }
             />
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>#{clientId + ' {' + renderedMediaQueries + '}'}</style> }
+            { renderedMediaQueries && <style>{'#' + clientId + ' {' + renderedMediaQueries + '}'}</style> }
         </Fragment>
     )
 }

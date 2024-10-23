@@ -115,8 +115,9 @@ add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 // }
 // add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' );
 
-
+//****************************
 // Register Gutenberg custom blocks.
+//****************************
 function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/title' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/text' );
@@ -125,30 +126,22 @@ function theme_register_blocks() {
 add_action( 'init', 'theme_register_blocks' );
 
 //****************************
-// We only want our custom blocks in the Gutenberg editor.
+// We only want our custom blocks in the Gutenberg editor (and a few more).
 //****************************
-// function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
+function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
+    $allowed_block_types = array(
+        'core/paragraph',
+        'custom-blocks/text',
+        'custom-blocks/title',
+        'custom-blocks/section'
+    );
+    return $allowed_block_types;
+}
+add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
 
-//     $allowed_block_types = array(
-//         'core/bold',
-//         'core/italic',
-//         'core/underline',
-//         'core/strikethrough',
-//         'core/link',
-//         'core/code',
-//         'core/image',
-//         'core/subscript',
-//         'core/superscript',
-//         'core/paragraph',
-//         'custom-blocks/text',
-//         'custom-blocks/title',
-//         'custom-blocks/section'
-//     );
-
-//     return $allowed_block_types;
-// }
-// add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
-
+//****************************
+// to insert theme variables into the main CSS.
+//****************************
 function handleThemeOptionsForPlaceholders( $optionId ) {
     $css_vars_array = array();
     foreach(get_option( $optionId ) as $key => $value) {

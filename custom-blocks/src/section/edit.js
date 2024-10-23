@@ -242,7 +242,7 @@ ${query.css}
                 </div>
             ) }
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>#{clientId + ' {' + renderedMediaQueries + '}'}</style> }
+            { renderedMediaQueries && <style>{'#' + clientId + ' {' + renderedMediaQueries + '}'}</style> }
         </Fragment>
     )
 }
