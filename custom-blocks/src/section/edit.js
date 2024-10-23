@@ -155,7 +155,9 @@ ${query.css}
             }
         }).join('\n');
     };
-    setAttributes({renderedMediaQueries: renderMediaQueries()});
+    useEffect( () => {
+        setAttributes({renderedMediaQueries: renderMediaQueries()});
+    }, [renderMediaQueries()] );
 
     return (
         <Fragment>
