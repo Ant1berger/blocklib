@@ -3,7 +3,7 @@ import { Fragment } from '@wordpress/element';
 
 export default function save(props) {
     const { attributes } = props;
-    const { tag, uniqueId, blockStyles, blockClasses, blockName, renderedMediaQueries, blockStylesTag } = attributes;
+    const { tag, uniqueId, blockStyles, blockName, selectedBGColorClass, manualClasses, renderedMediaQueries, blockStylesTag } = attributes;
 
     return (
         <Fragment {...useBlockProps.save()}>
@@ -11,7 +11,11 @@ export default function save(props) {
                 tag,
                 {
                     id: uniqueId,
-                    className: blockName + blockClasses,
+                    className: [
+                        blockName,
+                        selectedBGColorClass || '',
+                        manualClasses || ''
+                    ].filter(Boolean).join(' ')
                 },
                 <div className="section-content">
                     <InnerBlocks.Content />

@@ -28,13 +28,17 @@ const MyMonacoEditor = ({ defaultValue, value, onChange }) => {
 };
 
 // Initialize unique IDs array
-const uniqueIds = [];
+// const uniqueIds = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, uniqueId, blockStyles, blockClasses, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag, content } = attributes;
+    const { tag, uniqueId, blockStyles, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
+    const [blockColorModifiers, setBlockColorModifiers] = useState('');
+    const [blockFontModifiers, setBlockFontModifiers] = useState('');
+    const [selectColorOptions, setSelectColorOptions] = useState([]);
+    const [selectFontOptions, setSelectFontOptions] = useState([]);
     const blockProps = useBlockProps();
 
     // Fetches datas from WP database and pass it to the themeOptions state.
@@ -42,6 +46,10 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
+            setBlockColorModifiers(handleThemeOptionsForModifiers(settings.theme_colors, 'color'));
+            setBlockFontModifiers(handleThemeOptionsForModifiers(settings.theme_fonts, 'font-family'));
+            setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
+            setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, __( 'Select a font', 'bloclklib' )));
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des options de thème :', error);
@@ -54,15 +62,15 @@ export default function Edit(props) {
     }, [] );
 
     // Create a unique and persistent ID for useBlockProps.
-    useEffect( () => {
-        if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
-            const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
-            setAttributes( { uniqueId: newUniqueId } );
-            uniqueIds.push( newUniqueId );
-        } else {
-            uniqueIds.push( uniqueId );
-        }
-    }, [blockName] );
+    // useEffect( () => {
+    //     if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
+    //         const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
+    //         setAttributes( { uniqueId: newUniqueId } );
+    //         uniqueIds.push( newUniqueId );
+    //     } else {
+    //         uniqueIds.push( uniqueId );
+    //     }
+    // }, [blockName] );
 
     // Generates the CSS from the theme options.
     const handleThemeOptionsForModifiers = (optionId, cssProp) => {
@@ -73,7 +81,7 @@ export default function Edit(props) {
     ${cssProp}: var(--${property});
 }
 `;
-}
+            }
         };
         return cssVarsString;
     }
@@ -84,22 +92,24 @@ export default function Edit(props) {
         for (const property in optionId) {
             if( optionId[property] ) {
                 optionsArray.push({ label: property, value: '-' + property });
-}
+            }
         };
         return optionsArray;
     }
 
     // Update block's CSS modifiers from theme options.
-    setAttributes({
+    useEffect( () => {
+        setAttributes({
             blockStyles: `.${blockName} {
     margin: 0;
-    text-wrap: pretty;
+    text-wrap: balance;
     hyphens: auto;
 }
-${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'color')}
-${handleThemeOptionsForModifiers(themeOptions.theme_fonts, 'font-family')}
+${blockColorModifiers}
+${blockFontModifiers}
 `
-    });
+        });
+    }, [blockName, blockColorModifiers, blockFontModifiers] );
 
     // Avoid empty tagName for the rendered component.
     const updateTagName = (newTag) => {
@@ -146,22 +156,6 @@ ${query.css}
     };
     setAttributes({renderedMediaQueries: renderMediaQueries()});
 
-    // Put the returned value in a blockClasses attribute.
-    const buildClasses = () => {
-        let addedClasses = '';
-        if (selectedColorClass) {
-            addedClasses += ' ' + selectedColorClass;
-        }
-        if (selectedFontClass) {
-            addedClasses += ' ' + selectedFontClass;
-        }
-        if (manualClasses) {
-            addedClasses += ' ' + manualClasses;
-        }
-        return addedClasses;
-    };
-    setAttributes({blockClasses: buildClasses()});
-
     return (
         <Fragment>
             <InspectorControls>
@@ -173,16 +167,16 @@ ${query.css}
                         placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
                     />
                     <SelectControl
-                        label={__( 'Font', 'bloclklib' )}
-                        options={handleThemeOptionsForSelects(themeOptions.theme_fonts, __( 'Select a font', 'bloclklib' ))}
-                        value={selectedFontClass}
-                        onChange={(newValue) => setAttributes({ selectedFontClass: newValue })}
-                    />
-                    <SelectControl
                         label={__( 'Color', 'bloclklib' )}
-                        options={handleThemeOptionsForSelects(themeOptions.theme_colors, __( 'Select a color', 'bloclklib' ))}
+                        options={selectColorOptions}
                         value={selectedColorClass}
                         onChange={(newValue) => setAttributes({ selectedColorClass: newValue })}
+                    />
+                    <SelectControl
+                        label={__( 'Font', 'bloclklib' )}
+                        options={selectFontOptions}
+                        value={selectedFontClass}
+                        onChange={(newValue) => setAttributes({ selectedFontClass: newValue })}
                     />
                     <TextControl
                         label={ __( 'Classes', 'bloclklib' ) }
@@ -233,15 +227,20 @@ ${query.css}
             </InspectorControls>
             <RichText {...blockProps}
                 tagName={ tag }
-                id={ uniqueId }
+                id={ clientId }
                 placeholder={ __( 'Write your content here', 'blocklib' ) }
                 value={ content }
-                className={blockName + blockClasses}
+                className={[
+                    blockName,
+                    selectedColorClass || '',
+                    selectedFontClass || '',
+                    manualClasses || ''
+                ].filter(Boolean).join(' ')}
                 onChange={ ( content ) => setAttributes( { content } ) }
                 allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/image', 'core/subscript', 'core/superscript' ] }
             />
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>#{uniqueId + ' {' + renderedMediaQueries + '}'}</style> }
+            { renderedMediaQueries && <style>#{clientId + ' {' + renderedMediaQueries + '}'}</style> }
         </Fragment>
     )
 }

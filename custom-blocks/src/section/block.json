@@ -9,9 +9,9 @@
 	"description": "The biggest part of o page: a story containing the main column of the website.",
 	"example": {},
 "supports": {
-		"html": false,
-        "className": false,
-        "customClassName": false
+    "html": false,
+    "className": false,
+    "customClassName": false
 	},
     "attributes": {
         "uniqueId": {
@@ -43,14 +43,6 @@
             "default": []
         },
         "renderedMediaQueries": {
-            "type": "string",
-            "default": ""
-        },
-        "cssBGColorModifiers": {
-            "type": "string",
-            "default": ""
-        },
-        "blockClasses": {
             "type": "string",
             "default": ""
         },

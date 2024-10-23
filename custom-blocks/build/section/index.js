@@ -686,7 +686,8 @@ const MyMonacoEditor = ({
 };
 
 // Initialize unique IDs array
-const uniqueIds = [];
+// const uniqueIds = [];
+
 function Edit(props) {
   const {
     attributes,
@@ -697,7 +698,6 @@ function Edit(props) {
     tag,
     uniqueId,
     blockStyles,
-    blockClasses,
     blockName,
     selectedBGColorClass,
     manualClasses,
@@ -707,6 +707,8 @@ function Edit(props) {
   } = attributes;
   const [tagName, setTagName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(tag);
   const [themeOptions, setThemeOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
+  const [blockBGColorModifiers, setBlockBGColorModifiers] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('');
+  const [selectBGColorOptions, setSelectBGColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
 
   // Fetches datas from WP database and pass it to the themeOptions state.
@@ -715,6 +717,8 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
+      setBlockBGColorModifiers(handleThemeOptionsForModifiers(settings.theme_colors, 'background-color'));
+      setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
     });
@@ -728,17 +732,15 @@ function Edit(props) {
   }, []);
 
   // Create a unique and persistent ID for useBlockProps.
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (null === uniqueId || '' === uniqueId || uniqueIds.includes(uniqueId)) {
-      const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
-      setAttributes({
-        uniqueId: newUniqueId
-      });
-      uniqueIds.push(newUniqueId);
-    } else {
-      uniqueIds.push(uniqueId);
-    }
-  }, [blockName]);
+  // useEffect( () => {
+  //     if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
+  //         const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
+  //         setAttributes( { uniqueId: newUniqueId } );
+  //         uniqueIds.push( newUniqueId );
+  //     } else {
+  //         uniqueIds.push( uniqueId );
+  //     }
+  // }, [blockName] );
 
   // Generates the CSS from the theme options.
   const handleThemeOptionsForModifiers = (optionId, cssProp) => {
@@ -774,12 +776,13 @@ function Edit(props) {
   };
 
   // Update block's CSS modifiers from theme options.
-  setAttributes({
-    blockStyles: `.${blockName} {
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    setAttributes({
+      blockStyles: `.${blockName} {
     display: flex;
     justify-content: center;
 }
-${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'background-color')}
+${blockBGColorModifiers}
 .section-content {
     flex-grow: 0;
     flex-shrink: 0;
@@ -788,7 +791,8 @@ ${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'background-color')}
     padding-inline: var(--sectionPadding);
 }
 `
-  });
+    });
+  }, [blockName, blockBGColorModifiers]);
 
   // Avoid empty tagName for the rendered component.
   const updateTagName = newTag => {
@@ -843,21 +847,6 @@ ${query.css}
   setAttributes({
     renderedMediaQueries: renderMediaQueries()
   });
-
-  // Put the returned value in a blockClasses attribute.
-  const buildClasses = () => {
-    let addedClasses = '';
-    if (selectedBGColorClass) {
-      addedClasses += ' ' + selectedBGColorClass;
-    }
-    if (manualClasses) {
-      addedClasses += ' ' + manualClasses;
-    }
-    return addedClasses;
-  };
-  setAttributes({
-    blockClasses: buildClasses()
-  });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
@@ -869,7 +858,7 @@ ${query.css}
           placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Use any HTML tag', 'blocklib')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Color', 'bloclklib'),
-          options: handleThemeOptionsForSelects(themeOptions.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a background color', 'bloclklib')),
+          options: selectBGColorOptions,
           value: selectedBGColorClass,
           onChange: newValue => setAttributes({
             selectedBGColorClass: newValue
@@ -921,8 +910,8 @@ ${query.css}
       })]
     }), React.createElement(tag, {
       ...blockProps,
-      id: uniqueId,
-      className: blockName + blockClasses
+      id: clientId,
+      className: [blockName, selectedBGColorClass || '', manualClasses || ''].filter(Boolean).join(' ')
     }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
       className: "section-content",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
@@ -934,7 +923,7 @@ ${query.css}
       id: 'blockstyles-' + blockName,
       children: blockStyles
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("style", {
-      children: ["#", uniqueId + ' {' + renderedMediaQueries + '}']
+      children: ["#", clientId + ' {' + renderedMediaQueries + '}']
     })]
   });
 }
@@ -968,8 +957,9 @@ function save(props) {
     tag,
     uniqueId,
     blockStyles,
-    blockClasses,
     blockName,
+    selectedBGColorClass,
+    manualClasses,
     renderedMediaQueries,
     blockStylesTag
   } = attributes;
@@ -977,7 +967,7 @@ function save(props) {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
     children: [React.createElement(tag, {
       id: uniqueId,
-      className: blockName + blockClasses
+      className: [blockName, selectedBGColorClass || '', manualClasses || ''].filter(Boolean).join(' ')
     }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "section-content",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InnerBlocks.Content, {})
@@ -1306,7 +1296,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/section","version":"0.1.0","title":"Section","category":"design","keywords":["blocklib","section","design"],"description":"The biggest part of o page: a story containing the main column of the website.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"uniqueId":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"selectedBGColorClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""},"cssBGColorModifiers":{"type":"string","default":""},"blockClasses":{"type":"string","default":""},"blockStylesTag":{"type":"boolean","default":false}},"textdomain":"custom-blocks","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/section","version":"0.1.0","title":"Section","category":"design","keywords":["blocklib","section","design"],"description":"The biggest part of o page: a story containing the main column of the website.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"uniqueId":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"selectedBGColorClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""},"blockStylesTag":{"type":"boolean","default":false}},"textdomain":"custom-blocks","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
 
 /***/ })
 

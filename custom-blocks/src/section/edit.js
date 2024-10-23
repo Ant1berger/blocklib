@@ -28,13 +28,15 @@ const MyMonacoEditor = ({ defaultValue, value, onChange }) => {
 };
 
 // Initialize unique IDs array
-const uniqueIds = [];
+// const uniqueIds = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, uniqueId, blockStyles, blockClasses, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag } = attributes;
+    const { tag, uniqueId, blockStyles, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
+    const [blockBGColorModifiers, setBlockBGColorModifiers] = useState('');
+    const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
     const blockProps = useBlockProps();
 
     // Fetches datas from WP database and pass it to the themeOptions state.
@@ -42,6 +44,8 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
+            setBlockBGColorModifiers(handleThemeOptionsForModifiers(settings.theme_colors, 'background-color'));
+            setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des options de thème :', error);
@@ -54,15 +58,15 @@ export default function Edit(props) {
     }, [] );
 
     // Create a unique and persistent ID for useBlockProps.
-    useEffect( () => {
-        if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
-            const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
-            setAttributes( { uniqueId: newUniqueId } );
-            uniqueIds.push( newUniqueId );
-        } else {
-            uniqueIds.push( uniqueId );
-        }
-    }, [blockName] );
+    // useEffect( () => {
+    //     if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
+    //         const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
+    //         setAttributes( { uniqueId: newUniqueId } );
+    //         uniqueIds.push( newUniqueId );
+    //     } else {
+    //         uniqueIds.push( uniqueId );
+    //     }
+    // }, [blockName] );
 
     // Generates the CSS from the theme options.
     const handleThemeOptionsForModifiers = (optionId, cssProp) => {
@@ -73,7 +77,7 @@ export default function Edit(props) {
     ${cssProp}: var(--${property});
 }
 `;
-}
+            }
         };
         return cssVarsString;
     }
@@ -84,18 +88,19 @@ export default function Edit(props) {
         for (const property in optionId) {
             if( optionId[property] ) {
                 optionsArray.push({ label: property, value: '-' + property });
-}
+            }
         };
         return optionsArray;
     }
 
     // Update block's CSS modifiers from theme options.
-    setAttributes({
+    useEffect( () => {
+        setAttributes({
             blockStyles: `.${blockName} {
     display: flex;
     justify-content: center;
 }
-${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'background-color')}
+${blockBGColorModifiers}
 .section-content {
     flex-grow: 0;
     flex-shrink: 0;
@@ -104,7 +109,8 @@ ${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'background-color')}
     padding-inline: var(--sectionPadding);
 }
 `
-    });
+        });
+    }, [blockName, blockBGColorModifiers] );
 
     // Avoid empty tagName for the rendered component.
     const updateTagName = (newTag) => {
@@ -151,19 +157,6 @@ ${query.css}
     };
     setAttributes({renderedMediaQueries: renderMediaQueries()});
 
-    // Put the returned value in a blockClasses attribute.
-    const buildClasses = () => {
-        let addedClasses = '';
-        if (selectedBGColorClass) {
-            addedClasses += ' ' + selectedBGColorClass;
-        }
-        if (manualClasses) {
-            addedClasses += ' ' + manualClasses;
-        }
-        return addedClasses;
-    };
-    setAttributes({blockClasses: buildClasses()});
-
     return (
         <Fragment>
             <InspectorControls>
@@ -176,7 +169,7 @@ ${query.css}
                     />
                     <SelectControl
                         label={__( 'Color', 'bloclklib' )}
-                        options={handleThemeOptionsForSelects(themeOptions.theme_colors, __( 'Select a background color', 'bloclklib' ))}
+                        options={selectBGColorOptions}
                         value={selectedBGColorClass}
                         onChange={(newValue) => setAttributes({ selectedBGColorClass: newValue })}
                     />
@@ -231,8 +224,12 @@ ${query.css}
                 tag,
                 {
                     ...blockProps,
-                    id: uniqueId,
-                    className: blockName + blockClasses,
+                    id: clientId,
+                    className: [
+                        blockName,
+                        selectedBGColorClass || '',
+                        manualClasses || ''
+                    ].filter(Boolean).join(' ')
                 },
                 <div className="section-content">
                     <InnerBlocks
@@ -243,7 +240,7 @@ ${query.css}
                 </div>
             ) }
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>#{uniqueId + ' {' + renderedMediaQueries + '}'}</style> }
+            { renderedMediaQueries && <style>#{clientId + ' {' + renderedMediaQueries + '}'}</style> }
         </Fragment>
     )
 }

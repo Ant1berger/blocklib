@@ -686,7 +686,8 @@ const MyMonacoEditor = ({
 };
 
 // Initialize unique IDs array
-const uniqueIds = [];
+// const uniqueIds = [];
+
 function Edit(props) {
   const {
     attributes,
@@ -697,7 +698,6 @@ function Edit(props) {
     tag,
     uniqueId,
     blockStyles,
-    blockClasses,
     blockName,
     selectedColorClass,
     selectedFontClass,
@@ -709,6 +709,10 @@ function Edit(props) {
   } = attributes;
   const [tagName, setTagName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(tag);
   const [themeOptions, setThemeOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
+  const [blockColorModifiers, setBlockColorModifiers] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('');
+  const [blockFontModifiers, setBlockFontModifiers] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('');
+  const [selectColorOptions, setSelectColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+  const [selectFontOptions, setSelectFontOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
 
   // Fetches datas from WP database and pass it to the themeOptions state.
@@ -717,6 +721,10 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
+      setBlockColorModifiers(handleThemeOptionsForModifiers(settings.theme_colors, 'color'));
+      setBlockFontModifiers(handleThemeOptionsForModifiers(settings.theme_fonts, 'font-family'));
+      setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
+      setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
     });
@@ -730,17 +738,15 @@ function Edit(props) {
   }, []);
 
   // Create a unique and persistent ID for useBlockProps.
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (null === uniqueId || '' === uniqueId || uniqueIds.includes(uniqueId)) {
-      const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
-      setAttributes({
-        uniqueId: newUniqueId
-      });
-      uniqueIds.push(newUniqueId);
-    } else {
-      uniqueIds.push(uniqueId);
-    }
-  }, [blockName]);
+  // useEffect( () => {
+  //     if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
+  //         const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
+  //         setAttributes( { uniqueId: newUniqueId } );
+  //         uniqueIds.push( newUniqueId );
+  //     } else {
+  //         uniqueIds.push( uniqueId );
+  //     }
+  // }, [blockName] );
 
   // Generates the CSS from the theme options.
   const handleThemeOptionsForModifiers = (optionId, cssProp) => {
@@ -776,16 +782,18 @@ function Edit(props) {
   };
 
   // Update block's CSS modifiers from theme options.
-  setAttributes({
-    blockStyles: `.${blockName} {
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    setAttributes({
+      blockStyles: `.${blockName} {
     margin: 0;
     text-wrap: balance;
     hyphens: auto;
 }
-${handleThemeOptionsForModifiers(themeOptions.theme_colors, 'color')}
-${handleThemeOptionsForModifiers(themeOptions.theme_fonts, 'font-family')}
+${blockColorModifiers}
+${blockFontModifiers}
 `
-  });
+    });
+  }, [blockName, blockColorModifiers, blockFontModifiers]);
 
   // Avoid empty tagName for the rendered component.
   const updateTagName = newTag => {
@@ -840,24 +848,6 @@ ${query.css}
   setAttributes({
     renderedMediaQueries: renderMediaQueries()
   });
-
-  // Put the returned value in a blockClasses attribute.
-  const buildClasses = () => {
-    let addedClasses = '';
-    if (selectedColorClass) {
-      addedClasses += ' ' + selectedColorClass;
-    }
-    if (selectedFontClass) {
-      addedClasses += ' ' + selectedFontClass;
-    }
-    if (manualClasses) {
-      addedClasses += ' ' + manualClasses;
-    }
-    return addedClasses;
-  };
-  setAttributes({
-    blockClasses: buildClasses()
-  });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
@@ -868,18 +858,18 @@ ${query.css}
           onChange: updateTagName,
           placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Use any HTML tag', 'blocklib')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font', 'bloclklib'),
-          options: handleThemeOptionsForSelects(themeOptions.theme_fonts, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')),
-          value: selectedFontClass,
-          onChange: newValue => setAttributes({
-            selectedFontClass: newValue
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Color', 'bloclklib'),
-          options: handleThemeOptionsForSelects(themeOptions.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')),
+          options: selectColorOptions,
           value: selectedColorClass,
           onChange: newValue => setAttributes({
             selectedColorClass: newValue
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font', 'bloclklib'),
+          options: selectFontOptions,
+          value: selectedFontClass,
+          onChange: newValue => setAttributes({
+            selectedFontClass: newValue
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Classes', 'bloclklib'),
@@ -929,10 +919,10 @@ ${query.css}
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
       ...blockProps,
       tagName: tag,
-      id: uniqueId,
+      id: clientId,
       placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Write your content here', 'blocklib'),
       value: content,
-      className: blockName + blockClasses,
+      className: [blockName, selectedColorClass || '', selectedFontClass || '', manualClasses || ''].filter(Boolean).join(' '),
       onChange: content => setAttributes({
         content
       }),
@@ -941,7 +931,7 @@ ${query.css}
       id: 'blockstyles-' + blockName,
       children: blockStyles
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("style", {
-      children: ["#", uniqueId + ' {' + renderedMediaQueries + '}']
+      children: ["#", clientId + ' {' + renderedMediaQueries + '}']
     })]
   });
 }
@@ -975,8 +965,10 @@ function save(props) {
     tag,
     uniqueId,
     blockStyles,
-    blockClasses,
     blockName,
+    selectedColorClass,
+    selectedFontClass,
+    manualClasses,
     renderedMediaQueries,
     blockStylesTag,
     content
@@ -986,7 +978,7 @@ function save(props) {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
       tagName: tag,
       id: uniqueId,
-      className: blockName + blockClasses,
+      className: [blockName, selectedColorClass || '', selectedFontClass || '', manualClasses || ''].filter(Boolean).join(' '),
       value: content
     }), blockStylesTag && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("style", {
       id: 'blockstyles-' + blockName,
@@ -1313,7 +1305,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \******************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/title","version":"0.1.0","title":"Title","category":"text","keywords":["blocklib","title","text"],"description":"A rich text title.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"content":{"type":"string","source":"html","selector":".title"},"uniqueId":{"type":"string","default":""},"tag":{"type":"string","default":"h1"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""},"cssColorModifiers":{"type":"string","default":""},"cssFontModifiers":{"type":"string","default":""},"blockClasses":{"type":"string","default":""},"blockStylesTag":{"type":"boolean","default":false}},"textdomain":"custom-blocks","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/title","version":"0.1.0","title":"Title","category":"text","keywords":["blocklib","title","text"],"description":"A rich text title.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"content":{"type":"string","source":"html","selector":".title"},"uniqueId":{"type":"string","default":""},"tag":{"type":"string","default":"h1"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""},"blockStylesTag":{"type":"boolean","default":false}},"textdomain":"custom-blocks","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
 
 /***/ })
 

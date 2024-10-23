@@ -50,14 +50,6 @@
       "type": "string",
       "default": ""
     },
-    "cssBGColorModifiers": {
-      "type": "string",
-      "default": ""
-    },
-    "blockClasses": {
-      "type": "string",
-      "default": ""
-    },
     "blockStylesTag": {
       "type": "boolean",
       "default": false

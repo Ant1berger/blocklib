@@ -59,18 +59,6 @@
       "type": "string",
       "default": ""
     },
-    "cssColorModifiers": {
-      "type": "string",
-      "default": ""
-    },
-    "cssFontModifiers": {
-      "type": "string",
-      "default": ""
-    },
-    "blockClasses": {
-      "type": "string",
-      "default": ""
-    },
     "blockStylesTag": {
       "type": "boolean",
       "default": false

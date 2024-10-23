@@ -9,9 +9,9 @@
 	"description": "A rich text text.",
 	"example": {},
 "supports": {
-		"html": false,
-        "className": false,
-        "customClassName": false
+    "html": false,
+    "className": false,
+    "customClassName": false
 	},
     "attributes": {
 		"content": {
@@ -52,18 +52,6 @@
             "default": []
         },
         "renderedMediaQueries": {
-            "type": "string",
-            "default": ""
-        },
-        "cssColorModifiers": {
-            "type": "string",
-            "default": ""
-        },
-        "cssFontModifiers": {
-            "type": "string",
-            "default": ""
-        },
-        "blockClasses": {
             "type": "string",
             "default": ""
         },
