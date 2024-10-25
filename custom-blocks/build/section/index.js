@@ -686,8 +686,7 @@ const MyMonacoEditor = ({
 };
 
 // Initialize unique IDs array
-// const uniqueIds = [];
-
+const persistentIDs = [];
 function Edit(props) {
   const {
     attributes,
@@ -696,7 +695,8 @@ function Edit(props) {
   } = props;
   const {
     tag,
-    uniqueId,
+    persistentID,
+    blockBGColorModifiers,
     blockStyles,
     blockName,
     selectedBGColorClass,
@@ -707,7 +707,6 @@ function Edit(props) {
   } = attributes;
   const [tagName, setTagName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(tag);
   const [themeOptions, setThemeOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
-  const [blockBGColorModifiers, setBlockBGColorModifiers] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('');
   const [selectBGColorOptions, setSelectBGColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
 
@@ -717,7 +716,9 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
-      setBlockBGColorModifiers(handleThemeOptionsForModifiers(settings.theme_colors, 'background-color'));
+      setAttributes({
+        blockBGColorModifiers: handleThemeOptionsForModifiers(settings.theme_colors, 'background-color')
+      });
       setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
@@ -732,15 +733,17 @@ function Edit(props) {
   }, []);
 
   // Create a unique and persistent ID for useBlockProps.
-  // useEffect( () => {
-  //     if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
-  //         const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
-  //         setAttributes( { uniqueId: newUniqueId } );
-  //         uniqueIds.push( newUniqueId );
-  //     } else {
-  //         uniqueIds.push( uniqueId );
-  //     }
-  // }, [blockName] );
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (null === persistentID || '' === persistentID || persistentIDs.includes(persistentID)) {
+      const newpersistentID = 'blocklist-' + clientId.substr(2, 9).replace('-', '');
+      setAttributes({
+        persistentID: newpersistentID
+      });
+      persistentIDs.push(newpersistentID);
+    } else {
+      persistentIDs.push(persistentID);
+    }
+  }, [blockName]);
 
   // Generates the CSS from the theme options.
   const handleThemeOptionsForModifiers = (optionId, cssProp) => {
@@ -837,10 +840,10 @@ ${blockBGColorModifiers}
       if (!query.minWidth || !query.css) return null;
       if (query.minWidth !== '0') {
         return `@media (min-width: ${query.minWidth}px) {
-${query.css}
+[data-persistentid="${persistentID}"]${query.css}
 }`;
       } else {
-        return `${query.css}`;
+        return `[data-persistentid="${persistentID}"]${query.css}`;
       }
     }).join('\n');
   };
@@ -891,7 +894,7 @@ ${query.css}
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(MyMonacoEditor, {
-              defaultValue: "",
+              defaultValue: `:not(#lalala) {\n}`,
               value: query.css,
               onChange: value => updateMediaQuery(index, 'css', value)
             })
@@ -912,7 +915,7 @@ ${query.css}
       })]
     }), React.createElement(tag, {
       ...blockProps,
-      id: clientId,
+      dataPersistentid: persistentID,
       className: [blockName, selectedBGColorClass || '', manualClasses || ''].filter(Boolean).join(' ')
     }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
       className: "section-content",
@@ -925,7 +928,7 @@ ${query.css}
       id: 'blockstyles-' + blockName,
       children: blockStyles
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
-      children: '#' + clientId + ' {' + renderedMediaQueries + '}'
+      children: renderedMediaQueries
     })]
   });
 }
@@ -953,12 +956,11 @@ __webpack_require__.r(__webpack_exports__);
 
 function save(props) {
   const {
-    attributes,
-    clientId
+    attributes
   } = props;
   const {
     tag,
-    uniqueId,
+    persistentID,
     blockStyles,
     blockName,
     selectedBGColorClass,
@@ -969,7 +971,7 @@ function save(props) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
     children: [React.createElement(tag, {
-      id: clientId,
+      dataPersistentid: persistentID,
       className: [blockName, selectedBGColorClass || '', manualClasses || ''].filter(Boolean).join(' ')
     }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "section-content",
@@ -977,8 +979,8 @@ function save(props) {
     })), blockStylesTag && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("style", {
       id: 'blockstyles-' + blockName,
       children: blockStyles
-    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("style", {
-      children: ["#", clientId + ' {' + renderedMediaQueries + '}']
+    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("style", {
+      children: renderedMediaQueries
     })]
   });
 }
@@ -1299,7 +1301,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/section","version":"0.1.0","title":"Section","category":"design","keywords":["blocklib","section","design"],"description":"The biggest part of o page: a story containing the main column of the website.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"uniqueId":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"selectedBGColorClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""},"blockStylesTag":{"type":"boolean","default":false}},"textdomain":"custom-blocks","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/section","version":"0.1.0","title":"Section","category":"design","keywords":["blocklib","section","design"],"description":"The biggest part of o page: a story containing the main column of the website.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"selectedBGColorClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockBGColorModifiers":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""},"blockStylesTag":{"type":"boolean","default":false}},"textdomain":"custom-blocks","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
 
 /***/ })
 

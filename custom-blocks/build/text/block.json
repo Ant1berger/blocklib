@@ -22,7 +22,7 @@
       "source": "html",
       "selector": ".text"
     },
-    "uniqueId": {
+    "persistentID": {
       "type": "string",
       "default": ""
     },
@@ -39,6 +39,14 @@
       "default": ""
     },
     "manualClasses": {
+      "type": "string",
+      "default": ""
+    },
+    "blockColorModifiers": {
+      "type": "string",
+      "default": ""
+    },
+    "blockFontModifiers": {
       "type": "string",
       "default": ""
     },

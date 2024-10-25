@@ -686,8 +686,7 @@ const MyMonacoEditor = ({
 };
 
 // Initialize unique IDs array
-// const uniqueIds = [];
-
+const persistentIDs = [];
 function Edit(props) {
   const {
     attributes,
@@ -696,7 +695,9 @@ function Edit(props) {
   } = props;
   const {
     tag,
-    uniqueId,
+    persistentID,
+    blockColorModifiers,
+    blockFontModifiers,
     blockStyles,
     blockName,
     selectedColorClass,
@@ -709,8 +710,6 @@ function Edit(props) {
   } = attributes;
   const [tagName, setTagName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(tag);
   const [themeOptions, setThemeOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
-  const [blockColorModifiers, setBlockColorModifiers] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('');
-  const [blockFontModifiers, setBlockFontModifiers] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('');
   const [selectColorOptions, setSelectColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const [selectFontOptions, setSelectFontOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
@@ -721,8 +720,12 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
-      setBlockColorModifiers(handleThemeOptionsForModifiers(settings.theme_colors, 'color'));
-      setBlockFontModifiers(handleThemeOptionsForModifiers(settings.theme_fonts, 'font-family'));
+      setAttributes({
+        blockColorModifiers: handleThemeOptionsForModifiers(settings.theme_colors, 'color')
+      });
+      setAttributes({
+        blockFontModifiers: handleThemeOptionsForModifiers(settings.theme_fonts, 'font-family')
+      });
       setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
       setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
     }).catch(error => {
@@ -738,15 +741,17 @@ function Edit(props) {
   }, []);
 
   // Create a unique and persistent ID for useBlockProps.
-  // useEffect( () => {
-  //     if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
-  //         const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
-  //         setAttributes( { uniqueId: newUniqueId } );
-  //         uniqueIds.push( newUniqueId );
-  //     } else {
-  //         uniqueIds.push( uniqueId );
-  //     }
-  // }, [blockName] );
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (null === persistentID || '' === persistentID || persistentIDs.includes(persistentID)) {
+      const newpersistentID = 'blocklist-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
+      setAttributes({
+        persistentID: newpersistentID
+      });
+      persistentIDs.push(newpersistentID);
+    } else {
+      persistentIDs.push(persistentID);
+    }
+  }, [blockName]);
 
   // Generates the CSS from the theme options.
   const handleThemeOptionsForModifiers = (optionId, cssProp) => {
@@ -838,10 +843,10 @@ ${blockFontModifiers}
       if (!query.minWidth || !query.css) return null;
       if (query.minWidth !== '0') {
         return `@media (min-width: ${query.minWidth}px) {
-${query.css}
+[data-persistentid="${persistentID}"]${query.css}
 }`;
       } else {
-        return `${query.css}`;
+        return `[data-persistentid="${persistentID}"]${query.css}`;
       }
     }).join('\n');
   };
@@ -899,7 +904,7 @@ ${query.css}
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(MyMonacoEditor, {
-              defaultValue: "",
+              defaultValue: `:not(#lalala) {\n}`,
               value: query.css,
               onChange: value => updateMediaQuery(index, 'css', value)
             })
@@ -921,19 +926,19 @@ ${query.css}
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
       ...blockProps,
       tagName: tag,
-      id: clientId,
       placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Write your content here', 'blocklib'),
       value: content,
+      "data-persistentid": persistentID,
       className: [blockName, selectedColorClass || '', selectedFontClass || '', manualClasses || ''].filter(Boolean).join(' '),
       onChange: content => setAttributes({
         content
       }),
-      allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language']
+      allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space']
     }), blockStylesTag && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
       id: 'blockstyles-' + blockName,
       children: blockStyles
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
-      children: '#' + clientId + ' {' + renderedMediaQueries + '}'
+      children: renderedMediaQueries
     })]
   });
 }
@@ -961,12 +966,11 @@ __webpack_require__.r(__webpack_exports__);
 
 function save(props) {
   const {
-    attributes,
-    clientId
+    attributes
   } = props;
   const {
     tag,
-    uniqueId,
+    persistentID,
     blockStyles,
     blockName,
     selectedColorClass,
@@ -980,14 +984,14 @@ function save(props) {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
       tagName: tag,
-      id: clientId,
+      "data-persistentid": persistentID,
       className: [blockName, selectedColorClass || '', selectedFontClass || '', manualClasses || ''].filter(Boolean).join(' '),
       value: content
     }), blockStylesTag && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("style", {
       id: 'blockstyles-' + blockName,
       children: blockStyles
-    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("style", {
-      children: ["#", clientId + ' {' + renderedMediaQueries + '}']
+    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("style", {
+      children: renderedMediaQueries
     })]
   });
 }
@@ -1308,7 +1312,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \******************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/title","version":"0.1.0","title":"Title","category":"text","keywords":["blocklib","title","text"],"description":"A rich text title.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"content":{"type":"string","source":"html","selector":".title"},"uniqueId":{"type":"string","default":""},"tag":{"type":"string","default":"h1"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""},"blockStylesTag":{"type":"boolean","default":false}},"textdomain":"custom-blocks","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/title","version":"0.1.0","title":"Title","category":"text","keywords":["blocklib","title","text"],"description":"A rich text title.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"content":{"type":"string","source":"html","selector":".title"},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"h1"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockColorModifiers":{"type":"string","default":""},"blockFontModifiers":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""},"blockStylesTag":{"type":"boolean","default":false}},"textdomain":"custom-blocks","editorScript":"file:./index.js","viewScript":"file:./view.js"}');
 
 /***/ })
 

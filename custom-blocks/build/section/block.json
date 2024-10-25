@@ -18,7 +18,7 @@
     "customClassName": false
   },
   "attributes": {
-    "uniqueId": {
+    "persistentID": {
       "type": "string",
       "default": ""
     },
@@ -31,6 +31,10 @@
       "default": ""
     },
     "manualClasses": {
+      "type": "string",
+      "default": ""
+    },
+    "blockBGColorModifiers": {
       "type": "string",
       "default": ""
     },

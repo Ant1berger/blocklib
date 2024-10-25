@@ -2,14 +2,14 @@ import { useBlockProps, RichText } from '@wordpress/block-editor'
 import { Fragment } from '@wordpress/element';
 
 export default function save(props) {
-    const { attributes, clientId } = props;
-    const { tag, uniqueId, blockStyles, blockName, selectedColorClass, selectedFontClass, manualClasses, renderedMediaQueries, blockStylesTag, content } = attributes;
+    const { attributes } = props;
+    const { tag, persistentID, blockStyles, blockName, selectedColorClass, selectedFontClass, manualClasses, renderedMediaQueries, blockStylesTag, content } = attributes;
 
     return (
         <Fragment {...useBlockProps.save()}>
             <RichText.Content
                 tagName={ tag }
-                id={ clientId }
+                data-persistentid={ persistentID }
                 className={[
                     blockName,
                     selectedColorClass || '',
@@ -19,7 +19,7 @@ export default function save(props) {
                 value={ content }
             />
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>#{clientId + ' {' + renderedMediaQueries + '}'}</style> }
+            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )
 }

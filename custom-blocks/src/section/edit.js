@@ -28,14 +28,13 @@ const MyMonacoEditor = ({ defaultValue, value, onChange }) => {
 };
 
 // Initialize unique IDs array
-// const uniqueIds = [];
+const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, uniqueId, blockStyles, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag } = attributes;
+    const { tag, persistentID, blockBGColorModifiers, blockStyles, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
-    const [blockBGColorModifiers, setBlockBGColorModifiers] = useState('');
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
     const blockProps = useBlockProps();
 
@@ -44,7 +43,7 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            setBlockBGColorModifiers(handleThemeOptionsForModifiers(settings.theme_colors, 'background-color'));
+            setAttributes({blockBGColorModifiers: handleThemeOptionsForModifiers(settings.theme_colors, 'background-color')});
             setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
         })
         .catch((error) => {
@@ -58,15 +57,15 @@ export default function Edit(props) {
     }, [] );
 
     // Create a unique and persistent ID for useBlockProps.
-    // useEffect( () => {
-    //     if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
-    //         const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
-    //         setAttributes( { uniqueId: newUniqueId } );
-    //         uniqueIds.push( newUniqueId );
-    //     } else {
-    //         uniqueIds.push( uniqueId );
-    //     }
-    // }, [blockName] );
+    useEffect( () => {
+        if ( ( null === persistentID || '' === persistentID ) || persistentIDs.includes( persistentID ) ) {
+            const newpersistentID = 'blocklist-' + clientId.substr( 2, 9 ).replace( '-', '' );
+            setAttributes( { persistentID: newpersistentID } );
+            persistentIDs.push( newpersistentID );
+        } else {
+            persistentIDs.push( persistentID );
+        }
+    }, [blockName] );
 
     // Generates the CSS from the theme options.
     const handleThemeOptionsForModifiers = (optionId, cssProp) => {
@@ -148,10 +147,10 @@ ${blockBGColorModifiers}
             if (!query.minWidth || !query.css) return null;
             if (query.minWidth !== '0') {
                 return `@media (min-width: ${query.minWidth}px) {
-${query.css}
+[data-persistentid="${persistentID}"]${query.css}
 }`;
             } else {
-                return `${query.css}`;
+                return `[data-persistentid="${persistentID}"]${query.css}`;
             }
         }).join('\n');
     };
@@ -201,7 +200,7 @@ ${query.css}
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
-                                    defaultValue=""
+                                    defaultValue={`:not(#lalala) {\n}`}
                                     value={query.css}
                                     onChange={(value) => updateMediaQuery(index, 'css', value)}
                                 />
@@ -226,7 +225,7 @@ ${query.css}
                 tag,
                 {
                     ...blockProps,
-                    id: clientId,
+                    dataPersistentid: persistentID,
                     className: [
                         blockName,
                         selectedBGColorClass || '',
@@ -242,7 +241,7 @@ ${query.css}
                 </div>
             ) }
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>{'#' + clientId + ' {' + renderedMediaQueries + '}'}</style> }
+            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )
 }

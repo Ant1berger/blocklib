@@ -131,6 +131,7 @@ add_action( 'init', 'theme_register_blocks' );
 function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
     $allowed_block_types = array(
         'core/paragraph',
+        'core/block',
         'custom-blocks/text',
         'custom-blocks/title',
         'custom-blocks/section'

@@ -28,15 +28,13 @@ const MyMonacoEditor = ({ defaultValue, value, onChange }) => {
 };
 
 // Initialize unique IDs array
-// const uniqueIds = [];
+const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, uniqueId, blockStyles, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag, content } = attributes;
+    const { tag, persistentID, blockColorModifiers, blockFontModifiers, blockStyles, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
-    const [blockColorModifiers, setBlockColorModifiers] = useState('');
-    const [blockFontModifiers, setBlockFontModifiers] = useState('');
     const [selectColorOptions, setSelectColorOptions] = useState([]);
     const [selectFontOptions, setSelectFontOptions] = useState([]);
     const blockProps = useBlockProps();
@@ -46,8 +44,8 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            setBlockColorModifiers(handleThemeOptionsForModifiers(settings.theme_colors, 'color'));
-            setBlockFontModifiers(handleThemeOptionsForModifiers(settings.theme_fonts, 'font-family'));
+            setAttributes({blockColorModifiers: handleThemeOptionsForModifiers(settings.theme_colors, 'color')});
+            setAttributes({blockFontModifiers: handleThemeOptionsForModifiers(settings.theme_fonts, 'font-family')});
             setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
             setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, __( 'Select a font', 'bloclklib' )));
         })
@@ -62,15 +60,15 @@ export default function Edit(props) {
     }, [] );
 
     // Create a unique and persistent ID for useBlockProps.
-    // useEffect( () => {
-    //     if ( ( null === uniqueId || '' === uniqueId ) || uniqueIds.includes( uniqueId ) ) {
-    //         const newUniqueId = 'blocklib-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
-    //         setAttributes( { uniqueId: newUniqueId } );
-    //         uniqueIds.push( newUniqueId );
-    //     } else {
-    //         uniqueIds.push( uniqueId );
-    //     }
-    // }, [blockName] );
+    useEffect( () => {
+        if ( ( null === persistentID || '' === persistentID ) || persistentIDs.includes( persistentID ) ) {
+            const newpersistentID = 'blocklist-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
+            setAttributes( { persistentID: newpersistentID } );
+            persistentIDs.push( newpersistentID );
+        } else {
+            persistentIDs.push( persistentID );
+        }
+    }, [blockName] );
 
     // Generates the CSS from the theme options.
     const handleThemeOptionsForModifiers = (optionId, cssProp) => {
@@ -147,10 +145,10 @@ ${blockFontModifiers}
             if (!query.minWidth || !query.css) return null;
             if (query.minWidth !== '0') {
                 return `@media (min-width: ${query.minWidth}px) {
-${query.css}
+[data-persistentid="${persistentID}"]${query.css}
 }`;
             } else {
-                return `${query.css}`;
+                return `[data-persistentid="${persistentID}"]${query.css}`;
             }
         }).join('\n');
     };
@@ -206,7 +204,7 @@ ${query.css}
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
-                                    defaultValue=""
+                                    defaultValue={`:not(#lalala) {\n}`}
                                     value={query.css}
                                     onChange={(value) => updateMediaQuery(index, 'css', value)}
                                 />
@@ -229,9 +227,9 @@ ${query.css}
             </InspectorControls>
             <RichText {...blockProps}
                 tagName={ tag }
-                id={ clientId }
                 placeholder={ __( 'Write your content here', 'blocklib' ) }
                 value={ content }
+                data-persistentid={ persistentID }
                 className={[
                     blockName,
                     selectedColorClass || '',
@@ -239,10 +237,10 @@ ${query.css}
                     manualClasses || ''
                 ].filter(Boolean).join(' ')}
                 onChange={ ( content ) => setAttributes( { content } ) }
-                allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language' ] }
+                allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space' ] }
             />
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>{'#' + clientId + ' {' + renderedMediaQueries + '}'}</style> }
+            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )
 }

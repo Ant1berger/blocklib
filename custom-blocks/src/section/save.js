@@ -2,15 +2,15 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor'
 import { Fragment } from '@wordpress/element';
 
 export default function save(props) {
-    const { attributes, clientId } = props;
-    const { tag, uniqueId, blockStyles, blockName, selectedBGColorClass, manualClasses, renderedMediaQueries, blockStylesTag } = attributes;
+    const { attributes } = props;
+    const { tag, persistentID, blockStyles, blockName, selectedBGColorClass, manualClasses, renderedMediaQueries, blockStylesTag } = attributes;
 
     return (
         <Fragment {...useBlockProps.save()}>
             { React.createElement(
                 tag,
                 {
-                    id: clientId,
+                    dataPersistentid: persistentID,
                     className: [
                         blockName,
                         selectedBGColorClass || '',
@@ -22,7 +22,7 @@ export default function save(props) {
                 </div>
             ) }
             { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
-            { renderedMediaQueries && <style>#{clientId + ' {' + renderedMediaQueries + '}'}</style> }
+            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )
 }
