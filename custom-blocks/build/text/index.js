@@ -731,7 +731,7 @@ function Edit(props) {
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
     });
-  }, []);
+  }, [blockName]);
 
   // Set the block name attribute from json "name" path for automatic reuse.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {

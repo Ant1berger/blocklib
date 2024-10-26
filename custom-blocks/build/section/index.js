@@ -723,7 +723,7 @@ function Edit(props) {
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
     });
-  }, []);
+  }, [blockName]);
 
   // Set the block name attribute from json "name" path for automatic reuse.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -735,7 +735,7 @@ function Edit(props) {
   // Create a unique and persistent ID for useBlockProps.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (null === persistentID || '' === persistentID || persistentIDs.includes(persistentID)) {
-      const newpersistentID = 'blocklist-' + clientId.substr(2, 9).replace('-', '');
+      const newpersistentID = 'blocklist-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
       setAttributes({
         persistentID: newpersistentID
       });
@@ -915,7 +915,7 @@ ${blockBGColorModifiers}
       })]
     }), React.createElement(tag, {
       ...blockProps,
-      dataPersistentid: persistentID,
+      'data-persistentid': persistentID,
       className: [blockName, selectedBGColorClass || '', manualClasses || ''].filter(Boolean).join(' ')
     }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
       className: "section-content",
