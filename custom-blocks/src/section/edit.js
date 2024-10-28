@@ -32,7 +32,7 @@ const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockBGColorModifiers, blockStyles, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag } = attributes;
+    const { tag, persistentID, blockBGColorModifiers, blockStyles, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
@@ -180,15 +180,6 @@ ${blockBGColorModifiers}
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
                         placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
                     />
-                    <ToggleControl
-                        label={ __( 'Insert block\'s <style> tag', 'bloclklib' ) }
-                        checked={ !! blockStylesTag }
-                        onChange={ () =>
-                            setAttributes( {
-                                blockStylesTag: ! blockStylesTag,
-                            } )
-                        }
-                    />
                 </PanelBody>
                 <PanelBody title={ __( 'Spacing, sizing, moving...', 'bloclklib' ) } initialOpen={true}>
                     {mediaQueries.map((query, index) => (
@@ -240,7 +231,7 @@ ${blockBGColorModifiers}
                     />
                 </div>
             ) }
-            { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
+            { <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )

@@ -109,11 +109,47 @@ add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 //****************************
 // Enqueue styles and scripts
 //****************************
-// function wpdocs_theme_name_scripts() {
-//     // Styles are not enqueued here, the come directly from the components and pages.
-//     wp_enqueue_script( 'mainScripts', get_template_directory_uri() . '/dist/main.js', array(), '1.0.0', true );
-// }
-// add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' );
+function addMainScripts() {
+    // We don't want to enqueue a file with src to reduce the number of http requests.
+    // So we register an empty <script></script> shell to inject our JS inside.
+    wp_register_script(
+        'main',
+        '',
+        array(),
+        false,
+        array(
+            'strategy' => 'defer',
+            'in_footer' => true
+        )
+    );
+
+    // We take our main.js file...
+    $main_js_path = get_template_directory() . '/main.js';
+
+    // ... And we inject its content inside our registered <script> shell.
+    if (file_exists($main_js_path)) {
+        $main_js_content = file_get_contents($main_js_path);
+        wp_add_inline_script('main', $main_js_content);
+    }
+
+    // And let's finally enqueue this
+    wp_enqueue_script('main');
+}
+add_action('wp_enqueue_scripts', 'addMainScripts');
+
+//****************************
+// Functions for updating and retrieving a list of included components in a page.
+// Used to write a component styles or enqueue a component scripts when (and only when) this component is first included in the page.
+//****************************
+$components = [];
+function add_component($componentName) {
+    global $components;
+    $components[] = $componentName;
+}
+function get_components() {
+    global $components;
+    return $components;
+}
 
 //****************************
 // Register Gutenberg custom blocks.

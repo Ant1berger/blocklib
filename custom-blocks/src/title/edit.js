@@ -32,7 +32,7 @@ const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockColorModifiers, blockFontModifiers, blockStyles, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, blockStylesTag, content } = attributes;
+    const { tag, persistentID, blockColorModifiers, blockFontModifiers, blockStyles, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -183,15 +183,6 @@ ${blockFontModifiers}
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
                         placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
                     />
-                    <ToggleControl
-                        label={ __( 'Insert block\'s <style> tag', 'bloclklib' ) }
-                        checked={ !! blockStylesTag }
-                        onChange={ () =>
-                            setAttributes( {
-                                blockStylesTag: ! blockStylesTag,
-                            } )
-                        }
-                    />
                 </PanelBody>
                 <PanelBody title={ __( 'Spacing, sizing, moving...', 'bloclklib' ) } initialOpen={true}>
                     {mediaQueries.map((query, index) => (
@@ -238,7 +229,7 @@ ${blockFontModifiers}
                 onChange={ ( content ) => setAttributes( { content } ) }
                 allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space' ] }
             />
-            { blockStylesTag && <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
+            { <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )

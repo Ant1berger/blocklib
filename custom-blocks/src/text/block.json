@@ -8,16 +8,15 @@
     "keywords": [ "blocklib", "text" ],
 	"description": "A rich text text.",
 	"example": {},
-"supports": {
-    "html": false,
-    "className": false,
-    "customClassName": false
+    "supports": {
+        "html": false,
+        "className": false,
+        "customClassName": false
 	},
     "attributes": {
 		"content": {
 			"type": "string",
-			"source": "html",
-			"selector": ".text"
+            "default": ""
 		},
         "persistentID": {
             "type": "string",
@@ -62,13 +61,9 @@
         "renderedMediaQueries": {
             "type": "string",
             "default": ""
-        },
-        "blockStylesTag": {
-            "type": "boolean",
-            "default": false
         }
 	},
 	"textdomain": "custom-blocks",
-	"editorScript": "file:./index.js",
-	"viewScript": "file:./view.js"
+    "render": "file:./render.php",
+	"editorScript": "file:./index.js"
 }
