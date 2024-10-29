@@ -32,7 +32,7 @@ const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries } = attributes;
+    const { tag, persistentID, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
@@ -145,6 +145,12 @@ export default function Edit(props) {
                         value={ manualClasses || '' }
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
                         placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
+                    />
+                    <TextControl
+                        label={ __( 'Anchor', 'bloclklib' ) }
+                        value={ anchor || '' }
+                        onChange={ ( value ) => setAttributes( { anchor: value } ) }
+                        placeholder={ __( 'Add HTML anchor if needed (no spaces)', 'blocklib' ) }
                     />
                 </PanelBody>
                 <PanelBody title={ __( 'Spacing, sizing, moving...', 'bloclklib' ) } initialOpen={true}>

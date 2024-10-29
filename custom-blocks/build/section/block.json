@@ -18,6 +18,10 @@
     "customClassName": false
   },
   "attributes": {
+    "anchor": {
+      "type": "string",
+      "default": ""
+    },
     "persistentID": {
       "type": "string",
       "default": ""

@@ -702,6 +702,7 @@ function Edit(props) {
     manualClasses,
     mediaQueries = [],
     renderedMediaQueries,
+    anchor,
     content
   } = attributes;
   const [tagName, setTagName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(tag);
@@ -846,6 +847,13 @@ function Edit(props) {
             manualClasses: value
           }),
           placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add HTML classes if needed', 'blocklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Anchor', 'bloclklib'),
+          value: anchor || '',
+          onChange: value => setAttributes({
+            anchor: value
+          }),
+          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add HTML anchor if needed (no spaces)', 'blocklib')
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Spacing, sizing, moving...', 'bloclklib'),
@@ -1223,7 +1231,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \******************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/title","version":"0.1.0","title":"Title","category":"text","keywords":["blocklib","title","text"],"description":"A rich text title.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"h1"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/title","version":"0.1.0","title":"Title","category":"text","keywords":["blocklib","title","text"],"description":"A rich text title.","example":{},"supports":{"html":false,"className":false,"customClassName":false,"anchor":true},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"h1"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 

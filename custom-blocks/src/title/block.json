@@ -11,9 +11,14 @@
     "supports": {
         "html": false,
         "className": false,
-        "customClassName": false
+        "customClassName": false,
+        "anchor": true
 	},
     "attributes": {
+        "anchor": {
+            "type": "string",
+            "default": ""
+        },
 		"content": {
 			"type": "string",
             "default": ""

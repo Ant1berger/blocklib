@@ -33,6 +33,7 @@
     }
 ?>
     data-persistentid="<?php echo $attributes['persistentID']; ?>"
+    id="<?php echo $attributes['anchor']; ?>"
     class="<?php echo $attributes['blockName']; ?><?php
         if (!empty($attributes['selectedBGColorClass'])) {
             echo ' ' . $attributes['selectedBGColorClass'];
