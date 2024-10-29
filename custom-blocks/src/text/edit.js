@@ -32,7 +32,7 @@ const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockColorModifiers, blockFontModifiers, blockStyles, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, content } = attributes;
+    const { tag, persistentID, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -44,10 +44,8 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            setAttributes({blockColorModifiers: handleThemeOptionsForModifiers(settings.theme_colors, 'color')});
-            setAttributes({blockFontModifiers: handleThemeOptionsForModifiers(settings.theme_fonts, 'font-family')});
-            setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
-            setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, __( 'Select a font', 'bloclklib' )));
+            setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, 'color', __( 'Select a color', 'bloclklib' )));
+            setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, 'font-family', __( 'Select a font', 'bloclklib' )));
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des options de thème :', error);
@@ -62,7 +60,7 @@ export default function Edit(props) {
     // Create a unique and persistent ID for useBlockProps.
     useEffect( () => {
         if ( ( null === persistentID || '' === persistentID ) || persistentIDs.includes( persistentID ) ) {
-            const newpersistentID = 'blocklist-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
+            const newpersistentID = 'blb-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
             setAttributes( { persistentID: newpersistentID } );
             persistentIDs.push( newpersistentID );
         } else {
@@ -70,44 +68,16 @@ export default function Edit(props) {
         }
     }, [blockName] );
 
-    // Generates the CSS from the theme options.
-    const handleThemeOptionsForModifiers = (optionId, cssProp) => {
-        let cssVarsString = '';
-        for (const property in optionId) {
-            if( optionId[property] ) {
-                cssVarsString += `.${blockName}.-${property} {
-    ${cssProp}: var(--${property});
-}
-`;
-            }
-        };
-        return cssVarsString;
-    }
-
     // Generates the choices for <select> from the theme options.
-    const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
+    const handleThemeOptionsForSelects = (optionId, cssProp, emptyOptionText) => {
         let optionsArray = [{ label: emptyOptionText, value: '' }];
         for (const property in optionId) {
             if( optionId[property] ) {
-                optionsArray.push({ label: property, value: '-' + property });
+                optionsArray.push({ label: property, value: 'u-' + cssProp + '-' + property });
             }
         };
         return optionsArray;
     }
-
-    // Update block's CSS modifiers from theme options.
-    useEffect( () => {
-        setAttributes({
-            blockStyles: `.${blockName} {
-    margin: 0;
-    text-wrap: balance;
-    hyphens: auto;
-}
-${blockColorModifiers}
-${blockFontModifiers}
-`
-        });
-    }, [blockName, blockColorModifiers, blockFontModifiers] );
 
     // Avoid empty tagName for the rendered component.
     const updateTagName = (newTag) => {
@@ -230,7 +200,6 @@ ${blockFontModifiers}
                 onChange={ ( content ) => setAttributes( { content } ) }
                 allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space' ] }
             />
-            { <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )

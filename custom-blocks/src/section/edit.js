@@ -32,7 +32,7 @@ const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockBGColorModifiers, blockStyles, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries } = attributes;
+    const { tag, persistentID, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
@@ -43,8 +43,7 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            setAttributes({blockBGColorModifiers: handleThemeOptionsForModifiers(settings.theme_colors, 'background-color')});
-            setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
+            setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, 'background-color', __( 'Select a background-color', 'bloclklib' )));
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des options de thème :', error);
@@ -59,7 +58,7 @@ export default function Edit(props) {
     // Create a unique and persistent ID for useBlockProps.
     useEffect( () => {
         if ( ( null === persistentID || '' === persistentID ) || persistentIDs.includes( persistentID ) ) {
-            const newpersistentID = 'blocklist-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
+            const newpersistentID = 'blb-' + blockName + '-' + clientId.substr( 2, 9 ).replace( '-', '' );
             setAttributes( { persistentID: newpersistentID } );
             persistentIDs.push( newpersistentID );
         } else {
@@ -67,49 +66,16 @@ export default function Edit(props) {
         }
     }, [blockName] );
 
-    // Generates the CSS from the theme options.
-    const handleThemeOptionsForModifiers = (optionId, cssProp) => {
-        let cssVarsString = '';
-        for (const property in optionId) {
-            if( optionId[property] ) {
-                cssVarsString += `.${blockName}.-${property} {
-    ${cssProp}: var(--${property});
-}
-`;
-            }
-        };
-        return cssVarsString;
-    }
-
     // Generates the choices for <select> from the theme options.
-    const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
+    const handleThemeOptionsForSelects = (optionId, cssProp, emptyOptionText) => {
         let optionsArray = [{ label: emptyOptionText, value: '' }];
         for (const property in optionId) {
             if( optionId[property] ) {
-                optionsArray.push({ label: property, value: '-' + property });
+                optionsArray.push({ label: property, value: 'u-' + cssProp + '-' + property });
             }
         };
         return optionsArray;
     }
-
-    // Update block's CSS modifiers from theme options.
-    useEffect( () => {
-        setAttributes({
-            blockStyles: `.${blockName} {
-    display: flex;
-    justify-content: center;
-}
-${blockBGColorModifiers}
-.section-content {
-    flex-grow: 0;
-    flex-shrink: 0;
-    inline-size: 100%;
-    max-inline-size: 128rem;
-    padding-inline: var(--sectionPadding);
-}
-`
-        });
-    }, [blockName, blockBGColorModifiers] );
 
     // Avoid empty tagName for the rendered component.
     const updateTagName = (newTag) => {
@@ -231,7 +197,6 @@ ${blockBGColorModifiers}
                     />
                 </div>
             ) }
-            { <style id={'blockstyles-' + blockName}>{blockStyles}</style> }
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )

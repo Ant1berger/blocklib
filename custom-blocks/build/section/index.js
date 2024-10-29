@@ -696,8 +696,6 @@ function Edit(props) {
   const {
     tag,
     persistentID,
-    blockBGColorModifiers,
-    blockStyles,
     blockName,
     selectedBGColorClass,
     manualClasses,
@@ -715,10 +713,7 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
-      setAttributes({
-        blockBGColorModifiers: handleThemeOptionsForModifiers(settings.theme_colors, 'background-color')
-      });
-      setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
+      setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, 'background-color', (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a background-color', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
     });
@@ -734,7 +729,7 @@ function Edit(props) {
   // Create a unique and persistent ID for useBlockProps.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (null === persistentID || '' === persistentID || persistentIDs.includes(persistentID)) {
-      const newpersistentID = 'blocklist-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
+      const newpersistentID = 'blb-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
       setAttributes({
         persistentID: newpersistentID
       });
@@ -744,23 +739,8 @@ function Edit(props) {
     }
   }, [blockName]);
 
-  // Generates the CSS from the theme options.
-  const handleThemeOptionsForModifiers = (optionId, cssProp) => {
-    let cssVarsString = '';
-    for (const property in optionId) {
-      if (optionId[property]) {
-        cssVarsString += `.${blockName}.-${property} {
-    ${cssProp}: var(--${property});
-}
-`;
-      }
-    }
-    ;
-    return cssVarsString;
-  };
-
   // Generates the choices for <select> from the theme options.
-  const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
+  const handleThemeOptionsForSelects = (optionId, cssProp, emptyOptionText) => {
     let optionsArray = [{
       label: emptyOptionText,
       value: ''
@@ -769,32 +749,13 @@ function Edit(props) {
       if (optionId[property]) {
         optionsArray.push({
           label: property,
-          value: '-' + property
+          value: 'u-' + cssProp + '-' + property
         });
       }
     }
     ;
     return optionsArray;
   };
-
-  // Update block's CSS modifiers from theme options.
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    setAttributes({
-      blockStyles: `.${blockName} {
-    display: flex;
-    justify-content: center;
-}
-${blockBGColorModifiers}
-.section-content {
-    flex-grow: 0;
-    flex-shrink: 0;
-    inline-size: 100%;
-    max-inline-size: 128rem;
-    padding-inline: var(--sectionPadding);
-}
-`
-    });
-  }, [blockName, blockBGColorModifiers]);
 
   // Avoid empty tagName for the rendered component.
   const updateTagName = newTag => {
@@ -917,14 +878,23 @@ ${blockBGColorModifiers}
           content: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Default section content, put as many components as you like inside.', 'bloclklib')
         }]]
       })
-    })), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
-      id: 'blockstyles-' + blockName,
-      children: blockStyles
-    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
+    })), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
       children: renderedMediaQueries
     })]
   });
 }
+
+/***/ }),
+
+/***/ "./src/section/index.css":
+/*!*******************************!*\
+  !*** ./src/section/index.css ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
 
 /***/ }),
 
@@ -1242,7 +1212,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/section","version":"0.1.0","title":"Section","category":"design","keywords":["blocklib","section","design"],"description":"The biggest part of o page: a story containing the main column of the website.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"selectedBGColorClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockBGColorModifiers":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/section","version":"0.1.0","title":"Section","category":"design","keywords":["blocklib","section","design"],"description":"The biggest part of o page: a story containing the main column of the website.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"selectedBGColorClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 
@@ -1324,11 +1294,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/section/edit.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block.json */ "./src/section/block.json");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.css */ "./src/section/index.css");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/section/block.json");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -1343,13 +1314,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("svg", {
+
+const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   height: "48px",
   viewBox: "0 -960 960 960",
   width: "48px",
   fill: "#000000",
-  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("path", {
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
     d: "M140-160q-24.75 0-42.37-17.63Q80-195.25 80-220v-520q0-24.75 17.63-42.38Q115.25-800 140-800h680q24.75 0 42.38 17.62Q880-764.75 880-740v520q0 24.75-17.62 42.37Q844.75-160 820-160H140Zm0-60h70v-520h-70v520Zm130 0h420v-520H270v520Zm480 0h70v-520h-70v520ZM270-740v520-520Z"
   })
 });
@@ -1359,7 +1331,7 @@ const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_2__.name, {
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__.name, {
   icon: blockIcon,
   /**
    * @see ./edit.js
@@ -1369,7 +1341,7 @@ const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__
    * @see ./save.js
    */
   save: props => {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InnerBlocks.Content, {});
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.InnerBlocks.Content, {});
   }
 });
 })();

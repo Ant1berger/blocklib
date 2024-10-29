@@ -259,6 +259,12 @@ display: block;
 /* Utilities */
 /************/
 
+/*colors_utilities_placholder*/
+
+/*background_colors_utilities_placholder*/
+
+/*fonts_utilities_placholder*/
+
 .u-position-static {
     position: static;
 }
@@ -271,31 +277,31 @@ display: block;
     position: absolute;
 }
 
-.u-textAlign-start {
+.u-text-align-start {
     text-align: start;
 }
 
-.u-textAlign-center {
+.u-text-align-center {
     text-align: center;
 }
 
-.u-textAlign-end {
+.u-text-align-end {
     text-align: end;
 }
 
-.u-textAlign-justify {
+.u-text-align-justify {
     text-align: justify;
 }
 
-.u-fontWeight-bold {
+.u-font-weight-bold {
     font-weight: bold;
 }
 
-.u-textTransform-uppercase {
+.u-text-transform-uppercase {
     text-transform: uppercase;
 }
 
-.u-whiteSpace-nowrap {
+.u-white-space-nowrap {
     white-space: nowrap;
 }
 

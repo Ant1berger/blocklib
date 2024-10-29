@@ -1,5 +1,27 @@
 <?php
+    $componentName = $attributes['blockName'];
+    if (!in_array($componentName, get_components())) {
 
+        // Add block styles
+        $view_css_path = get_template_directory() . '/custom-blocks/build/' . $attributes['blockName'] . '/index.css';
+        if (file_exists($view_css_path)) {
+            $view_css_content = file_get_contents($view_css_path);
+            wp_register_style('blb-' . $attributes['blockName'], false);
+            wp_add_inline_style('blb-' . $attributes['blockName'], $view_css_content);
+            wp_enqueue_style('blb-' . $attributes['blockName']);
+        }
+
+        // Add block scripts
+        $block_js_path = get_template_directory() . '/custom-blocks/build/' . $attributes['blockName'] . '/view-inline.js';
+        if (file_exists($block_js_path)) {
+            $block_js_content = file_get_contents($block_js_path);
+            wp_register_script('blb-' . $attributes['blockName'] . '-inline', false);
+            wp_add_inline_script('blb-' . $attributes['blockName'] . '-inline', $block_js_content);
+            wp_enqueue_script('blb-' . $attributes['blockName'] . '-inline');
+        }
+
+        add_component($componentName);
+    }
 ?>
 
 <<?php
@@ -25,30 +47,8 @@
 </div>
 </<?php echo $attributes['tag']; ?>>
 
-<?php $componentName = $attributes['blockName']; ?>
-<?php if (!in_array($componentName, get_components())) { ?>
-<style id="<?php echo 'blockstyles-' . $attributes['blockName']; ?>">
-<?php echo $attributes['blockStyles']; ?>
-</style>
-<?php add_component($componentName); ?>
-<?php } ?>
-
 <?php if (!empty($attributes['renderedMediaQueries'])) { ?>
 <style>
 <?php echo $attributes['renderedMediaQueries']; ?>
 </style>
 <?php } ?>
-
-<?php
-static $script_added = false;
-if (!$script_added) {
-    $block_js_path = get_template_directory() . '/custom-blocks/build/' . $attributes['blockName'] . '/view-inline.js';
-    if (file_exists($block_js_path)) {
-        $block_js_content = file_get_contents($block_js_path);
-
-        wp_register_script($attributes['blockName'] . '-inline', '');
-        wp_add_inline_script($attributes['blockName'] . '-inline', $block_js_content);
-        wp_enqueue_script($attributes['blockName'] . '-inline');
-    }
-    $script_added = true;
-}

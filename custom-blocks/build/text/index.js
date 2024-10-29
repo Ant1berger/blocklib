@@ -696,9 +696,6 @@ function Edit(props) {
   const {
     tag,
     persistentID,
-    blockColorModifiers,
-    blockFontModifiers,
-    blockStyles,
     blockName,
     selectedColorClass,
     selectedFontClass,
@@ -719,14 +716,8 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
-      setAttributes({
-        blockColorModifiers: handleThemeOptionsForModifiers(settings.theme_colors, 'color')
-      });
-      setAttributes({
-        blockFontModifiers: handleThemeOptionsForModifiers(settings.theme_fonts, 'font-family')
-      });
-      setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
-      setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
+      setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, 'color', (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
+      setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, 'font-family', (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
     });
@@ -742,7 +733,7 @@ function Edit(props) {
   // Create a unique and persistent ID for useBlockProps.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (null === persistentID || '' === persistentID || persistentIDs.includes(persistentID)) {
-      const newpersistentID = 'blocklist-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
+      const newpersistentID = 'blb-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
       setAttributes({
         persistentID: newpersistentID
       });
@@ -752,23 +743,8 @@ function Edit(props) {
     }
   }, [blockName]);
 
-  // Generates the CSS from the theme options.
-  const handleThemeOptionsForModifiers = (optionId, cssProp) => {
-    let cssVarsString = '';
-    for (const property in optionId) {
-      if (optionId[property]) {
-        cssVarsString += `.${blockName}.-${property} {
-    ${cssProp}: var(--${property});
-}
-`;
-      }
-    }
-    ;
-    return cssVarsString;
-  };
-
   // Generates the choices for <select> from the theme options.
-  const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
+  const handleThemeOptionsForSelects = (optionId, cssProp, emptyOptionText) => {
     let optionsArray = [{
       label: emptyOptionText,
       value: ''
@@ -777,27 +753,13 @@ function Edit(props) {
       if (optionId[property]) {
         optionsArray.push({
           label: property,
-          value: '-' + property
+          value: 'u-' + cssProp + '-' + property
         });
       }
     }
     ;
     return optionsArray;
   };
-
-  // Update block's CSS modifiers from theme options.
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    setAttributes({
-      blockStyles: `.${blockName} {
-    margin: 0;
-    text-wrap: balance;
-    hyphens: auto;
-}
-${blockColorModifiers}
-${blockFontModifiers}
-`
-    });
-  }, [blockName, blockColorModifiers, blockFontModifiers]);
 
   // Avoid empty tagName for the rendered component.
   const updateTagName = newTag => {
@@ -927,14 +889,23 @@ ${blockFontModifiers}
         content
       }),
       allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space']
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
-      id: 'blockstyles-' + blockName,
-      children: blockStyles
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
       children: renderedMediaQueries
     })]
   });
 }
+
+/***/ }),
+
+/***/ "./src/text/index.css":
+/*!****************************!*\
+  !*** ./src/text/index.css ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
 
 /***/ }),
 
@@ -1252,7 +1223,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \*****************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/text","version":"0.1.0","title":"Text","category":"text","keywords":["blocklib","text"],"description":"A rich text text.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"p"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockColorModifiers":{"type":"string","default":""},"blockFontModifiers":{"type":"string","default":""},"blockStyles":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/text","version":"0.1.0","title":"Text","category":"text","keywords":["blocklib","text"],"description":"A rich text text.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"p"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 
@@ -1334,9 +1305,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/text/edit.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./block.json */ "./src/text/block.json");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.css */ "./src/text/index.css");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/text/block.json");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -1350,13 +1322,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("svg", {
+
+const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   height: "48px",
   viewBox: "0 -960 960 960",
   width: "48px",
   fill: "#000000",
-  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("path", {
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("path", {
     d: "M160-200v-60h386v60H160Zm0-167v-60h640v60H160Zm0-166v-60h640v60H160Zm0-167v-60h640v60H160Z"
   })
 });
@@ -1366,7 +1339,7 @@ const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_2__.name, {
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__.name, {
   icon: blockIcon,
   /**
    * @see ./edit.js

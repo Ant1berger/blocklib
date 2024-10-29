@@ -9,6 +9,7 @@ import { registerBlockType } from '@wordpress/blocks';
  * Internal dependencies
  */
 import Edit from './edit';
+import './index.css';
 import metadata from './block.json';
 
 const blockIcon = (

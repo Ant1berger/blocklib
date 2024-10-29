@@ -41,18 +41,6 @@
       "type": "string",
       "default": ""
     },
-    "blockColorModifiers": {
-      "type": "string",
-      "default": ""
-    },
-    "blockFontModifiers": {
-      "type": "string",
-      "default": ""
-    },
-    "blockStyles": {
-      "type": "string",
-      "default": ""
-    },
     "blockName": {
       "type": "string",
       "default": ""
@@ -68,5 +56,6 @@
   },
   "textdomain": "custom-blocks",
   "render": "file:./render.php",
-  "editorScript": "file:./index.js"
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css"
 }

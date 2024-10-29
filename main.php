@@ -14,9 +14,6 @@
         <title><?php bloginfo( 'name' ); ?></title>
         <!-- ENQUEUE all the other css and js files in functions.php -->
         <?php wp_head(); ?>
-        <style>
-            <?php include 'main-auto-generated-dont-edit-me.css'; ?>
-        </style>
     </head>
     <body class="<?php body_class(); ?>">
         <!-- Header -->

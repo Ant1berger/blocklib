@@ -109,12 +109,19 @@ add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 //****************************
 // Enqueue styles and scripts
 //****************************
-function addMainScripts() {
-    // We don't want to enqueue a file with src to reduce the number of http requests.
-    // So we register an empty <script></script> shell to inject our JS inside.
+function addMainCssJs() {
+    // We don't want to enqueue files with src to reduce the number of http requests.
+    // So we register empty <style> and <script> shells to inject our code inside.
+    wp_register_style(
+        'blb-main',
+        false,
+        array(),
+        false,
+        'all'
+    );
     wp_register_script(
-        'main',
-        '',
+        'blb-main-inline',
+        false,
         array(),
         false,
         array(
@@ -123,23 +130,29 @@ function addMainScripts() {
         )
     );
 
-    // We take our main.js file...
+    // We take our main files...
+    $main_css_path = get_template_directory() . '/main-auto-generated-dont-edit-me.css';
     $main_js_path = get_template_directory() . '/main.js';
 
-    // ... And we inject its content inside our registered <script> shell.
+    // ... And we inject their content inside our registered <style> and <script> shells.
+    if (file_exists($main_css_path)) {
+        $main_css_content = file_get_contents($main_css_path);
+        wp_add_inline_style('blb-main', $main_css_content);
+    }
     if (file_exists($main_js_path)) {
         $main_js_content = file_get_contents($main_js_path);
-        wp_add_inline_script('main', $main_js_content);
+        wp_add_inline_script('blb-main-inline', $main_js_content);
     }
 
-    // And let's finally enqueue this
-    wp_enqueue_script('main');
+    // And let's finally enqueue everybody.
+    wp_enqueue_style('blb-main');
+    wp_enqueue_script('blb-main-inline');
 }
-add_action('wp_enqueue_scripts', 'addMainScripts');
+add_action('wp_enqueue_scripts', 'addMainCssJs');
 
 //****************************
 // Functions for updating and retrieving a list of included components in a page.
-// Used to write a component styles or enqueue a component scripts when (and only when) this component is first included in the page.
+// Used to execute the loading of styles and scripts when (and only when) their component is first included in the page.
 //****************************
 $components = [];
 function add_component($componentName) {
@@ -179,7 +192,7 @@ add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
 //****************************
 // to insert theme variables into the main CSS.
 //****************************
-function handleThemeOptionsForPlaceholders( $optionId ) {
+function handleThemeOptionsForCSSVarsPlaceholders( $optionId ) {
     $css_vars_array = array();
     foreach(get_option( $optionId ) as $key => $value) {
         if ( isset($value) && !empty($value) ) {
@@ -189,18 +202,34 @@ function handleThemeOptionsForPlaceholders( $optionId ) {
     return implode("\n", $css_vars_array);
 }
 
+// And the corresponding classes
+function handleThemeOptionsForClassesPlaceholders( $optionId, $cssProperty ) {
+    $css_vars_array = array();
+    foreach(get_option( $optionId ) as $key => $value) {
+        if ( isset($value) && !empty($value) ) {
+            $css_vars_array[] .= '.u-' . $cssProperty . '-' . $key . ' {
+    ' . $cssProperty . ': var(--' . $key . ');
+}';
+        }
+    }
+    return implode("\n", $css_vars_array);
+}
+
 //****************************
-// To dynamically insert the theme's directorie's path in the main.css file (for url()).
-// It's not possible to use get_template_directory_uri() directly in the main.css file because it's not a php file.
+// To dynamically insert values in the main.css file.
+// It's not possible to use get_template_directory_uri() or other php stuff directly in the main.css file because it's not a php file.
 // If we try to change the css file extension to php, it will be loaded properly by wp_enqueue_style, but the styles won't be applied.
-// So we have to read the main.css file, replace the placeholders with the theme's directorie's path,
+// So we have to read the main.css file, replace the placeholders with the dynamic values we need,
 // and write it back in an auto-generated file that we can finally load in Gutenberg with wp_enqueue_style.
 //****************************
 $cssString = file_get_contents(get_template_directory_uri() . '/main.css');
 $cssString = str_replace('[get_template_directory_uri_placeholder]', get_template_directory_uri(), $cssString);
 // We also have to make placeholders for theme customizer options.
-$cssString = str_replace('/*colors_placholder*/', handleThemeOptionsForPlaceholders( 'theme_colors' ), $cssString);
-$cssString = str_replace('/*fonts_placholder*/', handleThemeOptionsForPlaceholders( 'theme_fonts' ), $cssString);
+$cssString = str_replace('/*colors_placholder*/', handleThemeOptionsForCSSVarsPlaceholders( 'theme_colors' ), $cssString);
+$cssString = str_replace('/*fonts_placholder*/', handleThemeOptionsForCSSVarsPlaceholders( 'theme_fonts' ), $cssString);
+$cssString = str_replace('/*colors_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_colors', 'color' ), $cssString);
+$cssString = str_replace('/*background_colors_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_colors', 'background-color' ), $cssString);
+$cssString = str_replace('/*fonts_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_fonts', 'font-family' ), $cssString);
 file_put_contents(get_template_directory() . '/main-auto-generated-dont-edit-me.css', $cssString);
 
 //****************************
