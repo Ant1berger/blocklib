@@ -14,8 +14,7 @@
   "supports": {
     "html": false,
     "className": false,
-    "customClassName": false,
-    "anchor": true
+    "customClassName": false
   },
   "attributes": {
     "anchor": {

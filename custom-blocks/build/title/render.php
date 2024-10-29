@@ -33,7 +33,9 @@
     }
 ?>
     data-persistentid="<?php echo $attributes['persistentID']; ?>"
+    <?php if (!empty($attributes['anchor'])) { ?>
     id="<?php echo $attributes['anchor']; ?>"
+    <?php } ?>
     class="<?php echo $attributes['blockName']; ?><?php
         if (!empty($attributes['selectedColorClass'])) {
             echo ' ' . $attributes['selectedColorClass'];
