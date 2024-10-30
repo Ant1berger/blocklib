@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import MonacoEditor from '@monaco-editor/react';
-import { PanelBody, PanelRow, TextControl, Button, SelectControl, ToggleControl } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl, Button, SelectControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
 import apiFetch from '@wordpress/api-fetch';

@@ -1,9 +1,9 @@
 
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import MonacoEditor from '@monaco-editor/react';
-import { PanelBody, PanelRow, TextControl, Button, SelectControl } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl, Button, SelectControl, ToggleControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
 import apiFetch from '@wordpress/api-fetch';
@@ -32,20 +32,22 @@ const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockName, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { tag, url, openInNewTab, type, persistentID, blockName, selectedBGColorClass, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
-    const [selectColorOptions, setSelectColorOptions] = useState([]);
-    const [selectFontOptions, setSelectFontOptions] = useState([]);
+    const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
     const blockProps = useBlockProps();
+    const innerBlocksProps = useInnerBlocksProps(blockProps, {
+        template: [[ 'custom-blocks/text', { content: __( 'Default Group content, put as many components as you like inside.', 'bloclklib' ) } ]],
+        templateLock: false
+    });
 
     // Fetches datas from WP database and pass it to the themeOptions state.
     useEffect(() => {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, 'color', __( 'Select a color', 'bloclklib' )));
-            setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, 'font-family', __( 'Select a font', 'bloclklib' )));
+            setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, 'background-color', __( 'Select a background-color', 'bloclklib' )));
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des options de thème :', error);
@@ -53,9 +55,9 @@ export default function Edit(props) {
     }, [blockName]);
 
     // Set the block name attribute from json "name" path for automatic reuse.
-    useEffect( () => {
+    useEffect(() => {
         setAttributes({ blockName: metadata.name.slice(14) });
-    }, [] );
+    }, []);
 
     // Create a unique and persistent ID for useBlockProps.
     useEffect( () => {
@@ -82,7 +84,7 @@ export default function Edit(props) {
     // Avoid empty tagName for the rendered component.
     const updateTagName = (newTag) => {
         if (newTag.trim() === '') {
-            newTag = 'p';
+            newTag = 'div';
         }
         setTagName(newTag);
         setAttributes({ tag: newTag });
@@ -132,21 +134,42 @@ export default function Edit(props) {
                 <PanelBody title={ __( 'Base settings', 'bloclklib' ) }>
                     <TextControl
                         label={ __( 'Tag', 'bloclklib' ) }
-                        value={ tag || 'p' }
+                        value={ tag || 'h1' }
                         onChange={ updateTagName }
                         placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
                     />
+                    { tag === 'a' &&
+                        <div>
+                            <TextControl
+                                label={ __( 'URL', 'bloclklib' ) }
+                                value={ url || '#' }
+                                onChange={(newValue) => setAttributes({ url: newValue })}
+                                placeholder={ __( 'Enter a URL', 'blocklib' ) }
+                            />
+                            <ToggleControl
+                                label={ __( 'Open in a new tab ?', 'bloclklib' ) }
+                                checked={ !! openInNewTab }
+                                onChange={ () =>
+                                    setAttributes( {
+                                        openInNewTab: ! openInNewTab,
+                                    } )
+                                }
+                            />
+                        </div>
+                    }
+                    { tag === 'button' &&
+                        <TextControl
+                            label={ __( 'Type', 'bloclklib' ) }
+                            value={ type || '' }
+                            onChange={(newValue) => setAttributes({ type: newValue })}
+                            placeholder={ __( 'Enter a type', 'blocklib' ) }
+                        />
+                    }
                     <SelectControl
-                        label={__( 'Color', 'bloclklib' )}
-                        options={selectColorOptions}
-                        value={selectedColorClass}
-                        onChange={(newValue) => setAttributes({ selectedColorClass: newValue })}
-                    />
-                    <SelectControl
-                        label={__( 'Font', 'bloclklib' )}
-                        options={selectFontOptions}
-                        value={selectedFontClass}
-                        onChange={(newValue) => setAttributes({ selectedFontClass: newValue })}
+                        label={__( 'Background color', 'bloclklib' )}
+                        options={selectBGColorOptions}
+                        value={selectedBGColorClass}
+                        onChange={(newValue) => setAttributes({ selectedBGColorClass: newValue })}
                     />
                     <TextControl
                         label={ __( 'Classes', 'bloclklib' ) }
@@ -192,20 +215,19 @@ export default function Edit(props) {
                     </Button>
                 </PanelBody>
             </InspectorControls>
-            <RichText {...blockProps}
-                tagName={ tag }
-                placeholder={ __( 'Write your content here', 'blocklib' ) }
-                value={ content }
-                data-persistentid={ persistentID }
-                className={[
-                    blockName,
-                    selectedColorClass || '',
-                    selectedFontClass || '',
-                    manualClasses || ''
-                ].filter(Boolean).join(' ')}
-                onChange={ ( content ) => setAttributes( { content } ) }
-                allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space' ] }
-            />
+            { React.createElement(
+                tag,
+                {
+                    ...innerBlocksProps,
+                    'data-persistentid': persistentID,
+                    href: '#',
+                    className: [
+                        blockName,
+                        selectedBGColorClass || '',
+                        manualClasses || ''
+                    ].filter(Boolean).join(' ')
+                },
+            ) }
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )

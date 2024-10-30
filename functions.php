@@ -171,6 +171,8 @@ function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/title' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/text' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/section' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/group' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/grouping-link' );
 }
 add_action( 'init', 'theme_register_blocks' );
 
@@ -183,7 +185,9 @@ function example_allowed_block_types( $allowed_block_types, $block_editor_contex
         'core/block', // To allow create Compositions.
         'custom-blocks/text',
         'custom-blocks/title',
-        'custom-blocks/section'
+        'custom-blocks/section',
+        'custom-blocks/group',
+        'custom-blocks/grouping-link'
     );
     return $allowed_block_types;
 }

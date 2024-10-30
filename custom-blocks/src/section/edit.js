@@ -1,9 +1,9 @@
 
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import MonacoEditor from '@monaco-editor/react';
-import { PanelBody, PanelRow, TextControl, Button, SelectControl, ToggleControl } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl, Button, SelectControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
 import apiFetch from '@wordpress/api-fetch';
@@ -37,6 +37,10 @@ export default function Edit(props) {
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
     const blockProps = useBlockProps();
+    const innerBlocksProps = useInnerBlocksProps({ className: 'section-content' }, {
+        template: [[ 'custom-blocks/text', { content: __( 'Default Section content, put as many components as you like inside.', 'bloclklib' ) } ]],
+        templateLock: false
+    });
 
     // Fetches datas from WP database and pass it to the themeOptions state.
     useEffect(() => {
@@ -135,7 +139,7 @@ export default function Edit(props) {
                         placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
                     />
                     <SelectControl
-                        label={__( 'Color', 'bloclklib' )}
+                        label={__( 'Background color', 'bloclklib' )}
                         options={selectBGColorOptions}
                         value={selectedBGColorClass}
                         onChange={(newValue) => setAttributes({ selectedBGColorClass: newValue })}
@@ -195,13 +199,7 @@ export default function Edit(props) {
                         manualClasses || ''
                     ].filter(Boolean).join(' ')
                 },
-                <div className="section-content">
-                    <InnerBlocks
-                        template={ [
-                            [ 'custom-blocks/text', { content: __( 'Default section content, put as many components as you like inside.', 'bloclklib' ) } ]
-                        ] }
-                    />
-                </div>
+                <div {...innerBlocksProps}></div>
             ) }
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>

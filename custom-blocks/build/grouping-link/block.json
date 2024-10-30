@@ -1,0 +1,70 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "custom-blocks/grouping-link",
+  "version": "0.1.0",
+  "title": "Grouping link",
+  "category": "design",
+  "keywords": [
+    "grouping",
+    "link",
+    "design"
+  ],
+  "description": "An clickable element that can encompass other elements.",
+  "example": {},
+  "supports": {
+    "html": false,
+    "className": false,
+    "customClassName": false
+  },
+  "attributes": {
+    "anchor": {
+      "type": "string",
+      "default": ""
+    },
+    "persistentID": {
+      "type": "string",
+      "default": ""
+    },
+    "tag": {
+      "type": "string",
+      "default": "a"
+    },
+    "url": {
+      "type": "string",
+      "default": "#"
+    },
+    "openInNewTab": {
+      "type": "boolean",
+      "default": false
+    },
+    "type": {
+      "type": "string",
+      "default": ""
+    },
+    "selectedBGColorClass": {
+      "type": "string",
+      "default": ""
+    },
+    "manualClasses": {
+      "type": "string",
+      "default": ""
+    },
+    "blockName": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaQueries": {
+      "type": "array",
+      "default": []
+    },
+    "renderedMediaQueries": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "textdomain": "custom-blocks",
+  "render": "file:./render.php",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css"
+}
