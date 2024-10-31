@@ -144,6 +144,7 @@ export default function Edit(props) {
                         value={selectedBGColorClass}
                         onChange={(newValue) => setAttributes({ selectedBGColorClass: newValue })}
                     />
+                    <hr/>
                     <TextControl
                         label={ __( 'Classes', 'bloclklib' ) }
                         value={ manualClasses || '' }

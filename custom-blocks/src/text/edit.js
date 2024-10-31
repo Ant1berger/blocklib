@@ -148,6 +148,7 @@ export default function Edit(props) {
                         value={selectedFontClass}
                         onChange={(newValue) => setAttributes({ selectedFontClass: newValue })}
                     />
+                    <hr/>
                     <TextControl
                         label={ __( 'Classes', 'bloclklib' ) }
                         value={ manualClasses || '' }

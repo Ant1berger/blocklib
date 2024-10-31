@@ -245,6 +245,10 @@ div[data-lazyblocks-control-name] .components-base-control__label {
     display: none;
 }
 
+.interface-complementary-area hr {
+    border-block-end: 1px solid #c9c9c9;
+}
+
 .components-panel__body .components-panel__body-title,
 .components-panel__body .components-panel__body-title:hover {
     border-block-end: 0.1px solid lightgray;

@@ -44,7 +44,7 @@
             echo ' ' . $attributes['manualClasses'];
         }
     ?>"
-    <?php echo wp_kses_post($attributes['attributes']); ?>
+    <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 >
 <div class="section-content">
     <?php echo do_blocks( $content ); ?>
