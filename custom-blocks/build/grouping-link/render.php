@@ -51,6 +51,7 @@
             echo ' ' . $attributes['manualClasses'];
         }
     ?>"
+    <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 >
 <?php echo do_blocks( $content ); ?>
 </<?php echo $attributes['tag']; ?>>

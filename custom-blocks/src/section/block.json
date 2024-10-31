@@ -38,6 +38,10 @@
             "type": "string",
             "default": ""
         },
+        "otherAttributes": {
+            "type": "string",
+            "default": ""
+        },
         "mediaQueries": {
             "type": "array",
             "default": []

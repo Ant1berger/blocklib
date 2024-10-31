@@ -47,6 +47,7 @@
             echo ' ' . $attributes['manualClasses'];
         }
     ?>"
+    <?php echo wp_kses_post($attributes['attributes']); ?>
 >
 <?php echo $attributes['content']; ?>
 </<?php echo $attributes['tag']; ?>>
