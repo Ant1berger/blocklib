@@ -34,7 +34,7 @@
       "type": "string",
       "default": ""
     },
-    "pictureExtension": {
+    "pictureMime": {
       "type": "string",
       "default": ""
     },
@@ -46,6 +46,10 @@
       "type": "object",
       "default": {}
     },
+    "pictureSrcset": {
+      "type": "string",
+      "default": ""
+    },
     "pictureSizesAttribute": {
       "type": "string",
       "default": ""
@@ -53,6 +57,10 @@
     "pictureLoading": {
       "type": "string",
       "default": "lazy"
+    },
+    "pictureFetchPriority": {
+      "type": "string",
+      "default": "auto"
     },
     "manualClasses": {
       "type": "string",

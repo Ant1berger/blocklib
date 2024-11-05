@@ -125,7 +125,6 @@ function addMainCssJs() {
         array(),
         false,
         array(
-            'strategy' => 'defer',
             'in_footer' => true
         )
     );
@@ -180,20 +179,20 @@ add_action( 'init', 'theme_register_blocks' );
 //****************************
 // We only want our custom blocks in the Gutenberg editor (and a few more).
 //****************************
-function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
-    $allowed_block_types = array(
-        'core/paragraph', // To keep the ability to insert blocks, copy/paste etc.
-        'core/block', // To allow create Compositions.
-        'custom-blocks/text',
-        'custom-blocks/title',
-        'custom-blocks/section',
-        'custom-blocks/group',
-        'custom-blocks/grouping-link',
-        'custom-blocks/image'
-    );
-    return $allowed_block_types;
-}
-add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
+// function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
+//     $allowed_block_types = array(
+//         'core/paragraph', // To keep the ability to insert blocks, copy/paste etc.
+//         'core/block', // To allow create Compositions.
+//         'custom-blocks/text',
+//         'custom-blocks/title',
+//         'custom-blocks/section',
+//         'custom-blocks/group',
+//         'custom-blocks/grouping-link',
+//         'custom-blocks/image'
+//     );
+//     return $allowed_block_types;
+// }
+// add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
 
 //****************************
 // to insert theme variables into the main CSS.
@@ -384,9 +383,9 @@ function mytheme_register_theme_options_in_rest() {
     register_setting('general', 'theme_colors', [
         'show_in_rest' => [
             'schema' => [
-                'type' => 'object', // Un objet pour représenter les paires clé-valeur
+                'type' => 'object',
                 'additionalProperties' => [
-                    'type' => 'string', // Chaque valeur est une chaîne de caractères
+                    'type' => 'string'
                 ],
             ],
         ],
@@ -397,9 +396,9 @@ function mytheme_register_theme_options_in_rest() {
     register_setting('general', 'theme_fonts', [
         'show_in_rest' => [
             'schema' => [
-                'type' => 'object', // Un objet pour représenter les paires clé-valeur
+                'type' => 'object',
                 'additionalProperties' => [
-                    'type' => 'string', // Chaque valeur est une chaîne de caractères
+                    'type' => 'string'
                 ],
             ],
         ],
@@ -407,7 +406,55 @@ function mytheme_register_theme_options_in_rest() {
         'default' => [],
     ]);
 }
-
 add_action('rest_api_init', 'mytheme_register_theme_options_in_rest');
+
+//****************************
+// Add a custom field that stores LCP datas.
+//****************************
+
+function register_gutenberg_custom_fields() {
+    register_post_meta( '', 'lcp_preload', [
+        'type' => 'object',
+        'single' => true,
+        'show_in_rest' => [
+            'schema' => [
+                'type' => 'object',
+                'properties' => array(
+                    'url' => array('type' => 'string'),
+                    'srcset' => array('type' => 'string'),
+                    'sizes' => array('type' => 'string'),
+                    'as' => array('type' => 'string'),
+                    'mime' => array('type' => 'string')
+                ),
+            ],
+        ]
+    ]);
+}
+add_action('init', 'register_gutenberg_custom_fields');
+
+function add_lcp_preload_link() {
+    if (is_singular()) {
+        $lcp_data = get_post_meta(get_the_ID(), 'lcp_preload', true);
+        if (!empty($lcp_data) && !empty($lcp_data['url']) && !str_contains($lcp_data['mime'], 'svg')) {
+            printf(
+                '<link rel="preload" href="%s" imagesrcset="%s" imagesizes="%s" as="%s" type="%s">',
+                esc_url($lcp_data['url']),
+                esc_attr($lcp_data['srcset']),
+                esc_attr($lcp_data['sizes']),
+                esc_attr($lcp_data['as']),
+                esc_attr($lcp_data['mime'])
+            );
+        } elseif (!empty($lcp_data) && !empty($lcp_data['url']) && str_contains($lcp_data['mime'], 'svg')) {
+            printf(
+                '<link rel="preload" href="%s" as="%s" type="%s">',
+                esc_url($lcp_data['url']),
+                esc_attr($lcp_data['as']),
+                esc_attr($lcp_data['mime'])
+            );
+        }
+    }
+}
+add_action('wp_head', 'add_lcp_preload_link', 5);
+
 
 ?>
