@@ -24,27 +24,6 @@
             add_component($componentName);
         }
 
-        // WordPress doesn't retrieves svg dimensions easily, so we have to get the image width and height
-        // from wp_get_attachment_image_src + a "dig into the svg" function
-        // to retrieve the dimensions from the viewbox.
-        // This allows us to use it in the image width and height attributes later.
-        // add_filter( 'wp_get_attachment_image_src', 'fix_wp_get_attachment_image_svg', 10, 4 );
-        // function fix_wp_get_attachment_image_svg($image, $attachment_id, $size, $icon) {
-        //     if (is_array($image) && preg_match('/\.svg$/i', $image[0]) && $image[1] <= 1) {
-        //         if(is_array($size)) {
-        //             $image[1] = $size[0];
-        //             $image[2] = $size[1];
-        //         } elseif(($xml = simplexml_load_file($image[0])) !== false) {
-        //             $attr = $xml->attributes();
-        //             $viewbox = explode(' ', $attr->viewBox);
-        //             $image[1] = isset($attr->width) && preg_match('/\d+/', $attr->width, $value) ? (int) $value[0] : (count($viewbox) == 4 ? (int) $viewbox[2] : null);
-        //             $image[2] = isset($attr->height) && preg_match('/\d+/', $attr->height, $value) ? (int) $value[0] : (count($viewbox) == 4 ? (int) $viewbox[3] : null);
-        //         } else {
-        //             $image[1] = $image[2] = null;
-        //         }
-        //     }
-        //     return $image;
-        // }
         $image_attributes = wp_get_attachment_image_src( $attachment_id = $attributes['pictureID'], 'full' );
     }
 ?>

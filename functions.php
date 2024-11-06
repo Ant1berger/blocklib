@@ -179,20 +179,20 @@ add_action( 'init', 'theme_register_blocks' );
 //****************************
 // We only want our custom blocks in the Gutenberg editor (and a few more).
 //****************************
-// function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
-//     $allowed_block_types = array(
-//         'core/paragraph', // To keep the ability to insert blocks, copy/paste etc.
-//         'core/block', // To allow create Compositions.
-//         'custom-blocks/text',
-//         'custom-blocks/title',
-//         'custom-blocks/section',
-//         'custom-blocks/group',
-//         'custom-blocks/grouping-link',
-//         'custom-blocks/image'
-//     );
-//     return $allowed_block_types;
-// }
-// add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
+function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
+    $allowed_block_types = array(
+        'core/paragraph', // To keep the ability to insert blocks, copy/paste etc.
+        'core/block', // To allow create Compositions.
+        'custom-blocks/text',
+        'custom-blocks/title',
+        'custom-blocks/section',
+        'custom-blocks/group',
+        'custom-blocks/grouping-link',
+        'custom-blocks/image'
+    );
+    return $allowed_block_types;
+}
+add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
 
 //****************************
 // to insert theme variables into the main CSS.
@@ -456,5 +456,26 @@ function add_lcp_preload_link() {
 }
 add_action('wp_head', 'add_lcp_preload_link', 5);
 
-
+//****************************
+// Add a filter to retrieve SVG's dimensions:
+// WordPress doesn't retrieves SVG dimensions easily, so when we need an image width and height
+// from wp_get_attachment_image_src, we must add a "dig into the svg" function to retrieve its dimensions from the viewbox.
+//****************************
+add_filter( 'wp_get_attachment_image_src', 'fix_wp_get_attachment_image_svg', 10, 4 );
+function fix_wp_get_attachment_image_svg($image, $attachment_id, $size, $icon) {
+    if (is_array($image) && preg_match('/\.svg$/i', $image[0]) && $image[1] <= 1) {
+        if(is_array($size)) {
+            $image[1] = $size[0];
+            $image[2] = $size[1];
+        } elseif(($xml = simplexml_load_file($image[0])) !== false) {
+            $attr = $xml->attributes();
+            $viewbox = explode(' ', $attr->viewBox);
+            $image[1] = isset($attr->width) && preg_match('/\d+/', $attr->width, $value) ? (int) $value[0] : (count($viewbox) == 4 ? (int) $viewbox[2] : null);
+            $image[2] = isset($attr->height) && preg_match('/\d+/', $attr->height, $value) ? (int) $value[0] : (count($viewbox) == 4 ? (int) $viewbox[3] : null);
+        } else {
+            $image[1] = $image[2] = null;
+        }
+    }
+    return $image;
+}
 ?>
