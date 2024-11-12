@@ -195,6 +195,7 @@ export default function Edit(props) {
                     </Button>
                 </PanelBody>
             </InspectorControls>
+            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
             { React.createElement(
                 tag,
                 {
@@ -207,7 +208,6 @@ export default function Edit(props) {
                     ].filter(Boolean).join(' ')
                 },
             ) }
-            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )
 }

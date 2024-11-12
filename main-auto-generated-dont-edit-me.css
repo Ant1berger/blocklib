@@ -324,6 +324,34 @@ display: block;
     background-color: var(--grey_end);
 }
 
+.u-border-color-brand_1 {
+    border-color: var(--brand_1);
+}
+.u-border-color-brand_2 {
+    border-color: var(--brand_2);
+}
+.u-border-color-brand_3 {
+    border-color: var(--brand_3);
+}
+.u-border-color-brand_4 {
+    border-color: var(--brand_4);
+}
+.u-border-color-relax {
+    border-color: var(--relax);
+}
+.u-border-color-warning {
+    border-color: var(--warning);
+}
+.u-border-color-danger {
+    border-color: var(--danger);
+}
+.u-border-color-grey_start {
+    border-color: var(--grey_start);
+}
+.u-border-color-grey_end {
+    border-color: var(--grey_end);
+}
+
 .u-font-family-font_1 {
     font-family: var(--font_1);
 }

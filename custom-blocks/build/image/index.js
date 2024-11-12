@@ -1030,6 +1030,8 @@ function Edit(props) {
           })
         })]
       })]
+    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("style", {
+      children: renderedMediaQueries
     }), !!pictureID && pictureID ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
       ...blockProps,
       onClick: handleImageClick,
@@ -1092,8 +1094,6 @@ function Edit(props) {
         class: "cls-1",
         points: "2 472 0 472 0 512 40 512 40 510 2 510 2 472"
       })]
-    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("style", {
-      children: renderedMediaQueries
     })]
   });
 }

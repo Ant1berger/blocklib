@@ -3,12 +3,13 @@
     if (!in_array($componentName, get_components())) {
 
         // Add block styles
-        $view_css_path = get_template_directory() . '/custom-blocks/build/' . $attributes['blockName'] . '/index.css';
-        if (file_exists($view_css_path)) {
-            $view_css_content = file_get_contents($view_css_path);
+        $block_css_path = get_template_directory() . '/custom-blocks/build/' . $attributes['blockName'] . '/index.css';
+        if (file_exists($block_css_path)) {
+            $block_css_content = file_get_contents($block_css_path);
             wp_register_style('blb-' . $attributes['blockName'], false);
-            wp_add_inline_style('blb-' . $attributes['blockName'], $view_css_content);
-            wp_enqueue_style('blb-' . $attributes['blockName']);
+            wp_add_inline_style('blb-' . $attributes['blockName'], $block_css_content);
+            // Allows the <style> to be printed right before the element while wp_enqueue_style doesn't.
+            wp_print_styles('blb-' . $attributes['blockName']);
         }
 
         // Add block scripts
@@ -23,6 +24,13 @@
         add_component($componentName);
     }
 ?>
+
+<?php if (!empty($attributes['renderedMediaQueries'])) { ?>
+<style>
+<?php echo $attributes['renderedMediaQueries']; ?>
+</style>
+<?php } ?>
+
 
 <<?php
     if (isset($attributes['tag'])) {
@@ -51,17 +59,3 @@
 >
 <?php echo $attributes['content']; ?>
 </<?php echo $attributes['tag']; ?>>
-
-<?php $componentName = $attributes['blockName']; ?>
-<?php if (!in_array($componentName, get_components())) { ?>
-<style id="<?php echo 'blockstyles-' . $attributes['blockName']; ?>">
-<?php echo $attributes['blockStyles']; ?>
-</style>
-<?php add_component($componentName); ?>
-<?php } ?>
-
-<?php if (!empty($attributes['renderedMediaQueries'])) { ?>
-<style>
-<?php echo $attributes['renderedMediaQueries']; ?>
-</style>
-<?php } ?>

@@ -199,6 +199,7 @@ export default function Edit(props) {
                     </Button>
                 </PanelBody>
             </InspectorControls>
+            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
             <RichText {...blockProps}
                 tagName={ tag }
                 placeholder={ __( 'Write your content here', 'blocklib' ) }
@@ -213,7 +214,6 @@ export default function Edit(props) {
                 onChange={ ( content ) => setAttributes( { content } ) }
                 allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space' ] }
             />
-            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )
 }

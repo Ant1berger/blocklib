@@ -1,16 +1,17 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "custom-blocks/section",
+  "name": "custom-blocks/knob",
   "version": "0.1.0",
-  "title": "Section",
-  "category": "design",
+  "title": "Knob",
+  "category": "text",
   "keywords": [
     "blocklib",
-    "section",
-    "design"
+    "text",
+    "knob",
+    "button"
   ],
-  "description": "The biggest part of o page: a story containing the main column of the website.",
+  "description": "A fully customizable button.",
   "example": {},
   "supports": {
     "html": false,
@@ -22,15 +23,47 @@
       "type": "string",
       "default": ""
     },
+    "content": {
+      "type": "string",
+      "default": ""
+    },
     "persistentID": {
       "type": "string",
       "default": ""
     },
     "tag": {
       "type": "string",
-      "default": "div"
+      "default": "a"
     },
-    "selectedBGColorClass": {
+    "url": {
+      "type": "string",
+      "default": "#"
+    },
+    "openInNewTab": {
+      "type": "boolean",
+      "default": false
+    },
+    "type": {
+      "type": "string",
+      "default": ""
+    },
+    "size": {
+      "type": "string",
+      "default": ""
+    },
+    "selectedColor": {
+      "type": "string",
+      "default": ""
+    },
+    "selectedBGColor": {
+      "type": "string",
+      "default": ""
+    },
+    "selectedBorderColor": {
+      "type": "string",
+      "default": ""
+    },
+    "selectedFont": {
       "type": "string",
       "default": ""
     },

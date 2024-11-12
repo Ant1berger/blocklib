@@ -1,0 +1,103 @@
+/* We raise the specificity a little to override some core Gutenberg styles on <a>. */
+.knob:has(.knob-text) {
+    --sizeFallback: 1.8rem;
+    --colorFallback: #cccccc;
+    --bgColorFallback: #dddddd;
+    --fontFamilyFallback: Arial, Helvetica, sans-serif;
+    font-family: var(--fontFamily, var(--fontFamilyFallback));
+    font-size: var(--size, var(--sizeFallback));
+    line-height: calc(var(--size, var(--sizeFallback)) * 1.5);
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    gap: calc(var(--size, var(--sizeFallback)) / 2);
+    background-color: var(--bgColor, var(--bgColorFallback));
+    color: var(--color, var(--colorFallback));
+    border: var(--borderColor, var(--colorFallback)) .1rem solid;
+    outline-color: oklch(from var(--borderColor, var(--colorFallback)) l c h / 0%);
+    outline-width: .3rem;
+    outline-offset: .2rem;
+    outline-style: solid;
+    border-radius: .4rem;
+    padding-inline: var(--size, var(--sizeFallback));
+    padding-block: calc(var(--size, var(--sizeFallback)) / 2);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob {
+        transition: outline-color .2s;
+    }
+}
+
+.knob.-rounded {
+    border-radius: calc(var(--size, var(--sizeFallback)) * 4/3);
+}
+
+.knob.-inverted {
+    background-color: transparent;
+    color: var(--bgColor, var(--bgColorFallback));
+}
+
+.knob.-invisibleBorder { /* Meant to be used it with -inverted. */
+    border-color: transparent;
+    outline: none;
+}
+
+.knob.-invisibleBorder:hover,
+.knob.-invisibleBorder:focus-visible {
+    outline: none;
+    background-color: oklch(from var(--bgColor, var(--bgColorFallback)) l c h / 20%);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob.-invisibleBorder {
+        transition: background-color .2s;
+    }
+}
+
+/* Icons come from Google Fonts: */
+/* https://fonts.google.com/icons?icon.size=24&icon.color=%235f6368 */
+/* Use them as inline SVGs to allow CSS control on their sub-elements (e.g. fill). */
+.knob.-withIcon {
+    text-align: start;
+}
+
+.knob.-withIcon > svg {
+    inline-size: calc(var(--size, var(--sizeFallback)) * 1.5);
+    block-size: calc(var(--size, var(--sizeFallback)) * 1.5);
+    fill: var(--color, var(--colorFallback));
+    flex-shrink: 0;
+}
+
+.knob.-inverted.-withIcon > svg {
+    fill: var(--bgColor, var(--bgColorFallback));
+}
+
+.knob.-invisibleText {
+    padding-inline: calc(var(--size, var(--sizeFallback)) / 2);
+}
+
+.knob.-invisibleText .knob-text {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.knob.-fullWidth {
+    inline-size: 100%;
+    justify-content: center;
+}
+
+.knob:hover,
+.knob:focus-visible {
+    outline-color: oklch(from var(--borderColor, var(--borderColor)) l c h / 100%);
+}

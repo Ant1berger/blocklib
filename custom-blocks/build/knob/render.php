@@ -31,7 +31,6 @@
 </style>
 <?php } ?>
 
-
 <<?php
     if (isset($attributes['tag'])) {
         echo $attributes['tag'];
@@ -52,14 +51,30 @@
         type="<?php echo $attributes['type']; ?>"
     <?php } ?>
     class="<?php echo $attributes['blockName']; ?><?php
-        if (!empty($attributes['selectedBGColorClass'])) {
-            echo ' ' . $attributes['selectedBGColorClass'];
-        }
         if (!empty($attributes['manualClasses'])) {
             echo ' ' . $attributes['manualClasses'];
         }
     ?>"
+    style="
+    <?php if (!empty($attributes['size'])) { ?>
+        --size: <?php echo $attributes['size'];?>;
+    <?php } ?>
+    <?php if (!empty($attributes['selectedColor'])) { ?>
+        --color: <?php echo $attributes['selectedColor'];?>;
+    <?php } ?>
+    <?php if (!empty($attributes['selectedBGColor'])) { ?>
+        --bgColor: <?php echo $attributes['selectedBGColor'];?>;
+    <?php } ?>
+    <?php if (!empty($attributes['selectedBorderColor'])) { ?>
+        --borderColor: <?php echo $attributes['selectedBorderColor'];?>;
+    <?php } ?>
+    <?php if (!empty($attributes['selectedFont'])) { ?>
+        --fontFamily: <?php echo $attributes['selectedFont'];?>;
+    <?php } ?>
+    "
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 >
-<?php echo do_blocks( $content ); ?>
+<span class="<?php echo $attributes['blockName']; ?>-text">
+    <?php echo $attributes['content']; ?>
+</span>
 </<?php echo $attributes['tag']; ?>>

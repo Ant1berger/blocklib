@@ -169,30 +169,32 @@ function get_components() {
 function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/title' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/text' );
-    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/section' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/stage' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/group' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/grouping-link' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/image' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/knob' );
 }
 add_action( 'init', 'theme_register_blocks' );
 
 //****************************
 // We only want our custom blocks in the Gutenberg editor (and a few more).
 //****************************
-function example_allowed_block_types( $allowed_block_types, $block_editor_context ) {
+function custom_allowed_block_types( $allowed_block_types, $block_editor_context ) {
     $allowed_block_types = array(
         'core/paragraph', // To keep the ability to insert blocks, copy/paste etc.
         'core/block', // To allow create Compositions.
         'custom-blocks/text',
         'custom-blocks/title',
-        'custom-blocks/section',
+        'custom-blocks/stage',
         'custom-blocks/group',
         'custom-blocks/grouping-link',
-        'custom-blocks/image'
+        'custom-blocks/image',
+        'custom-blocks/knob'
     );
     return $allowed_block_types;
 }
-add_filter( 'allowed_block_types_all', 'example_allowed_block_types', 10, 2 );
+add_filter( 'allowed_block_types_all', 'custom_allowed_block_types', 10, 2 );
 
 //****************************
 // to insert theme variables into the main CSS.
@@ -235,6 +237,7 @@ $cssString = str_replace('/*fonts_placholder*/', handleThemeOptionsForCSSVarsPla
 $cssString = str_replace('/*colors_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_colors', 'color' ), $cssString);
 $cssString = str_replace('/*background_colors_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_colors', 'background-color' ), $cssString);
 $cssString = str_replace('/*fonts_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_fonts', 'font-family' ), $cssString);
+$cssString = str_replace('/*border_color_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_colors', 'border-color' ), $cssString);
 file_put_contents(get_template_directory() . '/main-auto-generated-dont-edit-me.css', $cssString);
 
 //****************************
@@ -251,6 +254,7 @@ add_action('admin_enqueue_scripts', 'theme_admin_styles');
 function add_scripts_to_gutenberg() {
     wp_enqueue_style( 'main-styles', get_theme_file_uri('/main-auto-generated-dont-edit-me.css'), array(), '1.0' );
     wp_enqueue_style( 'additional-gutenberg-styles', get_theme_file_uri('/additional-gutenberg-styles.css'), array(), '1.0');
+    wp_enqueue_script( 'additional-gutenberg-scripts', get_theme_file_uri('/additional-gutenberg-scripts.js'), array(), '1.0');
 }
 add_action('enqueue_block_editor_assets', 'add_scripts_to_gutenberg');
 

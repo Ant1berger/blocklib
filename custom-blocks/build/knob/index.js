@@ -626,9 +626,9 @@ var validators = {
 
 /***/ }),
 
-/***/ "./src/text/edit.js":
+/***/ "./src/knob/edit.js":
 /*!**************************!*\
-  !*** ./src/text/edit.js ***!
+  !*** ./src/knob/edit.js ***!
   \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -647,7 +647,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/text/block.json");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/knob/block.json");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -695,11 +695,17 @@ function Edit(props) {
   } = props;
   const {
     tag,
+    url,
+    openInNewTab,
+    type,
     persistentID,
     blockName,
     otherAttributes,
-    selectedColorClass,
-    selectedFontClass,
+    size,
+    selectedColor,
+    selectedBGColor,
+    selectedBorderColor,
+    selectedFont,
     manualClasses,
     mediaQueries = [],
     renderedMediaQueries,
@@ -709,6 +715,8 @@ function Edit(props) {
   const [tagName, setTagName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(tag);
   const [themeOptions, setThemeOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
   const [selectColorOptions, setSelectColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+  const [selectBGColorOptions, setSelectBGColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+  const [selectBorderColorOptions, setSelectBorderColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const [selectFontOptions, setSelectFontOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
 
@@ -718,8 +726,10 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
-      setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, 'color', (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
-      setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, 'font-family', (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
+      setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
+      setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a background color', 'bloclklib')));
+      setSelectBorderColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a border color', 'bloclklib')));
+      setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
     });
@@ -746,7 +756,7 @@ function Edit(props) {
   }, [blockName]);
 
   // Generates the choices for <select> from the theme options.
-  const handleThemeOptionsForSelects = (optionId, cssProp, emptyOptionText) => {
+  const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
     let optionsArray = [{
       label: emptyOptionText,
       value: ''
@@ -755,7 +765,7 @@ function Edit(props) {
       if (optionId[property]) {
         optionsArray.push({
           label: property,
-          value: 'u-' + cssProp + '-' + property
+          value: 'var(--' + property + ')'
         });
       }
     }
@@ -824,22 +834,65 @@ function Edit(props) {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Base settings', 'bloclklib'),
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tag', 'bloclklib'),
-          value: tag || 'p',
+          value: tag || 'a',
           onChange: updateTagName,
           placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Use any HTML tag', 'blocklib')
+        }), tag === 'a' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('URL', 'bloclklib'),
+            value: url || '#',
+            onChange: newValue => setAttributes({
+              url: newValue
+            }),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter a URL', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Open in a new tab ?', 'bloclklib'),
+            checked: !!openInNewTab,
+            onChange: () => setAttributes({
+              openInNewTab: !openInNewTab
+            })
+          })]
+        }), tag === 'button' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Type', 'bloclklib'),
+          value: type || '',
+          onChange: newValue => setAttributes({
+            type: newValue
+          }),
+          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter a type', 'blocklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Size', 'bloclklib'),
+          value: size || '',
+          onChange: value => setAttributes({
+            size: value
+          }),
+          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Default: 1.8rem', 'blocklib')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Color', 'bloclklib'),
           options: selectColorOptions,
-          value: selectedColorClass,
+          value: selectedColor,
           onChange: newValue => setAttributes({
-            selectedColorClass: newValue
+            selectedColor: newValue
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Background color', 'bloclklib'),
+          options: selectBGColorOptions,
+          value: selectedBGColor,
+          onChange: newValue => setAttributes({
+            selectedBGColor: newValue
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Border color', 'bloclklib'),
+          options: selectBorderColorOptions,
+          value: selectedBorderColor,
+          onChange: newValue => setAttributes({
+            selectedBorderColor: newValue
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font', 'bloclklib'),
           options: selectFontOptions,
-          value: selectedFontClass,
+          value: selectedFont,
           onChange: newValue => setAttributes({
-            selectedFontClass: newValue
+            selectedFont: newValue
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Classes', 'bloclklib'),
@@ -896,26 +949,36 @@ function Edit(props) {
       })]
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
       children: renderedMediaQueries
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+    }), React.createElement(tag, {
       ...blockProps,
-      tagName: tag,
-      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Write your content here', 'blocklib'),
-      value: content,
-      "data-persistentid": persistentID,
-      className: [blockName, selectedColorClass || '', selectedFontClass || '', manualClasses || ''].filter(Boolean).join(' '),
-      onChange: content => setAttributes({
-        content
-      }),
-      allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space']
-    })]
+      'data-persistentid': persistentID,
+      style: {
+        '--size': size,
+        '--color': selectedColor,
+        '--bgColor': selectedBGColor,
+        '--borderColor': selectedBorderColor,
+        '--fontFamily': selectedFont
+      },
+      className: [blockName, manualClasses || ''].filter(Boolean).join(' ')
+    }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+      className: `${blockName}-text`,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
+        placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Write your content here', 'blocklib'),
+        value: content,
+        onChange: content => setAttributes({
+          content
+        }),
+        allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space']
+      })
+    }))]
   });
 }
 
 /***/ }),
 
-/***/ "./src/text/index.css":
+/***/ "./src/knob/index.css":
 /*!****************************!*\
-  !*** ./src/text/index.css ***!
+  !*** ./src/knob/index.css ***!
   \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -1233,13 +1296,13 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
 
 /***/ }),
 
-/***/ "./src/text/block.json":
+/***/ "./src/knob/block.json":
 /*!*****************************!*\
-  !*** ./src/text/block.json ***!
+  !*** ./src/knob/block.json ***!
   \*****************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/text","version":"0.1.0","title":"Text","category":"text","keywords":["blocklib","text"],"description":"A rich text text.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"p"},"selectedColorClass":{"type":"string","default":""},"selectedFontClass":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/knob","version":"0.1.0","title":"Knob","category":"text","keywords":["blocklib","text","knob","button"],"description":"A fully customizable button.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"size":{"type":"string","default":""},"selectedColor":{"type":"string","default":""},"selectedBGColor":{"type":"string","default":""},"selectedBorderColor":{"type":"string","default":""},"selectedFont":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 
@@ -1315,14 +1378,14 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 /*!***************************!*\
-  !*** ./src/text/index.js ***!
+  !*** ./src/knob/index.js ***!
   \***************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/text/edit.js");
-/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.css */ "./src/text/index.css");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/text/block.json");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/knob/edit.js");
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.css */ "./src/knob/index.css");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/knob/block.json");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
 /**
@@ -1340,13 +1403,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("svg", {
+  viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg",
-  height: "48px",
-  viewBox: "0 -960 960 960",
-  width: "48px",
-  fill: "#000000",
+  width: "48",
+  height: "48",
+  "aria-hidden": "true",
+  focusable: "false",
   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("path", {
-    d: "M160-200v-60h386v60H160Zm0-167v-60h640v60H160Zm0-166v-60h640v60H160Zm0-167v-60h640v60H160Z"
+    d: "M8 12.5h8V11H8v1.5Z M19 6.5H5a2 2 0 0 0-2 2V15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a2 2 0 0 0-2-2ZM5 8h14a.5.5 0 0 1 .5.5V15a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V8.5A.5.5 0 0 1 5 8Z"
   })
 });
 

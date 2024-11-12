@@ -37,8 +37,8 @@ export default function Edit(props) {
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
     const blockProps = useBlockProps();
-    const innerBlocksProps = useInnerBlocksProps({ className: 'section-content' }, {
-        template: [[ 'custom-blocks/text', { content: __( 'Default Section content, put as many components as you like inside.', 'bloclklib' ) } ]],
+    const innerBlocksProps = useInnerBlocksProps({ className: `${blockName}-content` }, {
+        template: [[ 'custom-blocks/text', { content: __( 'Default Stage content, put as many components as you like inside.', 'bloclklib' ) } ]],
         templateLock: false
     });
 
@@ -195,6 +195,7 @@ export default function Edit(props) {
                     </Button>
                 </PanelBody>
             </InspectorControls>
+            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
             { React.createElement(
                 tag,
                 {
@@ -208,7 +209,6 @@ export default function Edit(props) {
                 },
                 <div {...innerBlocksProps}></div>
             ) }
-            { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
         </Fragment>
     )
 }

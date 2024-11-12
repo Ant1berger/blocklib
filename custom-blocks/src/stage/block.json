@@ -1,12 +1,12 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "custom-blocks/section",
+	"name": "custom-blocks/stage",
 	"version": "0.1.0",
-	"title": "Section",
+	"title": "Stage",
 	"category": "design",
-    "keywords": [ "blocklib", "section", "design" ],
-	"description": "The biggest part of o page: a story containing the main column of the website.",
+    "keywords": [ "blocklib", "design", "stage", "section" ],
+	"description": "The biggest part of o page: a section containing the main column of the website.",
 	"example": {},
     "supports": {
         "html": false,

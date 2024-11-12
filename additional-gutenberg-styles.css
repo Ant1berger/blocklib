@@ -84,3 +84,11 @@
 .disable-lcp-button {
     justify-content: center;
 }
+
+/* Reset the styles of .button core block to put blocklib's instead. */
+/* .wp-core-ui .button,
+.editor-styles-wrapper a:where(:not(.wp-element-button)),
+:where(.editor-styles-wrapper) a,
+.wp-core-ui .button.hover, .wp-core-ui .button:hover {
+    all: revert;
+} */

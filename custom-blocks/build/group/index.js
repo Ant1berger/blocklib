@@ -889,12 +889,12 @@ function Edit(props) {
           children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add a media query', 'bloclklib')
         })]
       })]
+    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
+      children: renderedMediaQueries
     }), React.createElement(tag, {
       ...innerBlocksProps,
       'data-persistentid': persistentID,
       className: [blockName, selectedBGColorClass || '', manualClasses || ''].filter(Boolean).join(' ')
-    }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
-      children: renderedMediaQueries
     })]
   });
 }

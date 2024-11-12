@@ -1,9 +1,9 @@
-.section {
+.stage {
     display: flex;
     justify-content: center;
 }
 
-.section-content {
+.stage-content {
     flex-grow: 0;
     flex-shrink: 0;
     inline-size: 100%;
