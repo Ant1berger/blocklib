@@ -140,6 +140,7 @@ export default function Edit(props) {
             <InspectorControls>
                 <PanelBody title={ __( 'Base settings', 'bloclklib' ) }>
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Tag', 'bloclklib' ) }
                         value={ tag || 'a' }
                         onChange={ updateTagName }
@@ -148,12 +149,14 @@ export default function Edit(props) {
                     { tag === 'a' &&
                         <div>
                             <TextControl
+                                __nextHasNoMarginBottom
                                 label={ __( 'URL', 'bloclklib' ) }
                                 value={ url || '#' }
                                 onChange={(newValue) => setAttributes({ url: newValue })}
                                 placeholder={ __( 'Enter a URL', 'blocklib' ) }
                             />
                             <ToggleControl
+                                __nextHasNoMarginBottom
                                 label={ __( 'Open in a new tab ?', 'bloclklib' ) }
                                 checked={ !! openInNewTab }
                                 onChange={ () =>
@@ -166,6 +169,7 @@ export default function Edit(props) {
                     }
                     { tag === 'button' &&
                         <TextControl
+                            __nextHasNoMarginBottom
                             label={ __( 'Type', 'bloclklib' ) }
                             value={ type || '' }
                             onChange={(newValue) => setAttributes({ type: newValue })}
@@ -173,30 +177,35 @@ export default function Edit(props) {
                         />
                     }
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Size', 'bloclklib' ) }
                         value={ size || '' }
                         onChange={ ( value ) => setAttributes( { size: value } ) }
                         placeholder={ __( 'Default: 1.8rem', 'blocklib' ) }
                     />
                     <SelectControl
+                        __nextHasNoMarginBottom
                         label={__( 'Color', 'bloclklib' )}
                         options={selectColorOptions}
                         value={selectedColor}
                         onChange={(newValue) => setAttributes({ selectedColor: newValue })}
                     />
                     <SelectControl
+                        __nextHasNoMarginBottom
                         label={__( 'Background color', 'bloclklib' )}
                         options={selectBGColorOptions}
                         value={selectedBGColor}
                         onChange={(newValue) => setAttributes({ selectedBGColor: newValue })}
                     />
                     <SelectControl
+                        __nextHasNoMarginBottom
                         label={__( 'Border color', 'bloclklib' )}
                         options={selectBorderColorOptions}
                         value={selectedBorderColor}
                         onChange={(newValue) => setAttributes({ selectedBorderColor: newValue })}
                     />
                     <SelectControl
+                        __nextHasNoMarginBottom
                         label={__( 'Font', 'bloclklib' )}
                         options={selectFontOptions}
                         value={selectedFont}
@@ -204,9 +213,11 @@ export default function Edit(props) {
                     />
                     <hr/>
                     <BaseControl
+                        __nextHasNoMarginBottom
                         help={ !inverted && invisibleBorder ? __( 'Invisible border is more suitable with Inverted buttons', 'bloclklib' ) : ''}
                     >
                         <ToggleControl
+                            __nextHasNoMarginBottom
                             label={ __( 'Rounded ?', 'bloclklib' ) }
                             checked={ !! rounded }
                             onChange={ () =>
@@ -216,6 +227,7 @@ export default function Edit(props) {
                             }
                         />
                         <ToggleControl
+                            __nextHasNoMarginBottom
                             label={ __( 'Inverted ?', 'bloclklib' ) }
                             checked={ !! inverted }
                             onChange={ () =>
@@ -225,6 +237,7 @@ export default function Edit(props) {
                             }
                         />
                         <ToggleControl
+                            __nextHasNoMarginBottom
                             label={ __( 'Invisible border ?', 'bloclklib' ) }
                             checked={ !! invisibleBorder }
                             onChange={ () =>
@@ -235,15 +248,18 @@ export default function Edit(props) {
                         />
                     </BaseControl>
                     <BaseControl
+                        __nextHasNoMarginBottom
                         help={ !leftIcon && invisibleText ? __( 'Hide text only if there is at least on icon, or your knob will be empty!', 'bloclklib' ) : ''}
                     >
                         <TextControl
+                            __nextHasNoMarginBottom
                             label={ __( 'Left icon', 'bloclklib' ) }
                             value={ leftIcon || '' }
                             onChange={ ( value ) => setAttributes( { leftIcon: value } ) }
                             placeholder={ __( 'Paste <svg>', 'blocklib' ) }
                         />
                         <ToggleControl
+                            __nextHasNoMarginBottom
                             label={ __( 'Invisible text ?', 'bloclklib' ) }
                             checked={ !! invisibleText }
                             onChange={ () =>
@@ -254,6 +270,7 @@ export default function Edit(props) {
                         />
                     </BaseControl>
                     <ToggleControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Full width ?', 'bloclklib' ) }
                         checked={ !! fullWidth }
                         onChange={ () =>
@@ -264,18 +281,21 @@ export default function Edit(props) {
                     />
                     <hr/>
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Classes', 'bloclklib' ) }
                         value={ manualClasses || '' }
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
                         placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
                     />
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Other attributes', 'bloclklib' ) }
                         value={ otherAttributes || '' }
                         onChange={ ( value ) => setAttributes( { otherAttributes: value } ) }
                         placeholder={ __( 'Add HTML attributes if needed', 'blocklib' ) }
                     />
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Anchor', 'bloclklib' ) }
                         value={ anchor || '' }
                         onChange={ ( value ) => setAttributes( { anchor: value } ) }
@@ -286,6 +306,7 @@ export default function Edit(props) {
                     {mediaQueries.map((query, index) => (
                         <div key={index} className="media-query">
                             <TextControl
+                                __nextHasNoMarginBottom
                                 label={ __( '@media (min-width: ', 'bloclklib' ) }
                                 value={query.minWidth}
                                 onChange={(value) => updateMediaQuery(index, 'minWidth', value)}

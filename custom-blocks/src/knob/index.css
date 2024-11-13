@@ -1,4 +1,3 @@
-/* We raise the specificity a little to override some core Gutenberg styles on <a>. */
 .knob {
     --sizeFallback: 1.8rem;
     --colorFallback: #cccccc;
@@ -42,7 +41,7 @@
     color: var(--bgColor, var(--bgColorFallback));
 }
 
-.knob.-invisibleBorder { /* Meant to be used it with -inverted. */
+.knob.-invisibleBorder { /* Meant to be used with -inverted. */
     border-color: transparent;
     outline: none;
 }
@@ -93,7 +92,7 @@
 }
 
 .knob.-fullWidth {
-    inline-size: 100%;
+    display: flex;
     justify-content: center;
 }
 

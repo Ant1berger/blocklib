@@ -183,7 +183,10 @@ export default function Edit(props) {
         <Fragment>
             <InspectorControls>
                 <PanelBody title={ __( 'Base settings', 'bloclklib' ) }>
-                    <BaseControl label={ __( 'Image', 'bloclklib' ) }>
+                    <BaseControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'Image', 'bloclklib' ) }
+                    >
                         <MediaUploadCheck>
                             <MediaUpload
                                 onSelect={ onSelectImage }
@@ -214,9 +217,11 @@ export default function Edit(props) {
                         }
                     </BaseControl>
                     <BaseControl
+                        __nextHasNoMarginBottom
                         help={ __( '(min-width: 60rem) 80vw, (min-width: 40rem) 90vw, 100vw', 'bloclklib' ) }
                     >
                         <TextControl
+                            __nextHasNoMarginBottom
                             label={ __( 'Sizes', 'bloclklib' ) }
                             value={ pictureSizesAttribute || '' }
                             onChange={ ( value ) => setAttributes( { pictureSizesAttribute: value } ) }
@@ -225,18 +230,21 @@ export default function Edit(props) {
                     </BaseControl>
                     <hr/>
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Classes', 'bloclklib' ) }
                         value={ manualClasses || '' }
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
                         placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
                     />
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Other attributes', 'bloclklib' ) }
                         value={ otherAttributes || '' }
                         onChange={ ( value ) => setAttributes( { otherAttributes: value } ) }
                         placeholder={ __( 'Add HTML attributes if needed', 'blocklib' ) }
                     />
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Anchor', 'bloclklib' ) }
                         value={ anchor || '' }
                         onChange={ ( value ) => setAttributes( { anchor: value } ) }
@@ -247,6 +255,7 @@ export default function Edit(props) {
                     {mediaQueries.map((query, index) => (
                         <div key={index} className="media-query">
                             <TextControl
+                                __nextHasNoMarginBottom
                                 label={ __( '@media (min-width: ', 'bloclklib' ) }
                                 value={query.minWidth}
                                 onChange={(value) => updateMediaQuery(index, 'minWidth', value)}
@@ -282,6 +291,7 @@ export default function Edit(props) {
                     }
                     </Text>
                     <BaseControl
+                        __nextHasNoMarginBottom
                         help={
                             hasLCP
                                 ? __(`Current LCP: ${lcpData.url}}`, 'blocklib')
@@ -313,9 +323,11 @@ export default function Edit(props) {
                         </div>
                     </BaseControl>
                     <BaseControl
+                        __nextHasNoMarginBottom
                         help={__( 'Don\'t lazy load images above the fold, but all the others.', 'bloclklib' )}
                     >
                         <SelectControl
+                            __nextHasNoMarginBottom
                             label={__( 'Loading', 'bloclklib' )}
                             options={ [
                                 { label: __( 'Not set', 'bloclklib' ), value: '' },
@@ -328,9 +340,11 @@ export default function Edit(props) {
                         />
                     </BaseControl>
                     <BaseControl
+                        __nextHasNoMarginBottom
                         help={__( 'Don\'t overuse fetch priority, but use it when one image has to be loaded first among others, even below the fold.', 'bloclklib' )}
                     >
                         <SelectControl
+                            __nextHasNoMarginBottom
                             label={__( 'Fetch priority', 'bloclklib' )}
                             options={ [
                                 { label: __( 'Not set', 'bloclklib' ), value: '' },

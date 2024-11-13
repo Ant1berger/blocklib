@@ -131,18 +131,21 @@ export default function Edit(props) {
             <InspectorControls>
                 <PanelBody title={ __( 'Base settings', 'bloclklib' ) }>
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Tag', 'bloclklib' ) }
                         value={ tag || 'p' }
                         onChange={ updateTagName }
                         placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
                     />
                     <SelectControl
+                        __nextHasNoMarginBottom
                         label={__( 'Color', 'bloclklib' )}
                         options={selectColorOptions}
                         value={selectedColorClass}
                         onChange={(newValue) => setAttributes({ selectedColorClass: newValue })}
                     />
                     <SelectControl
+                        __nextHasNoMarginBottom
                         label={__( 'Font', 'bloclklib' )}
                         options={selectFontOptions}
                         value={selectedFontClass}
@@ -150,18 +153,21 @@ export default function Edit(props) {
                     />
                     <hr/>
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Classes', 'bloclklib' ) }
                         value={ manualClasses || '' }
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
                         placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
                     />
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Other attributes', 'bloclklib' ) }
                         value={ otherAttributes || '' }
                         onChange={ ( value ) => setAttributes( { otherAttributes: value } ) }
                         placeholder={ __( 'Add HTML attributes if needed', 'blocklib' ) }
                     />
                     <TextControl
+                        __nextHasNoMarginBottom
                         label={ __( 'Anchor', 'bloclklib' ) }
                         value={ anchor || '' }
                         onChange={ ( value ) => setAttributes( { anchor: value } ) }
@@ -172,6 +178,7 @@ export default function Edit(props) {
                     {mediaQueries.map((query, index) => (
                         <div key={index} className="media-query">
                             <TextControl
+                                __nextHasNoMarginBottom
                                 label={ __( '@media (min-width: ', 'bloclklib' ) }
                                 value={query.minWidth}
                                 onChange={(value) => updateMediaQuery(index, 'minWidth', value)}
