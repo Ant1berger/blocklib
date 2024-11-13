@@ -3,10 +3,11 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import MonacoEditor from '@monaco-editor/react';
-import { PanelBody, PanelRow, TextControl, Button, SelectControl, ToggleControl } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl, Button, SelectControl, ToggleControl, BaseControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
 import apiFetch from '@wordpress/api-fetch';
+import { useSelect } from '@wordpress/data';
 
 // Initialize Monaco editor
 const MyMonacoEditor = ({ defaultValue, value, onChange }) => {
@@ -32,7 +33,7 @@ const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, size, selectedColor, selectedBGColor, selectedBorderColor, selectedFont, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, size, selectedColor, selectedBGColor, selectedBorderColor, selectedFont, rounded, inverted, invisibleBorder, leftIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -40,6 +41,10 @@ export default function Edit(props) {
     const [selectBorderColorOptions, setSelectBorderColorOptions] = useState([]);
     const [selectFontOptions, setSelectFontOptions] = useState([]);
     const blockProps = useBlockProps();
+    const siteUrl = useSelect((select) => {
+        const entity = select('core').getEntityRecord('root', 'site');
+        return entity ? entity.url : '';
+    }, []);
 
     // Fetches datas from WP database and pass it to the themeOptions state.
     useEffect(() => {
@@ -198,6 +203,66 @@ export default function Edit(props) {
                         onChange={(newValue) => setAttributes({ selectedFont: newValue })}
                     />
                     <hr/>
+                    <BaseControl
+                        help={ !inverted && invisibleBorder ? __( 'Invisible border is more suitable with Inverted buttons', 'bloclklib' ) : ''}
+                    >
+                        <ToggleControl
+                            label={ __( 'Rounded ?', 'bloclklib' ) }
+                            checked={ !! rounded }
+                            onChange={ () =>
+                                setAttributes( {
+                                    rounded: ! rounded,
+                                } )
+                            }
+                        />
+                        <ToggleControl
+                            label={ __( 'Inverted ?', 'bloclklib' ) }
+                            checked={ !! inverted }
+                            onChange={ () =>
+                                setAttributes( {
+                                    inverted: ! inverted,
+                                } )
+                            }
+                        />
+                        <ToggleControl
+                            label={ __( 'Invisible border ?', 'bloclklib' ) }
+                            checked={ !! invisibleBorder }
+                            onChange={ () =>
+                                setAttributes( {
+                                    invisibleBorder: ! invisibleBorder,
+                                } )
+                            }
+                        />
+                    </BaseControl>
+                    <BaseControl
+                        help={ !leftIcon && invisibleText ? __( 'Hide text only if there is at least on icon, or your knob will be empty!', 'bloclklib' ) : ''}
+                    >
+                        <TextControl
+                            label={ __( 'Left icon', 'bloclklib' ) }
+                            value={ leftIcon || '' }
+                            onChange={ ( value ) => setAttributes( { leftIcon: value } ) }
+                            placeholder={ __( 'Paste <svg>', 'blocklib' ) }
+                        />
+                        <ToggleControl
+                            label={ __( 'Invisible text ?', 'bloclklib' ) }
+                            checked={ !! invisibleText }
+                            onChange={ () =>
+                                setAttributes( {
+                                    invisibleText: ! invisibleText,
+                                } )
+                            }
+                        />
+                    </BaseControl>
+                    <ToggleControl
+                        label={ __( 'Full width ?', 'bloclklib' ) }
+                        checked={ !! fullWidth }
+                        onChange={ () =>
+                            setAttributes( {
+                                fullWidth: ! fullWidth,
+                            } )
+                        }
+                    />
+                    <hr/>
                     <TextControl
                         label={ __( 'Classes', 'bloclklib' ) }
                         value={ manualClasses || '' }
@@ -263,9 +328,16 @@ export default function Edit(props) {
                     },
                     className: [
                         blockName,
+                        rounded ? '-rounded' : '',
+                        inverted ? '-inverted' : '',
+                        invisibleBorder ? '-invisibleBorder' : '',
+                        leftIcon ? '-leftIcon' : '',
+                        invisibleText ? '-invisibleText' : '',
+                        fullWidth ? '-fullWidth' : '',
                         manualClasses || ''
                     ].filter(Boolean).join(' ')
                 },
+                wp.element.RawHTML({children: leftIcon}),
                 <span className={`${blockName}-text`}>
                     <RichText
                         placeholder={ __( 'Write your content here', 'blocklib' ) }

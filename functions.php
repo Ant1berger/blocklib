@@ -94,7 +94,7 @@ add_filter('wpcf7_autop_or_not', '__return_false');
 //****************************
 // Allow svg files in media library.
 //****************************
-/*  In addition to that, the first line of the svg file must be: <?xml version="1.0" encoding="UTF-8"?> */
+/* In addition to that, the first line of the svg file must be: <?xml version="1.0" encoding="UTF-8"?> */
 function wpc_mime_types($mimes) {
     $mimes['svg'] = 'image/svg+xml';
     return $mimes;
@@ -252,11 +252,17 @@ add_action('admin_enqueue_scripts', 'theme_admin_styles');
 // Add styles to Gutenberg editor.
 //****************************
 function add_scripts_to_gutenberg() {
-    wp_enqueue_style( 'main-styles', get_theme_file_uri('/main-auto-generated-dont-edit-me.css'), array(), '1.0' );
     wp_enqueue_style( 'additional-gutenberg-styles', get_theme_file_uri('/additional-gutenberg-styles.css'), array(), '1.0');
     wp_enqueue_script( 'additional-gutenberg-scripts', get_theme_file_uri('/additional-gutenberg-scripts.js'), array(), '1.0');
 }
 add_action('enqueue_block_editor_assets', 'add_scripts_to_gutenberg');
+
+function theme_setup() {
+    // enables the support for editor styles inside the editor iframe.
+    add_theme_support( 'editor-styles' );
+    add_editor_style( get_theme_file_uri('/main-auto-generated-dont-edit-me.css') );
+}
+add_action( 'after_setup_theme', 'theme_setup' );
 
 //****************************
 // Add theme customizer options.
@@ -266,9 +272,9 @@ function my_theme_customize_register( $wp_customize ) {
 
     // Add Graphic Chart panel
     $wp_customize->add_panel( 'graphic_chart_panel', array(
-        'title'       => __( 'Graphic Chart', 'blocklib' ),
+        'title' => __( 'Graphic Chart', 'blocklib' ),
         'description' => __( 'Manage styles of the site: colors, fonts, etc.', 'blocklib' ),
-        'priority'    => 10,
+        'priority' => 10,
     ));
 
     // Add Colors section
@@ -278,7 +284,7 @@ function my_theme_customize_register( $wp_customize ) {
         // Arguments array
         array(
             'title' => __( 'Colors', 'blocklib' ),
-            'panel'       => 'graphic_chart_panel',
+            'panel' => 'graphic_chart_panel',
             'capability' => 'edit_theme_options',
             'description' => __( 'Manage theme\'s colors.', 'blocklib' )
         )

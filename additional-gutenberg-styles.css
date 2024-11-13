@@ -32,7 +32,6 @@
 .add-media-query {
     display: block;
     inline-size: 100%;
-    margin-block-start: 1rem;
 }
 
 .media-query .components-base-control {
@@ -45,7 +44,7 @@
 }
 
 .components-panel__body .media-query .components-text-control__input {
-    inline-size: 6rem;
+    inline-size: 4rem;
 }
 
 .components-panel__body .media-query .components-base-control__field::after {
@@ -84,11 +83,3 @@
 .disable-lcp-button {
     justify-content: center;
 }
-
-/* Reset the styles of .button core block to put blocklib's instead. */
-/* .wp-core-ui .button,
-.editor-styles-wrapper a:where(:not(.wp-element-button)),
-:where(.editor-styles-wrapper) a,
-.wp-core-ui .button.hover, .wp-core-ui .button:hover {
-    all: revert;
-} */

@@ -1009,7 +1009,7 @@ function Edit(props) {
             disabled: isThisImageLCP
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
-          help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Don\'t overuse fetch priority, but use it when one image has to be loaded first among others, even below then fold.', 'bloclklib'),
+          help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Don\'t overuse fetch priority, but use it when one image has to be loaded first among others, even below the fold.', 'bloclklib'),
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fetch priority', 'bloclklib'),
             options: [{

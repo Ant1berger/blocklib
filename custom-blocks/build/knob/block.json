@@ -23,6 +23,10 @@
       "type": "string",
       "default": ""
     },
+    "siteUrl": {
+      "type": "string",
+      "default": ""
+    },
     "content": {
       "type": "string",
       "default": ""
@@ -67,9 +71,33 @@
       "type": "string",
       "default": ""
     },
-    "manualClasses": {
+    "rounded": {
+      "type": "boolean",
+      "default": false
+    },
+    "inverted": {
+      "type": "boolean",
+      "default": false
+    },
+    "invisibleBorder": {
+      "type": "boolean",
+      "default": false
+    },
+    "leftIcon": {
       "type": "string",
       "default": ""
+    },
+    "invisibleText": {
+      "type": "boolean",
+      "default": false
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false
+    },
+    "manualClasses": {
+      "type": "boolean",
+      "default": false
     },
     "blockName": {
       "type": "string",

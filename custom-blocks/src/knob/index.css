@@ -1,5 +1,5 @@
 /* We raise the specificity a little to override some core Gutenberg styles on <a>. */
-.knob:has(.knob-text) {
+.knob {
     --sizeFallback: 1.8rem;
     --colorFallback: #cccccc;
     --bgColorFallback: #dddddd;
@@ -63,18 +63,18 @@
 /* Icons come from Google Fonts: */
 /* https://fonts.google.com/icons?icon.size=24&icon.color=%235f6368 */
 /* Use them as inline SVGs to allow CSS control on their sub-elements (e.g. fill). */
-.knob.-withIcon {
+.knob.-leftIcon {
     text-align: start;
 }
 
-.knob.-withIcon > svg {
+.knob.-leftIcon svg {
     inline-size: calc(var(--size, var(--sizeFallback)) * 1.5);
     block-size: calc(var(--size, var(--sizeFallback)) * 1.5);
     fill: var(--color, var(--colorFallback));
     flex-shrink: 0;
 }
 
-.knob.-inverted.-withIcon > svg {
+.knob.-inverted.-leftIcon svg {
     fill: var(--bgColor, var(--bgColorFallback));
 }
 
@@ -100,4 +100,9 @@
 .knob:hover,
 .knob:focus-visible {
     outline-color: oklch(from var(--borderColor, var(--borderColor)) l c h / 100%);
+}
+
+/* In the editor, there is an unwanted div around the SVG: we try to make it the less annoying as possible */
+.knob > div {
+    display: contents;
 }

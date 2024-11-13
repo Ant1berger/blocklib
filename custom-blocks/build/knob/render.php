@@ -54,6 +54,24 @@
         if (!empty($attributes['manualClasses'])) {
             echo ' ' . $attributes['manualClasses'];
         }
+        if (!empty($attributes['rounded'])) {
+            echo ' -rounded';
+        }
+        if (!empty($attributes['inverted'])) {
+            echo ' -inverted';
+        }
+        if (!empty($attributes['invisibleBorder'])) {
+            echo ' -invisibleBorder';
+        }
+        if (!empty($attributes['leftIcon'])) {
+            echo ' -leftIcon';
+        }
+        if (!empty($attributes['invisibleText'])) {
+            echo ' -invisibleText';
+        }
+        if (!empty($attributes['fullWidth'])) {
+            echo ' -fullWidth';
+        }
     ?>"
     style="
     <?php if (!empty($attributes['size'])) { ?>
@@ -74,6 +92,9 @@
     "
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 >
+<?php if (!empty($attributes['leftIcon'])) { ?>
+    <?php echo $attributes['leftIcon'];?>
+<?php } ?>
 <span class="<?php echo $attributes['blockName']; ?>-text">
     <?php echo $attributes['content']; ?>
 </span>

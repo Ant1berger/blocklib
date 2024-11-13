@@ -328,7 +328,7 @@ export default function Edit(props) {
                         />
                     </BaseControl>
                     <BaseControl
-                        help={__( 'Don\'t overuse fetch priority, but use it when one image has to be loaded first among others, even below then fold.', 'bloclklib' )}
+                        help={__( 'Don\'t overuse fetch priority, but use it when one image has to be loaded first among others, even below the fold.', 'bloclklib' )}
                     >
                         <SelectControl
                             label={__( 'Fetch priority', 'bloclklib' )}
