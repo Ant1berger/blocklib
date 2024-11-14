@@ -30,11 +30,11 @@
             "type": "string",
             "default": "p"
         },
-        "selectedColorClass": {
+        "selectedColor": {
             "type": "string",
             "default": ""
         },
-        "selectedFontClass": {
+        "selectedFont": {
             "type": "string",
             "default": ""
         },

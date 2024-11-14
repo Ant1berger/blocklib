@@ -2,8 +2,10 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/grouping-link/index.css ***!
   \*********************************************************************************************************************************************************************************/
 .grouping-link {
+    --bgColorFallback: #dddddd;
     display: block;
     color: inherit;
+    background-color: var(--bgColor, var(--bgColorFallback));
     text-decoration: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;

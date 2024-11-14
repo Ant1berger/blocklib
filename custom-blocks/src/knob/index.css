@@ -23,6 +23,7 @@
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    user-select: none;
 }
 
 @media(prefers-reduced-motion: no-preference) {
@@ -92,7 +93,8 @@
 }
 
 .knob.-fullWidth {
-    display: flex;
+    inline-size: -webkit-fill-available;
+    inline-size: -moz-available;
     justify-content: center;
 }
 

@@ -287,13 +287,18 @@ export default function Edit(props) {
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
                         placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
                     />
-                    <TextControl
+                    <BaseControl
                         __nextHasNoMarginBottom
-                        label={ __( 'Other attributes', 'bloclklib' ) }
-                        value={ otherAttributes || '' }
-                        onChange={ ( value ) => setAttributes( { otherAttributes: value } ) }
-                        placeholder={ __( 'Add HTML attributes if needed', 'blocklib' ) }
-                    />
+                        help={ __( 'Avoid using style attribute, it\'s already in use and might be ignored.', 'bloclklib' ) }
+                    >
+                        <TextControl
+                            __nextHasNoMarginBottom
+                            label={ __( 'Other attributes', 'bloclklib' ) }
+                            value={ otherAttributes || '' }
+                            onChange={ ( value ) => setAttributes( { otherAttributes: value } ) }
+                            placeholder={ __( 'Add HTML attributes if needed', 'blocklib' ) }
+                        />
+                    </BaseControl>
                     <TextControl
                         __nextHasNoMarginBottom
                         label={ __( 'Anchor', 'bloclklib' ) }

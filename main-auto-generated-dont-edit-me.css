@@ -188,8 +188,8 @@
 }
 
 ::selection {
-    color: var(--secondaryColor);
-    background-color: var(--primaryColor);
+    color: var(--brand_2);
+    background-color: var(--brand_1);
 }
 
 html {

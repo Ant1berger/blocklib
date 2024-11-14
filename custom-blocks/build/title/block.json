@@ -34,11 +34,11 @@
       "type": "string",
       "default": "h1"
     },
-    "selectedColorClass": {
+    "selectedColor": {
       "type": "string",
       "default": ""
     },
-    "selectedFontClass": {
+    "selectedFont": {
       "type": "string",
       "default": ""
     },

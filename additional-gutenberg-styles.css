@@ -11,6 +11,11 @@
     border-block-end: 1px solid #c9c9c9;
 }
 
+.components-base-control label {
+    user-select: none;
+    cursor: pointer;
+}
+
 .components-panel__body .components-panel__body-title,
 .components-panel__body .components-panel__body-title:hover {
     border-block-end: 0.1px solid lightgray;

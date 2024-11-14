@@ -234,10 +234,6 @@ $cssString = str_replace('[get_template_directory_uri_placeholder]', get_templat
 // We also have to make placeholders for theme customizer options.
 $cssString = str_replace('/*colors_placholder*/', handleThemeOptionsForCSSVarsPlaceholders( 'theme_colors' ), $cssString);
 $cssString = str_replace('/*fonts_placholder*/', handleThemeOptionsForCSSVarsPlaceholders( 'theme_fonts' ), $cssString);
-$cssString = str_replace('/*colors_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_colors', 'color' ), $cssString);
-$cssString = str_replace('/*background_colors_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_colors', 'background-color' ), $cssString);
-$cssString = str_replace('/*fonts_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_fonts', 'font-family' ), $cssString);
-$cssString = str_replace('/*border_color_utilities_placholder*/', handleThemeOptionsForClassesPlaceholders( 'theme_colors', 'border-color' ), $cssString);
 file_put_contents(get_template_directory() . '/main-auto-generated-dont-edit-me.css', $cssString);
 
 //****************************

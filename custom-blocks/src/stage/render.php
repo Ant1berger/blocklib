@@ -45,13 +45,13 @@
     id="<?php echo $attributes['anchor']; ?>"
     <?php } ?>
     class="<?php echo $attributes['blockName']; ?><?php
-        if (!empty($attributes['selectedBGColorClass'])) {
-            echo ' ' . $attributes['selectedBGColorClass'];
-        }
         if (!empty($attributes['manualClasses'])) {
             echo ' ' . $attributes['manualClasses'];
         }
     ?>"
+    <?php if (!empty($attributes['selectedBGColor'])) { ?>
+        style="--bgColor: <?php echo $attributes['selectedBGColor'];?>;"
+    <?php } ?>
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 >
 <div class="<?php echo $attributes['blockName']; ?>-content">

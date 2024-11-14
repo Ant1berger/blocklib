@@ -42,7 +42,7 @@
       "type": "string",
       "default": ""
     },
-    "selectedBGColorClass": {
+    "selectedBGColor": {
       "type": "string",
       "default": ""
     },

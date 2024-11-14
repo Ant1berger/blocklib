@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import MonacoEditor from '@monaco-editor/react';
-import { PanelBody, PanelRow, TextControl, Button, SelectControl } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl, Button, SelectControl, BaseControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
 import apiFetch from '@wordpress/api-fetch';
@@ -32,7 +32,7 @@ const persistentIDs = [];
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockName, otherAttributes, selectedColorClass, selectedFontClass, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { tag, persistentID, blockName, otherAttributes, selectedColor, selectedFont, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -44,8 +44,8 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, 'color', __( 'Select a color', 'bloclklib' )));
-            setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, 'font-family', __( 'Select a font', 'bloclklib' )));
+            setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
+            setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, __( 'Select a font', 'bloclklib' )));
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des options de thème :', error);
@@ -69,11 +69,11 @@ export default function Edit(props) {
     }, [blockName] );
 
     // Generates the choices for <select> from the theme options.
-    const handleThemeOptionsForSelects = (optionId, cssProp, emptyOptionText) => {
+    const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
         let optionsArray = [{ label: emptyOptionText, value: '' }];
         for (const property in optionId) {
             if( optionId[property] ) {
-                optionsArray.push({ label: property, value: 'u-' + cssProp + '-' + property });
+                optionsArray.push({ label: property, value: 'var(--' + property + ')' });
             }
         };
         return optionsArray;
@@ -141,15 +141,15 @@ export default function Edit(props) {
                         __nextHasNoMarginBottom
                         label={__( 'Color', 'bloclklib' )}
                         options={selectColorOptions}
-                        value={selectedColorClass}
-                        onChange={(newValue) => setAttributes({ selectedColorClass: newValue })}
+                        value={selectedColor}
+                        onChange={(newValue) => setAttributes({ selectedColor: newValue })}
                     />
                     <SelectControl
                         __nextHasNoMarginBottom
                         label={__( 'Font', 'bloclklib' )}
                         options={selectFontOptions}
-                        value={selectedFontClass}
-                        onChange={(newValue) => setAttributes({ selectedFontClass: newValue })}
+                        value={selectedFont}
+                        onChange={(newValue) => setAttributes({ selectedFont: newValue })}
                     />
                     <hr/>
                     <TextControl
@@ -159,13 +159,18 @@ export default function Edit(props) {
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
                         placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
                     />
-                    <TextControl
+                    <BaseControl
                         __nextHasNoMarginBottom
-                        label={ __( 'Other attributes', 'bloclklib' ) }
-                        value={ otherAttributes || '' }
-                        onChange={ ( value ) => setAttributes( { otherAttributes: value } ) }
-                        placeholder={ __( 'Add HTML attributes if needed', 'blocklib' ) }
-                    />
+                        help={ __( 'Avoid using style attribute, it\'s already in use and might be ignored.', 'bloclklib' ) }
+                    >
+                        <TextControl
+                            __nextHasNoMarginBottom
+                            label={ __( 'Other attributes', 'bloclklib' ) }
+                            value={ otherAttributes || '' }
+                            onChange={ ( value ) => setAttributes( { otherAttributes: value } ) }
+                            placeholder={ __( 'Add HTML attributes if needed', 'blocklib' ) }
+                        />
+                    </BaseControl>
                     <TextControl
                         __nextHasNoMarginBottom
                         label={ __( 'Anchor', 'bloclklib' ) }
@@ -212,10 +217,12 @@ export default function Edit(props) {
                 placeholder={ __( 'Write your content here', 'blocklib' ) }
                 value={ content }
                 data-persistentid={ persistentID }
+                style={{
+                    '--color': selectedColor,
+                    '--fontFamily': selectedFont
+                }}
                 className={[
                     blockName,
-                    selectedColorClass || '',
-                    selectedFontClass || '',
                     manualClasses || ''
                 ].filter(Boolean).join(' ')}
                 onChange={ ( content ) => setAttributes( { content } ) }

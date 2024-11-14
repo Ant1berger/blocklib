@@ -1,0 +1,1 @@
+{"version":3,"file":"group/index.css","mappings":";;;AAAA;IACI,0BAA0B;IAC1B,wDAAwD;AAC5D","sources":["webpack://custom-blocks/./src/group/index.css"],"sourcesContent":[".group {\n    --bgColorFallback: #dddddd;\n    background-color: var(--bgColor, var(--bgColorFallback));\n}\n"],"names":[],"sourceRoot":""}

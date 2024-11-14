@@ -30,7 +30,7 @@
       "type": "string",
       "default": "div"
     },
-    "selectedBGColorClass": {
+    "selectedBGColor": {
       "type": "string",
       "default": ""
     },

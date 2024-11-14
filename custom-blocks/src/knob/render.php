@@ -73,23 +73,25 @@
             echo ' -fullWidth';
         }
     ?>"
-    style="
-    <?php if (!empty($attributes['size'])) { ?>
-        --size: <?php echo $attributes['size'];?>;
+    <?php if (!empty($attributes['size']) || !empty($attributes['selectedColor']) || !empty($attributes['selectedBGColor']) || !empty($attributes['selectedBorderColor']) || !empty($attributes['selectedFont'])) { ?>
+        style="
+        <?php if (!empty($attributes['size'])) { ?>
+            --size: <?php echo $attributes['size'];?>;
+        <?php } ?>
+        <?php if (!empty($attributes['selectedColor'])) { ?>
+            --color: <?php echo $attributes['selectedColor'];?>;
+        <?php } ?>
+        <?php if (!empty($attributes['selectedBGColor'])) { ?>
+            --bgColor: <?php echo $attributes['selectedBGColor'];?>;
+        <?php } ?>
+        <?php if (!empty($attributes['selectedBorderColor'])) { ?>
+            --borderColor: <?php echo $attributes['selectedBorderColor'];?>;
+        <?php } ?>
+        <?php if (!empty($attributes['selectedFont'])) { ?>
+            --fontFamily: <?php echo $attributes['selectedFont'];?>;
+        <?php } ?>
+        "
     <?php } ?>
-    <?php if (!empty($attributes['selectedColor'])) { ?>
-        --color: <?php echo $attributes['selectedColor'];?>;
-    <?php } ?>
-    <?php if (!empty($attributes['selectedBGColor'])) { ?>
-        --bgColor: <?php echo $attributes['selectedBGColor'];?>;
-    <?php } ?>
-    <?php if (!empty($attributes['selectedBorderColor'])) { ?>
-        --borderColor: <?php echo $attributes['selectedBorderColor'];?>;
-    <?php } ?>
-    <?php if (!empty($attributes['selectedFont'])) { ?>
-        --fontFamily: <?php echo $attributes['selectedFont'];?>;
-    <?php } ?>
-    "
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 >
 <?php if (!empty($attributes['leftIcon'])) { ?>
