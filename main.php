@@ -26,6 +26,11 @@
         <link rel="preload" href="<?php echo get_template_directory_uri() ?>/assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin="anonymous">
         <meta name="theme-color" content="oklch(23% 0.1 259.47)" />
         <title><?php bloginfo( 'name' ); ?></title>
+        <style>
+            .test {
+                height: auto;
+            }
+        </style>
         <?php // ENQUEUE all the other css and js files in functions.php ?>
         <?php wp_head(); ?>
     </head>

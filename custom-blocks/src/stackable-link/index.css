@@ -1,0 +1,63 @@
+.stackable-link {
+    --sizeFallback: 1.8rem;
+    --colorFallback: #cccccc;
+    --bgColorFallback: #dddddd;
+    --fontFamilyFallback: Arial, Helvetica, sans-serif
+    font-family: var(--fontFamily, var(--fontFamilyFallback));
+    font-size: var(--size, var(--sizeFallback));
+    line-height: calc(var(--size, var(--sizeFallback)) * 1.5);
+    text-decoration: none;
+    display: flex;
+    gap: calc(var(--size) / 2);
+    inline-size: -webkit-fill-available;
+    inline-size: -moz-available;
+    color: var(--color, var(--colorFallback));
+    background-color: var(--bgColor, var(--bgColorFallback));
+    padding-inline: var(--size, var(--sizeFallback));
+    padding-block: calc(var(--size, var(--sizeFallback)) / 2);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    user-select: none;
+    @media(prefers-reduced-motion: no-preference) {
+        transition: background-color .2s;
+    }
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .stackable-link {
+        transition: background-color .2s;
+    }
+}
+
+.stackable-link.-leftIcon > svg,
+.stackable-link.-rightIcon > svg {
+    /* Could have 2 SVGs: one left and one right. */
+    inline-size: calc(var(--size) * 1.5);
+    block-size: calc(var(--size) * 1.5);
+    fill: var(--color);
+    flex-shrink: 0;
+}
+
+.stackable-link.-rightIcon > svg:last-child {
+    margin-inline-start: auto;
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .stackable-link.-rightIcon > svg:last-child {
+        transition: translate .2s;
+    }
+}
+
+.stackable-link:hover,
+.stackable-link:focus-visible {
+    background-color: oklch(from var(--bgColor, var(--bgColorFallback)) l c h / 70%);
+    outline: none;
+}
+
+.stackable-link:hover.-rightIcon > svg:last-child,
+.stackable-link:focus-visible.-rightIcon > svg:last-child {
+    translate: calc(var(--size) / 2); /* Default. Could be overwritten. */
+}

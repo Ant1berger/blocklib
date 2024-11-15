@@ -626,10 +626,10 @@ var validators = {
 
 /***/ }),
 
-/***/ "./src/knob/edit.js":
-/*!**************************!*\
-  !*** ./src/knob/edit.js ***!
-  \**************************/
+/***/ "./src/stackable-link/edit.js":
+/*!************************************!*\
+  !*** ./src/stackable-link/edit.js ***!
+  \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -647,7 +647,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/knob/block.json");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/stackable-link/block.json");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
@@ -733,14 +733,9 @@ function Edit(props) {
     size,
     selectedColor,
     selectedBGColor,
-    selectedBorderColor,
     selectedFont,
-    rounded,
-    inverted,
-    invisibleBorder,
     leftIcon,
-    invisibleText,
-    fullWidth,
+    rightIcon,
     manualClasses,
     mediaQueries = [],
     renderedMediaQueries,
@@ -767,7 +762,6 @@ function Edit(props) {
       setThemeOptions(settings);
       setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
       setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a background color', 'bloclklib')));
-      setSelectBorderColorOptions(handleThemeOptionsForSelects(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a border color', 'bloclklib')));
       setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
@@ -868,6 +862,7 @@ function Edit(props) {
     });
   }, [renderMediaQueries()]);
   const leftSvg = parseSVG(leftIcon);
+  const rightSvg = parseSVG(rightIcon);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
@@ -929,14 +924,6 @@ function Edit(props) {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
           __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Border color', 'bloclklib'),
-          options: selectBorderColorOptions,
-          value: selectedBorderColor,
-          onChange: newValue => setAttributes({
-            selectedBorderColor: newValue
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
-          __nextHasNoMarginBottom: true,
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font', 'bloclklib'),
           options: selectFontOptions,
           value: selectedFont,
@@ -945,32 +932,6 @@ function Edit(props) {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
           __nextHasNoMarginBottom: true,
-          help: !inverted && invisibleBorder ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Invisible border is more suitable with Inverted buttons', 'bloclklib') : '',
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
-            __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rounded ?', 'bloclklib'),
-            checked: !!rounded,
-            onChange: () => setAttributes({
-              rounded: !rounded
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
-            __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Inverted ?', 'bloclklib'),
-            checked: !!inverted,
-            onChange: () => setAttributes({
-              inverted: !inverted
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
-            __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Invisible border ?', 'bloclklib'),
-            checked: !!invisibleBorder,
-            onChange: () => setAttributes({
-              invisibleBorder: !invisibleBorder
-            })
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
-          __nextHasNoMarginBottom: true,
-          help: !leftIcon && invisibleText ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hide text only if there is at least on icon, or your knob will be empty!', 'bloclklib') : '',
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
             __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Left icon', 'bloclklib'),
@@ -979,21 +940,15 @@ function Edit(props) {
               leftIcon: value
             }),
             placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Paste <svg>', 'blocklib')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
             __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Invisible text ?', 'bloclklib'),
-            checked: !!invisibleText,
-            onChange: () => setAttributes({
-              invisibleText: !invisibleText
-            })
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Right icon', 'bloclklib'),
+            value: rightIcon || '',
+            onChange: value => setAttributes({
+              rightIcon: value
+            }),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Paste <svg>', 'blocklib')
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
-          __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Full width ?', 'bloclklib'),
-          checked: !!fullWidth,
-          onChange: () => setAttributes({
-            fullWidth: !fullWidth
-          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
           __nextHasNoMarginBottom: true,
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Classes', 'bloclklib'),
@@ -1064,10 +1019,9 @@ function Edit(props) {
         '--size': size,
         '--color': selectedColor,
         '--bgColor': selectedBGColor,
-        '--borderColor': selectedBorderColor,
         '--fontFamily': selectedFont
       },
-      className: [blockName, rounded ? '-rounded' : '', inverted ? '-inverted' : '', invisibleBorder ? '-invisibleBorder' : '', leftIcon ? '-leftIcon' : '', invisibleText ? '-invisibleText' : '', fullWidth ? '-fullWidth' : '', manualClasses || ''].filter(Boolean).join(' ')
+      className: [blockName, leftIcon ? '-leftIcon' : '', rightIcon ? '-rightIcon' : '', manualClasses || ''].filter(Boolean).join(' ')
     }, leftSvg, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
       className: `${blockName}-text`,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
@@ -1078,16 +1032,16 @@ function Edit(props) {
         }),
         allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space']
       })
-    }))]
+    }), rightSvg)]
   });
 }
 
 /***/ }),
 
-/***/ "./src/knob/index.css":
-/*!****************************!*\
-  !*** ./src/knob/index.css ***!
-  \****************************/
+/***/ "./src/stackable-link/index.css":
+/*!**************************************!*\
+  !*** ./src/stackable-link/index.css ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1414,13 +1368,13 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
 
 /***/ }),
 
-/***/ "./src/knob/block.json":
-/*!*****************************!*\
-  !*** ./src/knob/block.json ***!
-  \*****************************/
+/***/ "./src/stackable-link/block.json":
+/*!***************************************!*\
+  !*** ./src/stackable-link/block.json ***!
+  \***************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/knob","version":"0.1.0","title":"Knob","category":"text","keywords":["blocklib","text","knob","button"],"description":"A fully customizable button.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"siteUrl":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"size":{"type":"string","default":""},"selectedColor":{"type":"string","default":""},"selectedBGColor":{"type":"string","default":""},"selectedBorderColor":{"type":"string","default":""},"selectedFont":{"type":"string","default":""},"rounded":{"type":"boolean","default":false},"inverted":{"type":"boolean","default":false},"invisibleBorder":{"type":"boolean","default":false},"leftIcon":{"type":"string","default":""},"invisibleText":{"type":"boolean","default":false},"fullWidth":{"type":"boolean","default":false},"manualClasses":{"type":"boolean","default":false},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/stackable-link","version":"0.1.0","title":"Stackable link","category":"text","keywords":["blocklib","text","stackable-link"],"description":"A link that can be stacked for menus, accordions...","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"siteUrl":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"size":{"type":"string","default":""},"selectedColor":{"type":"string","default":""},"selectedBGColor":{"type":"string","default":""},"selectedFont":{"type":"string","default":""},"leftIcon":{"type":"string","default":""},"rightIcon":{"type":"string","default":""},"manualClasses":{"type":"boolean","default":false},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 
@@ -1495,15 +1449,15 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-/*!***************************!*\
-  !*** ./src/knob/index.js ***!
-  \***************************/
+/*!*************************************!*\
+  !*** ./src/stackable-link/index.js ***!
+  \*************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/knob/edit.js");
-/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.css */ "./src/knob/index.css");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/knob/block.json");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/stackable-link/edit.js");
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.css */ "./src/stackable-link/index.css");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/stackable-link/block.json");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
 /**
@@ -1521,14 +1475,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("svg", {
-  viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg",
-  width: "48",
-  height: "48",
-  "aria-hidden": "true",
-  focusable: "false",
+  height: "24px",
+  viewBox: "0 -960 960 960",
+  width: "24px",
+  fill: "#000000",
   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("path", {
-    d: "M8 12.5h8V11H8v1.5Z M19 6.5H5a2 2 0 0 0-2 2V15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5a2 2 0 0 0-2-2ZM5 8h14a.5.5 0 0 1 .5.5V15a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V8.5A.5.5 0 0 1 5 8Z"
+    d: "M360-240h440v-107H360v107ZM160-613h120v-107H160v107Zm0 187h120v-107H160v107Zm0 186h120v-107H160v107Zm200-186h440v-107H360v107Zm0-187h440v-107H360v107ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Z"
   })
 });
 

@@ -57,7 +57,7 @@ const parseSVG = (svgString) => {
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, size, selectedColor, selectedBGColor, selectedBorderColor, selectedFont, rounded, inverted, invisibleBorder, leftIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, size, selectedColor, selectedBGColor, selectedFont, leftIcon, rightIcon, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -77,7 +77,6 @@ export default function Edit(props) {
             setThemeOptions(settings);
             setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
             setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a background color', 'bloclklib' )));
-            setSelectBorderColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a border color', 'bloclklib' )));
             setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, __( 'Select a font', 'bloclklib' )));
         })
         .catch((error) => {
@@ -160,6 +159,7 @@ export default function Edit(props) {
     }, [renderMediaQueries()] );
 
     const leftSvg = parseSVG(leftIcon);
+    const rightSvg = parseSVG(rightIcon);
 
     return (
         <Fragment>
@@ -225,13 +225,6 @@ export default function Edit(props) {
                     />
                     <SelectControl
                         __nextHasNoMarginBottom
-                        label={__( 'Border color', 'bloclklib' )}
-                        options={selectBorderColorOptions}
-                        value={selectedBorderColor}
-                        onChange={(newValue) => setAttributes({ selectedBorderColor: newValue })}
-                    />
-                    <SelectControl
-                        __nextHasNoMarginBottom
                         label={__( 'Font', 'bloclklib' )}
                         options={selectFontOptions}
                         value={selectedFont}
@@ -240,42 +233,6 @@ export default function Edit(props) {
                     <hr/>
                     <BaseControl
                         __nextHasNoMarginBottom
-                        help={ !inverted && invisibleBorder ? __( 'Invisible border is more suitable with Inverted buttons', 'bloclklib' ) : ''}
-                    >
-                        <ToggleControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Rounded ?', 'bloclklib' ) }
-                            checked={ !! rounded }
-                            onChange={ () =>
-                                setAttributes( {
-                                    rounded: ! rounded,
-                                } )
-                            }
-                        />
-                        <ToggleControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Inverted ?', 'bloclklib' ) }
-                            checked={ !! inverted }
-                            onChange={ () =>
-                                setAttributes( {
-                                    inverted: ! inverted,
-                                } )
-                            }
-                        />
-                        <ToggleControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Invisible border ?', 'bloclklib' ) }
-                            checked={ !! invisibleBorder }
-                            onChange={ () =>
-                                setAttributes( {
-                                    invisibleBorder: ! invisibleBorder,
-                                } )
-                            }
-                        />
-                    </BaseControl>
-                    <BaseControl
-                        __nextHasNoMarginBottom
-                        help={ !leftIcon && invisibleText ? __( 'Hide text only if there is at least on icon, or your knob will be empty!', 'bloclklib' ) : ''}
                     >
                         <TextControl
                             __nextHasNoMarginBottom
@@ -284,27 +241,14 @@ export default function Edit(props) {
                             onChange={ ( value ) => setAttributes( { leftIcon: value } ) }
                             placeholder={ __( 'Paste <svg>', 'blocklib' ) }
                         />
-                        <ToggleControl
+                        <TextControl
                             __nextHasNoMarginBottom
-                            label={ __( 'Invisible text ?', 'bloclklib' ) }
-                            checked={ !! invisibleText }
-                            onChange={ () =>
-                                setAttributes( {
-                                    invisibleText: ! invisibleText,
-                                } )
-                            }
+                            label={ __( 'Right icon', 'bloclklib' ) }
+                            value={ rightIcon || '' }
+                            onChange={ ( value ) => setAttributes( { rightIcon: value } ) }
+                            placeholder={ __( 'Paste <svg>', 'blocklib' ) }
                         />
                     </BaseControl>
-                    <ToggleControl
-                        __nextHasNoMarginBottom
-                        label={ __( 'Full width ?', 'bloclklib' ) }
-                        checked={ !! fullWidth }
-                        onChange={ () =>
-                            setAttributes( {
-                                fullWidth: ! fullWidth,
-                            } )
-                        }
-                    />
                     <hr/>
                     <TextControl
                         __nextHasNoMarginBottom
@@ -375,19 +319,14 @@ export default function Edit(props) {
                         '--size': size,
                         '--color': selectedColor,
                         '--bgColor': selectedBGColor,
-                        '--borderColor': selectedBorderColor,
                         '--fontFamily': selectedFont
                     },
                     className: [
                         blockName,
-                        rounded ? '-rounded' : '',
-                        inverted ? '-inverted' : '',
-                        invisibleBorder ? '-invisibleBorder' : '',
                         leftIcon ? '-leftIcon' : '',
-                        invisibleText ? '-invisibleText' : '',
-                        fullWidth ? '-fullWidth' : '',
+                        rightIcon ? '-rightIcon' : '',
                         manualClasses || ''
-                    ].filter(Boolean).join(' ')
+                    ].filter(Boolean).join(' '),
                 },
                 leftSvg,
                 <span className={`${blockName}-text`}>
@@ -397,7 +336,8 @@ export default function Edit(props) {
                         onChange={ ( content ) => setAttributes( { content } ) }
                         allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space' ] }
                     />
-                </span>
+                </span>,
+                rightSvg
             ) }
         </Fragment>
     )
