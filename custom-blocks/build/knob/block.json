@@ -96,8 +96,8 @@
       "default": false
     },
     "manualClasses": {
-      "type": "boolean",
-      "default": false
+      "type": "string",
+      "default": ""
     },
     "blockName": {
       "type": "string",

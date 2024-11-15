@@ -1,0 +1,23 @@
+.dropdown {
+    display: none;
+    grid-template-rows: 0fr;
+    @media(prefers-reduced-motion: no-preference) {
+        transition: grid-template-rows .2s, display .2s allow-discrete;
+    }
+}
+
+.dropdownOpen .dropdown {
+    display: grid;
+    grid-template-rows: 1fr;
+}
+
+@starting-style {
+
+    .dropdownOpen .dropdown {
+        grid-template-rows: 0fr;
+    }
+}
+
+.dropdown-content {
+    overflow: hidden;
+}

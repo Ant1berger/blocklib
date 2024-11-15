@@ -1,16 +1,16 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "custom-blocks/stackable-link",
+  "name": "custom-blocks/dropdown",
   "version": "0.1.0",
-  "title": "Stackable link",
-  "category": "text",
+  "title": "Dropdown",
+  "category": "design",
   "keywords": [
     "blocklib",
-    "text",
-    "stackable-link"
+    "design",
+    "dropdown"
   ],
-  "description": "A link that can be stacked for menus, accordions...",
+  "description": "An animated component for showing/hiding embeded stuff.",
   "example": {},
   "supports": {
     "html": false,
@@ -22,55 +22,15 @@
       "type": "string",
       "default": ""
     },
-    "siteUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "content": {
-      "type": "string",
-      "default": ""
-    },
     "persistentID": {
       "type": "string",
       "default": ""
     },
     "tag": {
       "type": "string",
-      "default": "a"
-    },
-    "url": {
-      "type": "string",
-      "default": "#"
-    },
-    "openInNewTab": {
-      "type": "boolean",
-      "default": false
-    },
-    "type": {
-      "type": "string",
-      "default": ""
-    },
-    "size": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedColor": {
-      "type": "string",
-      "default": ""
+      "default": "div"
     },
     "selectedBGColor": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedFont": {
-      "type": "string",
-      "default": ""
-    },
-    "leftIcon": {
-      "type": "string",
-      "default": ""
-    },
-    "rightIcon": {
       "type": "string",
       "default": ""
     },
