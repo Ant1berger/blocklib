@@ -626,6 +626,154 @@ var validators = {
 
 /***/ }),
 
+/***/ "./src/blocks.js":
+/*!***********************!*\
+  !*** ./src/blocks.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   MyMonacoEditor: () => (/* binding */ MyMonacoEditor),
+/* harmony export */   addMediaQuery: () => (/* binding */ addMediaQuery),
+/* harmony export */   handleThemeOptionsForSelects: () => (/* binding */ handleThemeOptionsForSelects),
+/* harmony export */   parseSVG: () => (/* binding */ parseSVG),
+/* harmony export */   persistentIDs: () => (/* binding */ persistentIDs),
+/* harmony export */   removeMediaQuery: () => (/* binding */ removeMediaQuery),
+/* harmony export */   updateMediaQuery: () => (/* binding */ updateMediaQuery),
+/* harmony export */   updatePersistentIDs: () => (/* binding */ updatePersistentIDs),
+/* harmony export */   updateTagName: () => (/* binding */ updateTagName)
+/* harmony export */ });
+/* harmony import */ var _monaco_editor_react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @monaco-editor/react */ "./node_modules/@monaco-editor/react/dist/index.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+// The file for all shared stuff among blocks.
+
+
+
+// Initialize Monaco editor
+
+const MyMonacoEditor = ({
+  defaultValue,
+  value,
+  onChange
+}) => {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_monaco_editor_react__WEBPACK_IMPORTED_MODULE_0__["default"], {
+    height: "100%",
+    language: "css",
+    theme: "vs-dark",
+    defaultValue: defaultValue,
+    value: value,
+    onChange: newValue => onChange(newValue),
+    options: {
+      minimap: {
+        enabled: false
+      },
+      automaticLayout: true,
+      lineNumbers: false
+    }
+  });
+};
+
+// Initialize unique IDs array
+const persistentIDs = [];
+
+// Create a unique and persistent ID for useBlockProps.
+const updatePersistentIDs = function (setAttributes, persistentID, blockName, clientId) {
+  if (null === persistentID || '' === persistentID || persistentIDs.includes(persistentID)) {
+    const newpersistentID = 'blb-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
+    setAttributes({
+      persistentID: newpersistentID
+    });
+    persistentIDs.push(newpersistentID);
+  } else {
+    persistentIDs.push(persistentID);
+  }
+};
+
+// Transform an SVG string into a React element.
+const parseSVG = svgString => {
+  if (!svgString) return null;
+  // Create a temporary element
+  const div = document.createElement('div');
+  div.innerHTML = svgString.trim();
+
+  // Récupérer le premier élément SVG
+  const svg = div.firstChild;
+
+  // Extraire les attributs du SVG
+  const attrs = {};
+  for (let i = 0; i < svg.attributes.length; i++) {
+    const attr = svg.attributes[i];
+    attrs[attr.name] = attr.value;
+  }
+
+  // Retourner un élément React SVG avec ses attributs et son contenu
+  return React.createElement('svg', {
+    ...attrs,
+    dangerouslySetInnerHTML: {
+      __html: svg.innerHTML
+    }
+  });
+};
+
+// Generates the choices for <select>s from the theme options.
+const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
+  let optionsArray = [{
+    label: emptyOptionText,
+    value: ''
+  }];
+  for (const property in optionId) {
+    if (optionId[property]) {
+      optionsArray.push({
+        label: property,
+        value: 'var(--' + property + ')'
+      });
+    }
+  }
+  ;
+  return optionsArray;
+};
+
+// Avoid empty tagName for the rendered component.
+const updateTagName = (setAttributes, setTagName, newTag, defaultTag) => {
+  if (newTag.trim() === '') {
+    newTag = defaultTag;
+  }
+  setTagName(newTag);
+  setAttributes({
+    tag: newTag
+  });
+};
+
+// Add, remove, update and render the instances CSS, organized by media queries.
+const addMediaQuery = (setAttributes, mediaQueries) => {
+  const newQuery = {
+    minWidth: '',
+    css: ''
+  };
+  setAttributes({
+    mediaQueries: [...mediaQueries, newQuery]
+  });
+};
+const removeMediaQuery = (setAttributes, index, mediaQueries) => {
+  const updatedQueries = mediaQueries.filter((_, i) => i !== index);
+  setAttributes({
+    mediaQueries: updatedQueries
+  });
+};
+const updateMediaQuery = (setAttributes, index, field, value, mediaQueries) => {
+  const updatedQueries = mediaQueries.map((query, i) => i === index ? {
+    ...query,
+    [field]: value
+  } : query);
+  setAttributes({
+    mediaQueries: updatedQueries
+  });
+};
+
+/***/ }),
+
 /***/ "./src/image/edit.js":
 /*!***************************!*\
   !*** ./src/image/edit.js ***!
@@ -642,7 +790,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _monaco_editor_react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @monaco-editor/react */ "./node_modules/@monaco-editor/react/dist/index.mjs");
+/* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../blocks */ "./src/blocks.js");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
@@ -664,32 +812,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// Initialize Monaco editor
-
-const MyMonacoEditor = ({
-  defaultValue,
-  value,
-  onChange
-}) => {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_monaco_editor_react__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    height: "100%",
-    language: "css",
-    theme: "vs-dark",
-    defaultValue: defaultValue,
-    value: value,
-    onChange: newValue => onChange(newValue),
-    options: {
-      minimap: {
-        enabled: false
-      },
-      automaticLayout: true,
-      lineNumbers: false
-    }
-  });
-};
-
-// Initialize unique IDs array
-const persistentIDs = [];
 function Edit(props) {
   const {
     attributes,
@@ -733,61 +855,28 @@ function Edit(props) {
 
   // Create a unique and persistent ID for useBlockProps.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (null === persistentID || '' === persistentID || persistentIDs.includes(persistentID)) {
-      const newpersistentID = 'blb-' + blockName + '-' + clientId.substr(2, 9).replace('-', '');
-      setAttributes({
-        persistentID: newpersistentID
-      });
-      persistentIDs.push(newpersistentID);
-    } else {
-      persistentIDs.push(persistentID);
-    }
+    (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updatePersistentIDs)(setAttributes, persistentID, blockName, clientId);
   }, [blockName]);
 
-  // Add, remove, update and render the instance CSS, organized by media queries.
-  const addMediaQuery = () => {
-    const newQuery = {
-      minWidth: '',
-      css: ''
-    };
-    setAttributes({
-      mediaQueries: [...mediaQueries, newQuery]
-    });
-  };
-  const removeMediaQuery = index => {
-    const updatedQueries = mediaQueries.filter((_, i) => i !== index);
-    setAttributes({
-      mediaQueries: updatedQueries
-    });
-  };
-  const updateMediaQuery = (index, field, value) => {
-    const updatedQueries = mediaQueries.map((query, i) => i === index ? {
-      ...query,
-      [field]: value
-    } : query);
-    setAttributes({
-      mediaQueries: updatedQueries
-    });
-  };
-
-  // Put the returned value in a renderedMediaQueries attribute.
+  // Write media queries. This function stays in this file otherwise copy/paste of blocks don't work properly.
   const renderMediaQueries = () => {
     return mediaQueries.map(query => {
       if (!query.minWidth || !query.css) return null;
       if (query.minWidth !== '0') {
         return `@media (min-width: ${query.minWidth}px) {
-[data-persistentid="${persistentID}"]${query.css}
-}`;
+    [data-persistentid="${persistentID}"]${query.css}
+    }`;
       } else {
         return `[data-persistentid="${persistentID}"]${query.css}`;
       }
     }).join('\n');
   };
+  // Put the returned value in a renderedMediaQueries attribute.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     setAttributes({
       renderedMediaQueries: renderMediaQueries()
     });
-  }, [renderMediaQueries()]);
+  }, [persistentID, renderMediaQueries()]);
 
   // Add and remove images
   const onSelectImage = picture => {
@@ -953,13 +1042,13 @@ function Edit(props) {
             __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('@media (min-width: ', 'bloclklib'),
             value: query.minWidth,
-            onChange: value => updateMediaQuery(index, 'minWidth', value)
+            onChange: value => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'minWidth', value, mediaQueries)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(MyMonacoEditor, {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_blocks__WEBPACK_IMPORTED_MODULE_3__.MyMonacoEditor, {
               defaultValue: `:not(#lalala) {\n}`,
               value: query.css,
-              onChange: value => updateMediaQuery(index, 'css', value)
+              onChange: value => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'css', value, mediaQueries)
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
             isDestructive: true,
@@ -967,11 +1056,11 @@ function Edit(props) {
             size: "small",
             icon: "trash",
             className: "delete",
-            onClick: () => removeMediaQuery(index)
+            onClick: () => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.removeMediaQuery)(setAttributes, index, mediaQueries)
           })]
         }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
           variant: "primary",
-          onClick: addMediaQuery,
+          onClick: _blocks__WEBPACK_IMPORTED_MODULE_3__.addMediaQuery,
           className: "add-media-query",
           children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add a media query', 'bloclklib')
         })]
