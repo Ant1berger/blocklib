@@ -23,17 +23,19 @@
 /*fonts_placholder*/
 
     /* Some recurring lengths */
-    --sectionPadding: 1.2rem;
-    --headerHeight: 9rem;
+    --stagePadding: 1rem;
+    --headerPadding: 1.2rem;
+    --headerHeight: 8rem;
     &:has(.-pageScrolled) {
-        --headerHeight: 5rem;
+        --headerHeight: 6rem;
     }
 
     @media(min-width: 992px) {
-        --sectionPadding: 3.6rem;
-        --headerHeight: 10rem;
+        --stagePadding: 3rem;
+        --headerPadding: 1.8rem;
+        --headerHeight: 12rem;
         &:has(.-pageScrolled) {
-            --headerHeight: 6rem;
+            --headerHeight: 8rem;
         }
     }
 }

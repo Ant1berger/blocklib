@@ -235,7 +235,7 @@ export default function Edit(props) {
                             </Button>
                         </div>
                     ))}
-                    <Button variant="primary" onClick={addMediaQuery} className="add-media-query">
+                    <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                         { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
                 </PanelBody>

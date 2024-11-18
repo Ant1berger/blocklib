@@ -20,7 +20,7 @@
     outline-width: .3rem;
     outline-offset: .2rem;
     outline-style: solid;
-    border-radius: .4rem;
+    /* border-radius: .4rem; */
     padding-inline: var(--size, var(--sizeFallback));
     padding-block: calc(var(--size, var(--sizeFallback)) / 2);
     cursor: pointer;
