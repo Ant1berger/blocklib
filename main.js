@@ -14,5 +14,4 @@ if (mainHeader) {
     }
     document.addEventListener('scroll', adaptHeaderAccordingToScrollY);
     document.addEventListener('DOMContentLoaded', adaptHeaderAccordingToScrollY);
-
 }

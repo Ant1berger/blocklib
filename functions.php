@@ -130,7 +130,7 @@ function addMainCssJs() {
     );
 
     // We take our main files...
-    $main_css_path = get_template_directory() . '/main-auto-generated-dont-edit-me.css';
+    $main_css_path = get_template_directory() . '/main.css';
     $main_js_path = get_template_directory() . '/main.js';
 
     // ... And we inject their content inside our registered <style> and <script> shells.
@@ -208,19 +208,6 @@ function handleThemeOptionsForCSSVarsPlaceholders( $optionId ) {
     foreach(get_option( $optionId ) as $key => $value) {
         if ( isset($value) && !empty($value) ) {
             $css_vars_array[] .= '    --' . $key . ': ' . $value . ';';
-        }
-    }
-    return implode("\n", $css_vars_array);
-}
-
-// And the corresponding classes
-function handleThemeOptionsForClassesPlaceholders( $optionId, $cssProperty ) {
-    $css_vars_array = array();
-    foreach(get_option( $optionId ) as $key => $value) {
-        if ( isset($value) && !empty($value) ) {
-            $css_vars_array[] .= '.u-' . $cssProperty . '-' . $key . ' {
-    ' . $cssProperty . ': var(--' . $key . ');
-}';
         }
     }
     return implode("\n", $css_vars_array);
