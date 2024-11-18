@@ -130,7 +130,7 @@ function addMainCssJs() {
     );
 
     // We take our main files...
-    $main_css_path = get_template_directory() . '/main.css';
+    $main_css_path = get_template_directory() . '/main-auto-generated-dont-edit-me.css';
     $main_js_path = get_template_directory() . '/main.js';
 
     // ... And we inject their content inside our registered <style> and <script> shells.
