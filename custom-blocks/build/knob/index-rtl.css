@@ -20,7 +20,7 @@
     outline-width: .3rem;
     outline-offset: .2rem;
     outline-style: solid;
-    /* border-radius: .4rem; */
+    border-radius: .4rem;
     padding-inline: var(--size, var(--sizeFallback));
     padding-block: calc(var(--size, var(--sizeFallback)) / 2);
     cursor: pointer;
@@ -50,6 +50,19 @@
 .knob.-invisibleBorder { /* Meant to be used with -inverted. */
     border-color: transparent;
     outline: none;
+}
+
+.knob.-invisibleBorder:hover,
+.knob.-invisibleBorder:focus-visible {
+    outline: none;
+    background-color: oklch(from var(--bgColor, var(--bgColorFallback)) l c h / 20%);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob.-invisibleBorder {
+        transition: background-color .2s;
+    }
 }
 
 /* Icons come from Google Fonts: */
@@ -88,5 +101,10 @@
     inline-size: -webkit-fill-available;
     inline-size: -moz-available;
     justify-content: center;
+}
+
+.knob:hover,
+.knob:focus-visible {
+    outline-color: oklch(from var(--borderColor, var(--borderColor)) l c h / 100%);
 }
 
