@@ -1,6 +1,7 @@
 const mainHeader = document.querySelector('.main-header');
 
 if (mainHeader) {
+
     // We want to let the user scroll 40 pixels down before we change the header's appearance.
     const SCROLL_THRESHOLD = 40;
     const CLASS_NAMES = ['-shrunk', '-pageScrolled'];
@@ -14,4 +15,19 @@ if (mainHeader) {
     }
     document.addEventListener('scroll', adaptHeaderAccordingToScrollY);
     document.addEventListener('DOMContentLoaded', adaptHeaderAccordingToScrollY);
+
+    // Mobile nav open/close
+    const mainNavControllers = document.querySelectorAll('.main-nav-overlay, .main-nav-trigger');
+
+    const toggleMenuOnClick = (item) => {
+        item.addEventListener('click', () => {
+            mainHeader.classList.toggle('menuOpen');
+        });
+    }
+
+    if(mainNavControllers.length > 0) {
+        mainNavControllers.forEach((i) => {
+            toggleMenuOnClick(i);
+        })
+    }
 }
