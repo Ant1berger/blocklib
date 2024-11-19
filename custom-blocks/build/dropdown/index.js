@@ -832,11 +832,6 @@ function Edit(props) {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
   const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)({
     className: `${blockName}-content`
-  }, {
-    template: [['custom-blocks/text', {
-      content: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Default Stage content, put as many components as you like inside.', 'bloclklib')
-    }]],
-    templateLock: false
   });
 
   // Fetches datas from WP database and pass it to the themeOptions state.

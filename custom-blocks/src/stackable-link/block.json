@@ -18,10 +18,6 @@
             "type": "string",
             "default": ""
         },
-        "siteUrl": {
-            "type": "string",
-            "default": ""
-        },
         "content": {
             "type": "string",
             "default": ""

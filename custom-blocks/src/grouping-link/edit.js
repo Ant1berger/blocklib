@@ -15,10 +15,7 @@ export default function Edit(props) {
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
     const blockProps = useBlockProps();
-    const innerBlocksProps = useInnerBlocksProps(blockProps, {
-        template: [[ 'custom-blocks/text', { content: __( 'Default Group content, put as many components as you like inside.', 'bloclklib' ) } ]],
-        templateLock: false
-    });
+    const innerBlocksProps = useInnerBlocksProps(blockProps);
 
     // Fetches datas from WP database and pass it to the themeOptions state.
     useEffect(() => {
