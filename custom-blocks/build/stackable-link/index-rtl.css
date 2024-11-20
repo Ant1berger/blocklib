@@ -57,7 +57,8 @@
 }
 
 .stackable-link:hover,
-.stackable-link:focus-visible {
+.stackable-link:focus-visible,
+.stackable-link.-current {
     background-color: oklch(from var(--bgColor, var(--bgColorFallback)) l c h / 70%);
     outline: none;
 }

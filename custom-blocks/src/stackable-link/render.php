@@ -23,6 +23,15 @@
 
         add_component($componentName);
     }
+
+    // Get post URL to compare with url block attribute to allow styling the "current" menu item.
+    global $post; // Global object $post
+    if (!is_object($post)) { // Verifying $post is defined to avoid errors.
+        return '';
+    }
+    $post_url = get_permalink($post->ID); // Get post url from its ID.
+    $relative_url = wp_make_link_relative($post_url); // Get relative url only.
+
 ?>
 
 <?php if (!empty($attributes['renderedMediaQueries'])) { ?>
@@ -43,7 +52,7 @@
     <?php if (!empty($attributes['anchor'])) { ?>
         id="<?php echo $attributes['anchor']; ?>"
     <?php } ?>
-    <?php if ($attributes['tag'] === 'a') { ?>
+    <?php if ($attributes['tag'] === 'a' && !empty($attributes['url'])) { ?>
         href="<?php echo $attributes['url']; ?>"
     <?php } ?>
     <?php if ($attributes['openInNewTab'] && $attributes['tag'] === 'a') { echo 'target="_blank" rel="noopener noreferrer"';} ?>
@@ -59,6 +68,9 @@
         }
         if (!empty($attributes['rightIcon'])) {
             echo ' -rightIcon';
+        }
+        if (!empty($attributes['url']) && $attributes['url'] === $relative_url) {
+            echo ' -current';
         }
     ?>"
     <?php if (!empty($attributes['size']) || !empty($attributes['selectedColor']) || !empty($attributes['selectedBGColor']) || !empty($attributes['selectedFont'])) { ?>

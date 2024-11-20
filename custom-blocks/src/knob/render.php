@@ -43,7 +43,7 @@
     <?php if (!empty($attributes['anchor'])) { ?>
         id="<?php echo $attributes['anchor']; ?>"
     <?php } ?>
-    <?php if ($attributes['tag'] === 'a') { ?>
+    <?php if ($attributes['tag'] === 'a' && !empty($attributes['url'])) { ?>
         href="<?php echo $attributes['url']; ?>"
     <?php } ?>
     <?php if ($attributes['openInNewTab'] && $attributes['tag'] === 'a') { echo 'target="_blank" rel="noopener noreferrer"';} ?>
