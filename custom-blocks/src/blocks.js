@@ -7,7 +7,7 @@ export const MyMonacoEditor = ({ defaultValue, value, onChange }) => {
     return (
         <MonacoEditor
             height="100%"
-            language="scss"
+            language="css"
             theme="vs-dark"
             defaultValue={defaultValue}
             value={value}
