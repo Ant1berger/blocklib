@@ -660,7 +660,7 @@ const MyMonacoEditor = ({
 }) => {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_monaco_editor_react__WEBPACK_IMPORTED_MODULE_0__["default"], {
     height: "100%",
-    language: "css",
+    language: "scss",
     theme: "vs-dark",
     defaultValue: defaultValue,
     value: value,

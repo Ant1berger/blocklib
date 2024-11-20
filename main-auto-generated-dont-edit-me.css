@@ -186,7 +186,7 @@
 
 /* carefull with those two : test contrast for accessibility. Should be optional. */
 * {
-    scrollbar-color: var(--secondaryColor) var(--primaryColor);
+    scrollbar-color: var(--brand_1) var(--brand_2);
 }
 
 ::selection {
@@ -211,7 +211,7 @@ body {
     margin: 0;
     font-family: var(--font_1);
     font-size: 1.6rem;
-    color: var(--greyStart);
+    color: var(--grey_start);
     min-inline-size: 32rem;
     min-block-size: 100vh;
     display: flex;
@@ -258,9 +258,9 @@ display: block;
 }
 
 .noScript {
-    background-color: var(--greyEnd);
+    background-color: var(--grey_end);
     padding: 1rem;
-    color: var(--greyStart);
+    color: var(--grey_start);
     display: block;
     position: relative;
     z-index: 1000000;
