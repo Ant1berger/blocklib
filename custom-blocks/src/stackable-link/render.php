@@ -31,7 +31,6 @@
     }
     $post_url = get_permalink($post->ID); // Get post url from its ID.
     $relative_url = wp_make_link_relative($post_url); // Get relative url only.
-
 ?>
 
 <?php if (!empty($attributes['renderedMediaQueries'])) { ?>
@@ -69,7 +68,7 @@
         if (!empty($attributes['rightIcon'])) {
             echo ' -rightIcon';
         }
-        if (!empty($attributes['url']) && $attributes['url'] === $relative_url) {
+        if (!empty($attributes['url']) && trim($relative_url, '/') === trim($attributes['url'], '/')) {
             echo ' -current';
         }
     ?>"
