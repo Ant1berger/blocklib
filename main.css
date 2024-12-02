@@ -176,14 +176,14 @@
 /*********/
 
 /* carefull with those two : test contrast for accessibility. Should be optional. */
-* {
+/* * {
     scrollbar-color: var(--brand_1) var(--brand_2);
 }
 
 ::selection {
     color: var(--brand_2);
     background-color: var(--brand_1);
-}
+} */
 
 html {
     font-size: 62.5%;
@@ -257,6 +257,12 @@ display: block;
     z-index: 1000000;
 }
 
+/* To hide page title on editing area. */
 .editor-visual-editor__post-title-wrapper {
     display: none;
+}
+
+/* To see transparent header in composition editor. */
+.block-editor-iframe__body:not(.post-type-page) {
+    background-color: #eeeeee;
 }
