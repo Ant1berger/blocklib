@@ -6,6 +6,14 @@
 remove_theme_support( 'block-templates' );
 
 //****************************
+// Remove type attribute in <script> and <style>.
+//****************************
+function register_html_support() {
+    add_theme_support( 'html5', array( 'script', 'style' ) );
+}
+add_action( 'after_setup_theme', 'register_html_support' );
+
+//****************************
 // Remove DNS prefetch <link rel="dns-prefetch" href="//s.w.org">
 //****************************
 add_filter( 'emoji_svg_url', '__return_false' );
@@ -107,7 +115,7 @@ add_filter('upload_mimes', 'wpc_mime_types');
 add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 
 //****************************
-// Enqueue styles and scripts
+// Enqueue main styles and scripts
 //****************************
 function addMainCssJs() {
     // We don't want to enqueue files with src to reduce the number of http requests.
@@ -161,6 +169,11 @@ function get_components() {
 }
 
 //****************************
+// A bit similar to the previous: we initialise a variable to compile all blocks instances styles.
+//****************************
+$components_instances_styles = '';
+
+//****************************
 // Register Gutenberg custom blocks.
 //****************************
 function theme_register_blocks() {
@@ -173,6 +186,7 @@ function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/knob' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/stackable-link' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/dropdown' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/list' );
 }
 add_action( 'init', 'theme_register_blocks' );
 
@@ -191,7 +205,8 @@ function custom_allowed_block_types( $allowed_block_types, $block_editor_context
         'custom-blocks/image',
         'custom-blocks/knob',
         'custom-blocks/stackable-link',
-        'custom-blocks/dropdown'
+        'custom-blocks/dropdown',
+        'custom-blocks/list'
     );
     return $allowed_block_types;
 }
@@ -218,6 +233,52 @@ add_action('enqueue_block_editor_assets', 'add_scripts_to_gutenberg');
 add_action('enqueue_block_editor_assets', function() {
     wp_add_inline_style('wp-edit-blocks', get_custom_block_common_styles());
 });
+
+//****************************
+// Bring blocks styles (blocks global styles AND instances styles) into the <head> for a better page quality in the front-end.
+//****************************
+add_action('template_redirect', function () {
+    // Start buffering to capture the whole document.
+    ob_start();
+});
+
+add_action('shutdown', function () {
+    global $components, $components_instances_styles;
+
+    // Stop buffering and give the result to $final_output.
+    $final_output = ob_get_clean();
+    if (!$final_output) {
+        return;
+    }
+
+    // Loop between blocks to retrieve their global styles.
+    $inline_styles = '';
+    foreach ($components as $component) {
+        $style_path = get_template_directory() . "/custom-blocks/build/{$component}/index.css";
+        if (file_exists($style_path)) {
+            $inline_styles .= file_get_contents($style_path) . "\n";
+        }
+    }
+
+    // Add instances styles to global styles.
+    $inline_styles .= $components_instances_styles . "\n";
+
+    if (!empty($inline_styles)) {
+        // Inject all styles into a <style> tag
+        $style_tag = "<style id='blb-blocks-inline-css'>\n" . $inline_styles . "</style>";
+
+        // Inject the <style> tag before the end of <head>.
+        $final_output = preg_replace(
+            '/<\/head>/',
+            $style_tag . "\n</head>",
+            $final_output,
+            1
+        );
+    }
+
+    // Render the modified content
+    echo $final_output;
+}, 0);
 
 //****************************
 // Add theme customizer options.

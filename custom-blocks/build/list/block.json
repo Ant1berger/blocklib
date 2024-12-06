@@ -1,17 +1,16 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "custom-blocks/stage",
+  "name": "custom-blocks/list",
   "version": "0.1.0",
-  "title": "Stage",
-  "category": "design",
+  "title": "List",
+  "category": "text",
   "keywords": [
     "blocklib",
-    "design",
-    "stage",
-    "section"
+    "text",
+    "list"
   ],
-  "description": "The biggest part of a page: a section containing the main column of the website.",
+  "description": "An empty container for grouping list items.",
   "example": {},
   "supports": {
     "html": false,
@@ -29,9 +28,17 @@
     },
     "tag": {
       "type": "string",
-      "default": "div"
+      "default": "ul"
     },
     "selectedBGColor": {
+      "type": "string",
+      "default": ""
+    },
+    "selectedColor": {
+      "type": "string",
+      "default": ""
+    },
+    "selectedFont": {
       "type": "string",
       "default": ""
     },

@@ -1,0 +1,28 @@
+/*!************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/list/index.css ***!
+  \************************************************************************************************************************************************************************/
+.list {
+    --colorFallback: #cccccc;
+    --bgColorFallback: transparent;
+    --fontFamilyFallback: Arial, Helvetica, sans-serif;
+    background-color: var(--bgColor, var(--bgColorFallback));
+    color: var(--color, var(--colorFallback));
+    font-family: var(--fontFamily, var(--fontFamilyFallback));
+    list-style-position: outside;
+    margin: 0;
+
+    &:has(.-customMarker) {
+        padding: 0;
+    }
+}
+.list-item {
+    margin-block-end: 1rem;
+
+    &.-customMarker {
+        list-style: none;
+        padding-inline-start: 4rem;
+        background-repeat: no-repeat;
+        background-size: clamp(2rem, calc(var(--vertical-base) * 1.3333), 3.5rem);
+    }
+}
+

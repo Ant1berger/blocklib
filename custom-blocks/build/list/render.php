@@ -27,7 +27,7 @@ if (!empty($attributes['renderedMediaQueries'])) {
     if (isset($attributes['tag'])) {
         echo $attributes['tag'];
     } else {
-        $attributes['tag'] = 'h1';
+        $attributes['tag'] = 'ul';
         echo $attributes['tag'];
     }
 ?>
@@ -40,8 +40,11 @@ if (!empty($attributes['renderedMediaQueries'])) {
             echo ' ' . $attributes['manualClasses'];
         }
     ?>"
-    <?php if (!empty($attributes['selectedColor']) || !empty($attributes['selectedFont'])) { ?>
+     <?php if (!empty($attributes['selectedBGColor']) || !empty($attributes['selectedColor']) || !empty($attributes['selectedFont'])) { ?>
         style="
+        <?php if (!empty($attributes['selectedBGColor'])) { ?>
+            --bgColor: <?php echo $attributes['selectedBGColor'];?>;
+        <?php } ?>
         <?php if (!empty($attributes['selectedColor'])) { ?>
             --color: <?php echo $attributes['selectedColor'];?>;
         <?php } ?>
@@ -52,5 +55,5 @@ if (!empty($attributes['renderedMediaQueries'])) {
     <?php } ?>
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 >
-<?php echo $attributes['content']; ?>
+<?php echo do_blocks( $content ); ?>
 </<?php echo $attributes['tag']; ?>>
