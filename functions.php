@@ -114,6 +114,9 @@ add_filter('upload_mimes', 'wpc_mime_types');
 //****************************
 add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 
+// Disable auto-sizes to fix bug that WordPress 671 added.
+add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
+
 //****************************
 // Enqueue main styles and scripts
 //****************************

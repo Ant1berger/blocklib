@@ -4,6 +4,6 @@
     color: var(--color, var(--colorFallback));
     font-family: var(--fontFamily, var(--fontFamilyFallback));
     margin: 0;
-    text-wrap: balance;
+    text-wrap: pretty;
     hyphens: auto;
 }

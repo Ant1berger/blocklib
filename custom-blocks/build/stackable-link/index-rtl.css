@@ -5,7 +5,7 @@
     --sizeFallback: 1.8rem;
     --colorFallback: #cccccc;
     --bgColorFallback: #dddddd;
-    --fontFamilyFallback: Arial, Helvetica, sans-serif
+    --fontFamilyFallback: Arial, Helvetica, sans-serif;
     font-family: var(--fontFamily, var(--fontFamilyFallback));
     font-size: var(--size, var(--sizeFallback));
     line-height: calc(var(--size, var(--sizeFallback)) * 1.5);
