@@ -8,7 +8,6 @@
     background-color: var(--bgColor, var(--bgColorFallback));
     color: var(--color, var(--colorFallback));
     font-family: var(--fontFamily, var(--fontFamilyFallback));
-    list-style-position: outside;
     margin: 0;
 
     &:has(.-customMarker) {

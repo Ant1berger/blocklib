@@ -730,7 +730,7 @@ html {
 body {
     margin: 0;
     font-family: var(--font_1);
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     color: var(--grey_start);
     min-inline-size: 32rem;
     min-block-size: 100vh;

@@ -11,7 +11,7 @@
     line-height: calc(var(--size, var(--sizeFallback)) * 1.5);
     text-decoration: none;
     display: flex;
-    gap: calc(var(--size) / 2);
+    gap: calc(var(--size, var(--sizeFallback)) / 2);
     inline-size: -webkit-fill-available;
     inline-size: -moz-available;
     color: var(--color, var(--colorFallback));
@@ -24,9 +24,6 @@
     -webkit-user-select: none;
        -moz-user-select: none;
             user-select: none;
-    @media(prefers-reduced-motion: no-preference) {
-        transition: background-color .2s;
-    }
 }
 
 @media(prefers-reduced-motion: no-preference) {
@@ -39,8 +36,8 @@
 .stackable-link.-leftIcon > svg,
 .stackable-link.-rightIcon > svg {
     /* Could have 2 SVGs: one left and one right. */
-    inline-size: calc(var(--size) * 1.5);
-    block-size: calc(var(--size) * 1.5);
+    inline-size: calc(var(--size, var(--sizeFallback)) * 1.5);
+    block-size: calc(var(--size, var(--sizeFallback)) * 1.5);
     fill: var(--color);
     flex-shrink: 0;
 }
@@ -65,6 +62,6 @@
 
 .stackable-link:hover.-rightIcon > svg:last-child,
 .stackable-link:focus-visible.-rightIcon > svg:last-child {
-    translate: calc(var(--size) / 2);
+    translate: calc(var(--size, var(--sizeFallback)) / 2);
 }
 
