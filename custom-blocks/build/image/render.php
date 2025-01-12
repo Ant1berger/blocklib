@@ -16,6 +16,17 @@
         }
 
         $image_attributes = wp_get_attachment_image_src( $attachment_id = $attributes['pictureID'], 'full' );
+
+        if ($image_attributes && is_array($image_attributes)) {
+            $image_url = $image_attributes[0];
+            $image_width = $image_attributes[1];
+            $image_height = $image_attributes[2];
+        } else {
+            // Handle the case where $image_attributes is not valid
+            $image_url = '';
+            $image_width = '';
+            $image_height = '';
+        }
     }
 ?>
 
@@ -62,8 +73,8 @@ if (!empty($attributes['renderedMediaQueries'])) {
         sizes="<?php echo $attributes['pictureSizesAttribute']; ?>"
     <?php } ?>
     <?php // Here we use the dimensions from wp_get_attachment_image_src, in case the image is a SVG. ?>
-    width="<?php echo $image_attributes[1]; ?>"
-    height="<?php echo $image_attributes[2]; ?>"
+    width="<?php echo esc_attr($image_width); ?>"
+    height="<?php echo esc_attr($image_height); ?>"
     alt="<?php echo $attributes['pictureAlt']; ?>"
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 />

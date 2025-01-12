@@ -190,6 +190,7 @@ function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/stackable-link' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/dropdown' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/list' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/language-switcher' );
 }
 add_action( 'init', 'theme_register_blocks' );
 
@@ -209,7 +210,8 @@ function custom_allowed_block_types( $allowed_block_types, $block_editor_context
         'custom-blocks/knob',
         'custom-blocks/stackable-link',
         'custom-blocks/dropdown',
-        'custom-blocks/list'
+        'custom-blocks/list',
+        'custom-blocks/language-switcher'
     );
     return $allowed_block_types;
 }

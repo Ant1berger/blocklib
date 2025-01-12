@@ -1,0 +1,23 @@
+.language-switcher {
+    --colorFallback: #cccccc;
+    --fontFamilyFallback: Arial, Helvetica, sans-serif;
+    color: var(--color, var(--colorFallback));
+    font-family: var(--fontFamily, var(--fontFamilyFallback));
+}
+
+.language-switcher-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+.language-switcher-item > .language-switcher-image {
+    opacity: .3;
+}
+
+.language-switcher-link {
+    text-decoration: none;
+    color: inherit;
+}
