@@ -698,17 +698,17 @@ const parseSVG = svgString => {
   const div = document.createElement('div');
   div.innerHTML = svgString.trim();
 
-  // Récupérer le premier élément SVG
+  // Retrieve the first SVG element.
   const svg = div.firstChild;
 
-  // Extraire les attributs du SVG
+  // Extract SVG attributes.
   const attrs = {};
   for (let i = 0; i < svg.attributes.length; i++) {
     const attr = svg.attributes[i];
     attrs[attr.name] = attr.value;
   }
 
-  // Retourner un élément React SVG avec ses attributs et son contenu
+  // Return a React element with the SVG content and attributes.
   return React.createElement('svg', {
     ...attrs,
     dangerouslySetInnerHTML: {

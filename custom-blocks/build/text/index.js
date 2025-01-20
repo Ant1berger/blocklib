@@ -698,17 +698,17 @@ const parseSVG = svgString => {
   const div = document.createElement('div');
   div.innerHTML = svgString.trim();
 
-  // Récupérer le premier élément SVG
+  // Retrieve the first SVG element.
   const svg = div.firstChild;
 
-  // Extraire les attributs du SVG
+  // Extract SVG attributes.
   const attrs = {};
   for (let i = 0; i < svg.attributes.length; i++) {
     const attr = svg.attributes[i];
     attrs[attr.name] = attr.value;
   }
 
-  // Retourner un élément React SVG avec ses attributs et son contenu
+  // Return a React element with the SVG content and attributes.
   return React.createElement('svg', {
     ...attrs,
     dangerouslySetInnerHTML: {
@@ -1000,10 +1000,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+// This file is mainly here to allow Gutenberg to record the HTML in the database,
+// in order to allow tools like Yoast SEO to crawl the content.
 
 
 
@@ -1013,25 +1013,11 @@ function save(props) {
   } = props;
   const {
     tag,
-    persistentID,
-    blockName,
-    selectedColor,
-    selectedFont,
-    manualClasses,
     content
   } = attributes;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
-    ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save(),
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
-      tagName: tag,
-      value: content,
-      "data-persistentid": persistentID,
-      style: {
-        '--color': selectedColor,
-        '--fontFamily': selectedFont
-      },
-      className: [blockName, manualClasses || ''].filter(Boolean).join(' ')
-    })
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
+    tagName: tag,
+    value: content
   });
 }
 
