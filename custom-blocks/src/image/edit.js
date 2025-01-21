@@ -51,7 +51,6 @@ export default function Edit(props) {
 
     // Add and remove images
     const onSelectImage = picture => {
-        console.log(picture);
         setAttributes({
             pictureID: picture.id,
             pictureURL: picture.url,

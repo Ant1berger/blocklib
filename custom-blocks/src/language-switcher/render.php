@@ -56,7 +56,7 @@
                     <img class="language-switcher-image" src="<?php echo $language['flag']; ?>" alt="<?php echo $language['slug']; ?>">
                 <?php } else { ?>
                     <a class="language-switcher-link" href="<?php echo $language['url']; ?>">
-                        <img class="language-switcher-image" title="<?php echo $language['name']; ?>" src="<?php echo $language['flag']; ?>" alt="<?php echo $language['slug']; ?>">
+                        <img class="language-switcher-image" width="16" height="11" title="<?php echo $language['name']; ?>" src="<?php echo $language['flag']; ?>" alt="<?php echo $language['slug']; ?>">
                     </a>
                 <?php } ?>
             </li>
