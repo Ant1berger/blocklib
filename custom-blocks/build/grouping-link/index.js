@@ -999,6 +999,76 @@ function Edit(props) {
 
 /***/ }),
 
+/***/ "./src/grouping-link/save.js":
+/*!***********************************!*\
+  !*** ./src/grouping-link/save.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ save)
+/* harmony export */ });
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+// This file is mainly here to allow Gutenberg to record the HTML in the database,
+// in order to allow tools like Yoast SEO to crawl the content.
+
+// Blocks that use InnerBlocks render with do_blocks( $content ) in render.php, and this takes the whole returned material of save(),
+// unlike with RichText that renders only its value attribute.
+// So in this case, save() has to handle the HTML and HTML attributes of the block instead of render.php.
+
+
+
+function save(props) {
+  const {
+    attributes
+  } = props;
+  const {
+    tag,
+    url,
+    persistentID,
+    blockName,
+    anchor,
+    selectedBGColor,
+    manualClasses,
+    otherAttributes
+  } = attributes;
+  const extraAttributes = {};
+  if (tag === 'a' && url) {
+    extraAttributes.href = url;
+  }
+  if (anchor) {
+    extraAttributes.id = anchor;
+  }
+  if (otherAttributes) {
+    try {
+      const div = document.createElement('div');
+      div.innerHTML = `<div ${otherAttributes}></div>`;
+      const attributes = div.firstChild.attributes;
+      const parsedAttributes = {};
+      for (let attr of attributes) {
+        parsedAttributes[attr.name] = attr.value;
+      }
+      Object.assign(extraAttributes, parsedAttributes);
+    } catch (error) {
+      console.warn('Invalid attribute string in otherAttributes:', otherAttributes);
+    }
+  }
+  return React.createElement(tag, {
+    'data-persistentid': persistentID,
+    style: {
+      '--bgColor': selectedBGColor
+    },
+    className: [blockName, manualClasses || ''].filter(Boolean).join(' '),
+    ...extraAttributes
+  }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InnerBlocks.Content, {}));
+}
+
+/***/ }),
+
 /***/ "./src/grouping-link/index.css":
 /*!*************************************!*\
   !*** ./src/grouping-link/index.css ***!
@@ -1407,12 +1477,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/grouping-link/edit.js");
-/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.css */ "./src/grouping-link/index.css");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/grouping-link/block.json");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./src/grouping-link/save.js");
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.css */ "./src/grouping-link/index.css");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/grouping-link/block.json");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -1428,13 +1499,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
+
+const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   height: "48px",
   viewBox: "0 -960 960 960",
   width: "48px",
   fill: "#000000",
-  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
     d: "M180-160q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h600q24 0 42 18t18 42v302q-8-1-14.65-1.5T811-520h-31v-300H180v600h137q5 16 10.5 31t13.5 29H180Zm0-120v60-600 540Zm110-50h30q11-37 36-74t57-66H290v140Zm0-240h140v-140H290v140Zm270 450q-66 0-113-47t-47-113q0-66 47-113t113-47h70v60h-70q-42 0-71 29t-29 71q0 42 29 71t71 29h81v60h-81Zm-30-450h140v-140H530v140Zm30 320v-60h240v60H560Zm160 130v-60h80q42 0 71-29t29-71q0-42-29-71t-71-29h-70v-60h70q66 0 113 46.5T960-280q0 66-47 113t-113 47h-80Z"
   })
 });
@@ -1444,7 +1516,7 @@ const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__.name, {
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
   icon: blockIcon,
   /**
    * @see ./edit.js
@@ -1453,9 +1525,7 @@ const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__
   /**
    * @see ./save.js
    */
-  save: props => {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.InnerBlocks.Content, {});
-  }
+  save: _save__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 })();
 

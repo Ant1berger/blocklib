@@ -22,30 +22,4 @@ if (!empty($attributes['renderedMediaQueries'])) {
 }
 ?>
 
-
-<<?php
-    if (isset($attributes['tag'])) {
-        echo $attributes['tag'];
-    } else {
-        $attributes['tag'] = 'div';
-        echo $attributes['tag'];
-    }
-?>
-    data-persistentid="<?php echo $attributes['persistentID']; ?>"
-    <?php if (!empty($attributes['anchor'])) { ?>
-    id="<?php echo $attributes['anchor']; ?>"
-    <?php } ?>
-    class="<?php echo $attributes['blockName']; ?><?php
-        if (!empty($attributes['manualClasses'])) {
-            echo ' ' . $attributes['manualClasses'];
-        }
-    ?>"
-    <?php if (!empty($attributes['selectedBGColor'])) { ?>
-        style="--bgColor: <?php echo $attributes['selectedBGColor'];?>;"
-    <?php } ?>
-    <?php echo wp_kses_post($attributes['otherAttributes']); ?>
->
-<div class="<?php echo $attributes['blockName']; ?>-content">
-    <?php echo do_blocks( $content ); ?>
-</div>
-</<?php echo $attributes['tag']; ?>>
+<?php echo do_blocks( $content ); ?>

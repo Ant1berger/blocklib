@@ -22,38 +22,4 @@ if (!empty($attributes['renderedMediaQueries'])) {
 }
 ?>
 
-
-<<?php
-    if (isset($attributes['tag'])) {
-        echo $attributes['tag'];
-    } else {
-        $attributes['tag'] = 'ul';
-        echo $attributes['tag'];
-    }
-?>
-    data-persistentid="<?php echo $attributes['persistentID']; ?>"
-    <?php if (!empty($attributes['anchor'])) { ?>
-    id="<?php echo $attributes['anchor']; ?>"
-    <?php } ?>
-    class="<?php echo $attributes['blockName']; ?><?php
-        if (!empty($attributes['manualClasses'])) {
-            echo ' ' . $attributes['manualClasses'];
-        }
-    ?>"
-     <?php if (!empty($attributes['selectedBGColor']) || !empty($attributes['selectedColor']) || !empty($attributes['selectedFont'])) { ?>
-        style="
-        <?php if (!empty($attributes['selectedBGColor'])) { ?>
-            --bgColor: <?php echo $attributes['selectedBGColor'];?>;
-        <?php } ?>
-        <?php if (!empty($attributes['selectedColor'])) { ?>
-            --color: <?php echo $attributes['selectedColor'];?>;
-        <?php } ?>
-        <?php if (!empty($attributes['selectedFont'])) { ?>
-            --fontFamily: <?php echo $attributes['selectedFont'];?>;
-        <?php } ?>
-        "
-    <?php } ?>
-    <?php echo wp_kses_post($attributes['otherAttributes']); ?>
->
 <?php echo do_blocks( $content ); ?>
-</<?php echo $attributes['tag']; ?>>

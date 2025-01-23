@@ -9,7 +9,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
 
 export default function save(props) {
     const { attributes } = props;
-    const { tag, persistentID, blockName, anchor, selectedBGColor, manualClasses, otherAttributes } = attributes;
+    const { tag, persistentID, blockName, anchor, selectedBGColor, selectedColor, selectedFont, manualClasses, otherAttributes } = attributes;
 
     const extraAttributes = {};
     if (anchor) {
@@ -35,7 +35,9 @@ export default function save(props) {
         {
             'data-persistentid': persistentID,
             style: {
-                '--bgColor': selectedBGColor
+                '--bgColor': selectedBGColor,
+                '--color': selectedColor,
+                '--fontFamily': selectedFont
             },
             className: [
                 blockName,
@@ -43,8 +45,6 @@ export default function save(props) {
             ].filter(Boolean).join(' '),
             ...extraAttributes
         },
-        <div className={ blockName + '-content' }>
-            <InnerBlocks.Content />
-        </div>
+        <InnerBlocks.Content />
     )
 }

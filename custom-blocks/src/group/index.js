@@ -9,6 +9,7 @@ import { registerBlockType } from '@wordpress/blocks';
  * Internal dependencies
  */
 import Edit from './edit';
+import save from './save';
 import './index.css';
 import metadata from './block.json';
 import { InnerBlocks } from '@wordpress/block-editor'
@@ -28,9 +29,8 @@ registerBlockType( metadata.name, {
 	 * @see ./edit.js
 	 */
 	edit: Edit,
-
-	/**
-	 * @see ./save.js
-	 */
-	save: props => { return <InnerBlocks.Content /> }
+    /**
+     * @see ./save.js
+     */
+    save
 } );

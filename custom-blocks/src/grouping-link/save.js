@@ -9,9 +9,12 @@ import { InnerBlocks } from '@wordpress/block-editor';
 
 export default function save(props) {
     const { attributes } = props;
-    const { tag, persistentID, blockName, anchor, selectedBGColor, manualClasses, otherAttributes } = attributes;
+    const { tag, url, persistentID, blockName, anchor, selectedBGColor, manualClasses, otherAttributes } = attributes;
 
     const extraAttributes = {};
+    if (tag === 'a' && url) {
+        extraAttributes.href = url;
+    }
     if (anchor) {
         extraAttributes.id = anchor;
     }
@@ -43,8 +46,6 @@ export default function save(props) {
             ].filter(Boolean).join(' '),
             ...extraAttributes
         },
-        <div className={ blockName + '-content' }>
-            <InnerBlocks.Content />
-        </div>
+        <InnerBlocks.Content />
     )
 }
