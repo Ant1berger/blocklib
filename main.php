@@ -32,7 +32,6 @@
         <noscript class="noScript">
             Ce site a besoin de JavaScript pour fonctionner. Nous vous conseillons de l'activer dans votre navigateur pour profiter de toutes les fonctionnalités proposées.<br><br>This website needs JavaScript to run properly. We advice you to activate it in your browser in order to enjoy every provided functionalities.
         </noscript>
-        <!-- Header -->
         <main class="mainContent" id="main-content">
             <?php the_content(); ?>
         </main>

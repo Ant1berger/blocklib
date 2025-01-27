@@ -716,12 +716,6 @@ function get_custom_block_common_styles() {
     background-color: var(--brand_1);
 } */
 
-html {
-    font-size: 62.5%;
-    -webkit-text-size-adjust: none; /* for iOS Safari */
-    text-size-adjust: none; /* for other mobile browsers */
-}
-
 @media(prefers-reduced-motion: no-preference) {
 
     html {
@@ -729,63 +723,66 @@ html {
     }
 }
 
-body {
-    margin: 0;
-    font-family: var(--font_1);
-    font-size: 1.8rem;
-    color: var(--grey_start);
-    min-inline-size: 32rem;
-    min-block-size: 100vh;
-    display: flex;
-    flex-direction: column;
+html:not(.interface-interface-skeleton__html-container) { /* To avoid applying unwanted styles to editor elements. */
 
-    &:has(.menuOpen) {
-        overflow: hidden;
+    body {
+        margin: 0;
+        font-family: var(--font_1);
+        font-size: 1.8rem;
+        color: var(--grey_start);
+        min-inline-size: 32rem;
+        min-block-size: 100vh;
+        display: flex;
+        flex-direction: column;
 
-        @media(min-width: 1240px) {
-            overflow: visible;
+        &:has(.menuOpen) {
+            overflow: hidden;
+
+            @media(min-width: 1240px) {
+                overflow: visible;
+            }
         }
     }
-}
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    border: none;
-}
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        border: none;
+    }
 
-label,
-button,
-select,
-summary,
-[type=radio],
-[type=submit],
-[type=checkbox] {
-    cursor: pointer;
-}
+    label,
+    button,
+    select,
+    summary,
+    [type=radio],
+    [type=submit],
+    [type=checkbox] {
+        cursor: pointer;
+    }
 
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-display: block;
-}
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section {
+        display: block;
+    }
 
-.noScript {
-    background-color: var(--grey_end);
-    padding: 1rem;
-    color: var(--grey_start);
-    display: block;
-    position: relative;
-    z-index: 1000000;
+    .noScript {
+        background-color: var(--grey_end);
+        padding: 1rem;
+        color: var(--grey_start);
+        display: block;
+        position: relative;
+        z-index: 1000000;
+    }
 }
 
 /* To hide page title on editing area. */
