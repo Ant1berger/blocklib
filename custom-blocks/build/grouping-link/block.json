@@ -42,10 +42,6 @@
       "type": "string",
       "default": ""
     },
-    "selectedBGColor": {
-      "type": "string",
-      "default": ""
-    },
     "manualClasses": {
       "type": "string",
       "default": ""

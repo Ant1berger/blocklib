@@ -34,14 +34,6 @@
       "type": "string",
       "default": "h1"
     },
-    "selectedColor": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedFont": {
-      "type": "string",
-      "default": ""
-    },
     "manualClasses": {
       "type": "string",
       "default": ""

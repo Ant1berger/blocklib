@@ -750,6 +750,9 @@ const updateTagName = (setAttributes, setTagName, newTag, defaultTag) => {
 const addMediaQuery = (setAttributes, mediaQueries) => {
   const newQuery = {
     minWidth: '',
+    predefinedColor: '',
+    predefinedBGColor: '',
+    predefinedFont: '',
     css: ''
   };
   setAttributes({
@@ -820,7 +823,6 @@ function Edit(props) {
     persistentID,
     blockName,
     otherAttributes,
-    selectedBGColor,
     manualClasses,
     mediaQueries = [],
     renderedMediaQueries,
@@ -858,16 +860,23 @@ function Edit(props) {
 
   // Write media queries. This function stays in this file otherwise copy/paste of blocks don't work properly.
   const renderMediaQueries = () => {
-    return mediaQueries.map(query => {
-      if (!query.minWidth || !query.css) return null;
-      if (query.minWidth !== '0') {
-        return `@media (min-width: ${query.minWidth}px) {
-    [data-persistentid="${persistentID}"]${query.css}
-    }`;
-      } else {
-        return `[data-persistentid="${persistentID}"]${query.css}`;
-      }
-    }).join('\n');
+    if (mediaQueries.length > 0) {
+      return `[data-persistentid="${persistentID}"] {
+${mediaQueries.map(query => {
+        if (!query.css && !query.predefinedBGColor) {
+          return null;
+        } else {
+          return `${query.minWidth ? `@media (min-width: ${query.minWidth}px) {
+${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.css ? `${query.css}` : ''}
+}` : `${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.css ? `${query.css}` : ''}`}`;
+        }
+      }).join('\n')}
+}`;
+    } else {
+      return null;
+    }
   };
   // Put the returned value in a renderedMediaQueries attribute.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -885,14 +894,6 @@ function Edit(props) {
           value: tag || 'div',
           onChange: newTag => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateTagName)(setAttributes, setTagName, newTag, 'div'),
           placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Use any HTML tag', 'blocklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
-          __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Background color', 'bloclklib'),
-          options: selectBGColorOptions,
-          value: selectedBGColor,
-          onChange: newValue => setAttributes({
-            selectedBGColor: newValue
-          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
           __nextHasNoMarginBottom: true,
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Classes', 'bloclklib'),
@@ -932,10 +933,16 @@ function Edit(props) {
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('@media (min-width: ', 'bloclklib'),
             value: query.minWidth,
             onChange: value => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'minWidth', value, mediaQueries)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Background color', 'bloclklib'),
+            options: selectBGColorOptions,
+            value: query.predefinedBGColor,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedBGColor', newValue, mediaQueries)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_blocks__WEBPACK_IMPORTED_MODULE_3__.MyMonacoEditor, {
-              defaultValue: `:not(#lalala) {\n}`,
+              defaultValue: `& {\n}`,
               value: query.css,
               onChange: value => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'css', value, mediaQueries)
             })
@@ -959,9 +966,6 @@ function Edit(props) {
     }), React.createElement(tag, {
       ...innerBlocksProps,
       'data-persistentid': persistentID,
-      style: {
-        '--bgColor': selectedBGColor
-      },
       className: [blockName, manualClasses || ''].filter(Boolean).join(' ')
     })]
   });
@@ -1001,7 +1005,6 @@ function save(props) {
     persistentID,
     blockName,
     anchor,
-    selectedBGColor,
     manualClasses,
     otherAttributes
   } = attributes;
@@ -1025,9 +1028,6 @@ function save(props) {
   }
   return React.createElement(tag, {
     'data-persistentid': persistentID,
-    style: {
-      '--bgColor': selectedBGColor
-    },
     className: [blockName, manualClasses || ''].filter(Boolean).join(' '),
     ...extraAttributes
   }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InnerBlocks.Content, {}));
@@ -1361,7 +1361,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \******************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/group","version":"0.1.0","title":"Group","category":"design","keywords":["blocklib","group","design"],"description":"An element for grouping other elements.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"selectedBGColor":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/group","version":"0.1.0","title":"Group","category":"design","keywords":["blocklib","group","design"],"description":"An element for grouping other elements.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 

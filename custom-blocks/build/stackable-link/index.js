@@ -750,6 +750,9 @@ const updateTagName = (setAttributes, setTagName, newTag, defaultTag) => {
 const addMediaQuery = (setAttributes, mediaQueries) => {
   const newQuery = {
     minWidth: '',
+    predefinedColor: '',
+    predefinedBGColor: '',
+    predefinedFont: '',
     css: ''
   };
   setAttributes({
@@ -823,10 +826,6 @@ function Edit(props) {
     persistentID,
     blockName,
     otherAttributes,
-    size,
-    selectedColor,
-    selectedBGColor,
-    selectedFont,
     leftIcon,
     rightIcon,
     manualClasses,
@@ -870,16 +869,29 @@ function Edit(props) {
 
   // Write media queries. This function stays in this file otherwise copy/paste of blocks don't work properly.
   const renderMediaQueries = () => {
-    return mediaQueries.map(query => {
-      if (!query.minWidth || !query.css) return null;
-      if (query.minWidth !== '0') {
-        return `@media (min-width: ${query.minWidth}px) {
-    [data-persistentid="${persistentID}"]${query.css}
-    }`;
-      } else {
-        return `[data-persistentid="${persistentID}"]${query.css}`;
-      }
-    }).join('\n');
+    if (mediaQueries.length > 0) {
+      return `[data-persistentid="${persistentID}"] {
+${mediaQueries.map(query => {
+        if (!query.css && !query.predefinedColor && !query.predefinedBGColor && !query.predefinedFont && !query.predefinedSize) {
+          return null;
+        } else {
+          return `${query.minWidth ? `@media (min-width: ${query.minWidth}px) {
+${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
+${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
+${query.css ? `${query.css}` : ''}
+}` : `${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
+${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
+${query.css ? `${query.css}` : ''}`}`;
+        }
+      }).join('\n')}
+}`;
+    } else {
+      return null;
+    }
   };
   // Put the returned value in a renderedMediaQueries attribute.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -924,38 +936,6 @@ function Edit(props) {
             type: newValue
           }),
           placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter a type', 'blocklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
-          __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Size', 'bloclklib'),
-          value: size || '',
-          onChange: value => setAttributes({
-            size: value
-          }),
-          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Default: 1.8rem', 'blocklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
-          __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Color', 'bloclklib'),
-          options: selectColorOptions,
-          value: selectedColor,
-          onChange: newValue => setAttributes({
-            selectedColor: newValue
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
-          __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Background color', 'bloclklib'),
-          options: selectBGColorOptions,
-          value: selectedBGColor,
-          onChange: newValue => setAttributes({
-            selectedBGColor: newValue
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
-          __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font', 'bloclklib'),
-          options: selectFontOptions,
-          value: selectedFont,
-          onChange: newValue => setAttributes({
-            selectedFont: newValue
-          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
           __nextHasNoMarginBottom: true,
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
@@ -1014,10 +994,34 @@ function Edit(props) {
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('@media (min-width: ', 'bloclklib'),
             value: query.minWidth,
             onChange: value => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'minWidth', value, mediaQueries)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Color', 'bloclklib'),
+            options: selectColorOptions,
+            value: query.predefinedColor,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedColor', newValue, mediaQueries)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Background color', 'bloclklib'),
+            options: selectBGColorOptions,
+            value: query.predefinedBGColor,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedBGColor', newValue, mediaQueries)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font', 'bloclklib'),
+            options: selectFontOptions,
+            value: query.predefinedFont,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedFont', newValue, mediaQueries)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Size', 'bloclklib'),
+            options: selectSizeOptions,
+            value: query.predefinedSize,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedSize}', newValue, mediaQueries)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_blocks__WEBPACK_IMPORTED_MODULE_3__.MyMonacoEditor, {
-              defaultValue: `:not(#lalala) {\n}`,
+              defaultValue: `& {\n}`,
               value: query.css,
               onChange: value => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'css', value, mediaQueries)
             })
@@ -1041,12 +1045,6 @@ function Edit(props) {
     }), React.createElement(tag, {
       ...blockProps,
       'data-persistentid': persistentID,
-      style: {
-        '--size': size,
-        '--color': selectedColor,
-        '--bgColor': selectedBGColor,
-        '--fontFamily': selectedFont
-      },
       className: [blockName, leftIcon ? '-leftIcon' : '', rightIcon ? '-rightIcon' : '', manualClasses || ''].filter(Boolean).join(' ')
     }, leftSvg, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
       className: `${blockName}-text`,
@@ -1427,7 +1425,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \***************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/stackable-link","version":"0.1.0","title":"Stackable link","category":"text","keywords":["blocklib","text","stackable-link"],"description":"A link that can be stacked for menus, accordions...","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"size":{"type":"string","default":""},"selectedColor":{"type":"string","default":""},"selectedBGColor":{"type":"string","default":""},"selectedFont":{"type":"string","default":""},"leftIcon":{"type":"string","default":""},"rightIcon":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/stackable-link","version":"0.1.0","title":"Stackable link","category":"text","keywords":["blocklib","text","stackable-link"],"description":"A link that can be stacked for menus, accordions...","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"leftIcon":{"type":"string","default":""},"rightIcon":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 

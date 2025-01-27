@@ -25,14 +25,6 @@
       "type": "string",
       "default": ""
     },
-    "selectedColor": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedFont": {
-      "type": "string",
-      "default": ""
-    },
     "manualClasses": {
       "type": "string",
       "default": ""

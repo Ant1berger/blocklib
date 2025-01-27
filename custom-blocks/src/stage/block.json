@@ -26,10 +26,6 @@
             "type": "string",
             "default": "div"
         },
-        "selectedBGColor": {
-            "type": "string",
-            "default": ""
-        },
         "manualClasses": {
             "type": "string",
             "default": ""

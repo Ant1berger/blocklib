@@ -34,16 +34,6 @@
             echo ' ' . $attributes['manualClasses'];
         }
     ?>"
-    <?php if (!empty($attributes['selectedColor']) || !empty($attributes['selectedFont'])) { ?>
-        style="
-        <?php if (!empty($attributes['selectedColor'])) { ?>
-            --color: <?php echo $attributes['selectedColor'];?>;
-        <?php } ?>
-        <?php if (!empty($attributes['selectedFont'])) { ?>
-            --fontFamily: <?php echo $attributes['selectedFont'];?>;
-        <?php } ?>
-        "
-    <?php } ?>
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 >
 <?php if (count($languages) == 1) { ?>

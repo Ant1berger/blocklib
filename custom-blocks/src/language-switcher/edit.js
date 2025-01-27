@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { persistentID, blockName, otherAttributes, selectedColor, selectedFont, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
     const [selectFontOptions, setSelectFontOptions] = useState([]);
@@ -41,16 +41,28 @@ export default function Edit(props) {
 
     // Write media queries. This function stays in this file otherwise copy/paste of blocks don't work properly.
     const renderMediaQueries = () => {
-        return mediaQueries.map((query) => {
-            if (!query.minWidth || !query.css) return null;
-            if (query.minWidth !== '0') {
-                return `@media (min-width: ${query.minWidth}px) {
-    [data-persistentid="${persistentID}"]${query.css}
-    }`;
-            } else {
-                return `[data-persistentid="${persistentID}"]${query.css}`;
-            }
-        }).join('\n');
+        if (mediaQueries.length > 0) {
+            return `[data-persistentid="${persistentID}"] {
+${mediaQueries.map((query) => {
+                    if (!query.css && !query.predefinedColor && !query.predefinedFont ) {
+                        return null;
+                    } else {
+                        return `${query.minWidth ?
+`@media (min-width: ${query.minWidth}px) {
+${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
+${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+${query.css ? `${query.css}` : ''}
+}` :
+`${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
+${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+${query.css ? `${query.css}` : ''}`
+}`;
+                    }
+                }).join('\n')}
+}`;
+        } else {
+            return null;
+        }
     };
     // Put the returned value in a renderedMediaQueries attribute.
     useEffect( () => {
@@ -61,21 +73,6 @@ export default function Edit(props) {
         <Fragment>
             <InspectorControls>
                 <PanelBody title={ __( 'Base settings', 'bloclklib' ) }>
-                    <SelectControl
-                        __nextHasNoMarginBottom
-                        label={__( 'Color', 'bloclklib' )}
-                        options={selectColorOptions}
-                        value={selectedColor}
-                        onChange={(newValue) => setAttributes({ selectedColor: newValue })}
-                    />
-                    <SelectControl
-                        __nextHasNoMarginBottom
-                        label={__( 'Font', 'bloclklib' )}
-                        options={selectFontOptions}
-                        value={selectedFont}
-                        onChange={(newValue) => setAttributes({ selectedFont: newValue })}
-                    />
-                    <hr/>
                     <TextControl
                         __nextHasNoMarginBottom
                         label={ __( 'Classes', 'bloclklib' ) }
@@ -112,9 +109,23 @@ export default function Edit(props) {
                                 value={query.minWidth}
                                 onChange={(value) => updateMediaQuery(setAttributes, index, 'minWidth', value, mediaQueries)}
                             />
+                            <SelectControl
+                                __nextHasNoMarginBottom
+                                label={__( 'Color', 'bloclklib' )}
+                                options={selectColorOptions}
+                                value={query.predefinedColor}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedColor', newValue, mediaQueries)}
+                            />
+                            <SelectControl
+                                __nextHasNoMarginBottom
+                                label={__( 'Font', 'bloclklib' )}
+                                options={selectFontOptions}
+                                value={query.predefinedFont}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedFont', newValue, mediaQueries)}
+                            />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
-                                    defaultValue={`:not(#lalala) {\n}`}
+                                    defaultValue={`& {\n}`}
                                     value={query.css}
                                     onChange={(value) => updateMediaQuery(setAttributes, index, 'css', value, mediaQueries)}
                                 />
@@ -138,10 +149,6 @@ export default function Edit(props) {
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
             <div {...blockProps}
                 data-persistentid={ persistentID }
-                style={{
-                    '--color': selectedColor,
-                    '--fontFamily': selectedFont
-                }}
                 className={[
                     blockName,
                     manualClasses || ''

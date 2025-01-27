@@ -33,16 +33,24 @@ export default function Edit(props) {
 
     // Write media queries. This function stays in this file otherwise copy/paste of blocks don't work properly.
     const renderMediaQueries = () => {
-        return mediaQueries.map((query) => {
-            if (!query.minWidth || !query.css) return null;
-            if (query.minWidth !== '0') {
-                return `@media (min-width: ${query.minWidth}px) {
-    [data-persistentid="${persistentID}"]${query.css}
-    }`;
-            } else {
-                return `[data-persistentid="${persistentID}"]${query.css}`;
-            }
-        }).join('\n');
+        if (mediaQueries.length > 0) {
+            return `[data-persistentid="${persistentID}"] {
+${mediaQueries.map((query) => {
+                    if (!query.css ) {
+                        return null;
+                    } else {
+                        return `${query.minWidth ?
+`@media (min-width: ${query.minWidth}px) {
+${query.css ? `${query.css}` : ''}
+}` :
+`${query.css ? `${query.css}` : ''}`
+}`;
+                    }
+                }).join('\n')}
+}`;
+        } else {
+            return null;
+        }
     };
     // Put the returned value in a renderedMediaQueries attribute.
     useEffect( () => {
@@ -218,7 +226,7 @@ export default function Edit(props) {
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
-                                    defaultValue={`:not(#lalala) {\n}`}
+                                    defaultValue={`& {\n}`}
                                     value={query.css}
                                     onChange={(value) => updateMediaQuery(setAttributes, index, 'css', value, mediaQueries)}
                                 />

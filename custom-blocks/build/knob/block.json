@@ -47,26 +47,6 @@
       "type": "string",
       "default": ""
     },
-    "size": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedColor": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedBGColor": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedBorderColor": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedFont": {
-      "type": "string",
-      "default": ""
-    },
     "rounded": {
       "type": "boolean",
       "default": false

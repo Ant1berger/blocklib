@@ -52,7 +52,7 @@
     inline-size: 4rem;
 }
 
-.components-panel__body .media-query .components-base-control__field::after {
+.components-panel__body .media-query .components-base-control:first-child .components-base-control__field::after {
     content: " px)";
 }
 

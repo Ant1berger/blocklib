@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockName, otherAttributes, selectedBGColor, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
+    const { tag, persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
@@ -41,16 +41,26 @@ export default function Edit(props) {
 
     // Write media queries. This function stays in this file otherwise copy/paste of blocks don't work properly.
     const renderMediaQueries = () => {
-        return mediaQueries.map((query) => {
-            if (!query.minWidth || !query.css) return null;
-            if (query.minWidth !== '0') {
-                return `@media (min-width: ${query.minWidth}px) {
-    [data-persistentid="${persistentID}"]${query.css}
-    }`;
-            } else {
-                return `[data-persistentid="${persistentID}"]${query.css}`;
-            }
-        }).join('\n');
+        if (mediaQueries.length > 0) {
+            return `[data-persistentid="${persistentID}"] {
+${mediaQueries.map((query) => {
+                    if (!query.css && !query.predefinedBGColor ) {
+                        return null;
+                    } else {
+                        return `${query.minWidth ?
+`@media (min-width: ${query.minWidth}px) {
+${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.css ? `${query.css}` : ''}
+}` :
+`${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.css ? `${query.css}` : ''}`
+}`;
+                    }
+                }).join('\n')}
+}`;
+        } else {
+            return null;
+        }
     };
     // Put the returned value in a renderedMediaQueries attribute.
     useEffect( () => {
@@ -67,13 +77,6 @@ export default function Edit(props) {
                         value={ tag || 'div' }
                         onChange={ (newTag) => updateTagName(setAttributes, setTagName, newTag, 'div') }
                         placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
-                    />
-                    <SelectControl
-                        __nextHasNoMarginBottom
-                        label={__( 'Background color', 'bloclklib' )}
-                        options={selectBGColorOptions}
-                        value={selectedBGColor}
-                        onChange={(newValue) => setAttributes({ selectedBGColor: newValue })}
                     />
                     <hr/>
                     <TextControl
@@ -112,9 +115,16 @@ export default function Edit(props) {
                                 value={query.minWidth}
                                 onChange={(value) => updateMediaQuery(setAttributes, index, 'minWidth', value, mediaQueries)}
                             />
+                            <SelectControl
+                                __nextHasNoMarginBottom
+                                label={__( 'Background color', 'bloclklib' )}
+                                options={selectBGColorOptions}
+                                value={query.predefinedBGColor}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedBGColor', newValue, mediaQueries)}
+                            />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
-                                    defaultValue={`:not(#lalala) {\n}`}
+                                    defaultValue={`& {\n}`}
                                     value={query.css}
                                     onChange={(value) => updateMediaQuery(setAttributes, index, 'css', value, mediaQueries)}
                                 />
@@ -141,9 +151,6 @@ export default function Edit(props) {
                 {
                     ...innerBlocksProps,
                     'data-persistentid': persistentID,
-                    style: {
-                        '--bgColor': selectedBGColor
-                    },
                     className: [
                         blockName,
                         manualClasses || ''

@@ -46,22 +46,6 @@
       "type": "string",
       "default": ""
     },
-    "size": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedColor": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedBGColor": {
-      "type": "string",
-      "default": ""
-    },
-    "selectedFont": {
-      "type": "string",
-      "default": ""
-    },
     "leftIcon": {
       "type": "string",
       "default": ""

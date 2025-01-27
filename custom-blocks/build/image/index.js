@@ -750,6 +750,9 @@ const updateTagName = (setAttributes, setTagName, newTag, defaultTag) => {
 const addMediaQuery = (setAttributes, mediaQueries) => {
   const newQuery = {
     minWidth: '',
+    predefinedColor: '',
+    predefinedBGColor: '',
+    predefinedFont: '',
     css: ''
   };
   setAttributes({
@@ -860,16 +863,21 @@ function Edit(props) {
 
   // Write media queries. This function stays in this file otherwise copy/paste of blocks don't work properly.
   const renderMediaQueries = () => {
-    return mediaQueries.map(query => {
-      if (!query.minWidth || !query.css) return null;
-      if (query.minWidth !== '0') {
-        return `@media (min-width: ${query.minWidth}px) {
-    [data-persistentid="${persistentID}"]${query.css}
-    }`;
-      } else {
-        return `[data-persistentid="${persistentID}"]${query.css}`;
-      }
-    }).join('\n');
+    if (mediaQueries.length > 0) {
+      return `[data-persistentid="${persistentID}"] {
+${mediaQueries.map(query => {
+        if (!query.css) {
+          return null;
+        } else {
+          return `${query.minWidth ? `@media (min-width: ${query.minWidth}px) {
+${query.css ? `${query.css}` : ''}
+}` : `${query.css ? `${query.css}` : ''}`}`;
+        }
+      }).join('\n')}
+}`;
+    } else {
+      return null;
+    }
   };
   // Put the returned value in a renderedMediaQueries attribute.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -1045,7 +1053,7 @@ function Edit(props) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_blocks__WEBPACK_IMPORTED_MODULE_3__.MyMonacoEditor, {
-              defaultValue: `:not(#lalala) {\n}`,
+              defaultValue: `& {\n}`,
               value: query.css,
               onChange: value => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'css', value, mediaQueries)
             })

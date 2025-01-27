@@ -30,14 +30,6 @@
             "type": "string",
             "default": "p"
         },
-        "selectedColor": {
-            "type": "string",
-            "default": ""
-        },
-        "selectedFont": {
-            "type": "string",
-            "default": ""
-        },
         "manualClasses": {
             "type": "string",
             "default": ""

@@ -83,6 +83,9 @@ export const updateTagName = (setAttributes, setTagName, newTag, defaultTag) => 
 export const addMediaQuery = (setAttributes, mediaQueries) => {
     const newQuery = {
         minWidth: '',
+        predefinedColor: '',
+        predefinedBGColor: '',
+        predefinedFont: '',
         css: '',
     };
     setAttributes({ mediaQueries: [...mediaQueries, newQuery] });

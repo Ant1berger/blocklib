@@ -63,22 +63,6 @@ if (!empty($attributes['renderedMediaQueries'])) {
             echo ' -current';
         }
     ?>"
-    <?php if (!empty($attributes['size']) || !empty($attributes['selectedColor']) || !empty($attributes['selectedBGColor']) || !empty($attributes['selectedFont'])) { ?>
-        style="
-        <?php if (!empty($attributes['size'])) { ?>
-            --size: <?php echo $attributes['size'];?>;
-        <?php } ?>
-        <?php if (!empty($attributes['selectedColor'])) { ?>
-            --color: <?php echo $attributes['selectedColor'];?>;
-        <?php } ?>
-        <?php if (!empty($attributes['selectedBGColor'])) { ?>
-            --bgColor: <?php echo $attributes['selectedBGColor'];?>;
-        <?php } ?>
-        <?php if (!empty($attributes['selectedFont'])) { ?>
-            --fontFamily: <?php echo $attributes['selectedFont'];?>;
-        <?php } ?>
-        "
-    <?php } ?>
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 >
 <?php if (!empty($attributes['leftIcon'])) { ?>
