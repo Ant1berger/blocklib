@@ -86,6 +86,8 @@ export const addMediaQuery = (setAttributes, mediaQueries) => {
         predefinedColor: '',
         predefinedBGColor: '',
         predefinedFont: '',
+        predefinedBorderColor: '',
+        predefinedSize: '',
         css: '',
     };
     setAttributes({ mediaQueries: [...mediaQueries, newQuery] });

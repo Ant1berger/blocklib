@@ -73,43 +73,7 @@ ${query.css ? `${query.css}` : ''}`
     return (
         <Fragment>
             <InspectorControls>
-                <PanelBody title={ __( 'Base settings', 'bloclklib' ) }>
-                    <TextControl
-                        __nextHasNoMarginBottom
-                        label={ __( 'Tag', 'bloclklib' ) }
-                        value={ tag || 'h1' }
-                        onChange={ (newTag) => updateTagName(setAttributes, setTagName, newTag, 'h1') }
-                        placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
-                    />
-                    <hr/>
-                    <TextControl
-                        __nextHasNoMarginBottom
-                        label={ __( 'Classes', 'bloclklib' ) }
-                        value={ manualClasses || '' }
-                        onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
-                        placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
-                    />
-                    <BaseControl
-                        __nextHasNoMarginBottom
-                        help={ __( 'Avoid using style attribute, it\'s already in use and might be ignored.', 'bloclklib' ) }
-                    >
-                        <TextControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Other attributes', 'bloclklib' ) }
-                            value={ otherAttributes || '' }
-                            onChange={ ( value ) => setAttributes( { otherAttributes: value } ) }
-                            placeholder={ __( 'Add HTML attributes if needed', 'blocklib' ) }
-                        />
-                    </BaseControl>
-                    <TextControl
-                        __nextHasNoMarginBottom
-                        label={ __( 'Anchor', 'bloclklib' ) }
-                        value={ anchor || '' }
-                        onChange={ ( value ) => setAttributes( { anchor: value } ) }
-                        placeholder={ __( 'Add HTML ID if needed (no spaces)', 'blocklib' ) }
-                    />
-                </PanelBody>
-                <PanelBody title={ __( 'Spacing, sizing, moving...', 'bloclklib' ) } initialOpen={true}>
+                <PanelBody title={ __( 'Styles', 'bloclklib' ) } initialOpen={true}>
                     {mediaQueries.map((query, index) => (
                         <div key={index} className="media-query">
                             <TextControl
@@ -153,6 +117,41 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                         { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
+                </PanelBody>
+                <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
+                    <TextControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'Tag', 'bloclklib' ) }
+                        value={ tag || 'h1' }
+                        onChange={ (newTag) => updateTagName(setAttributes, setTagName, newTag, 'h1') }
+                        placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
+                    />
+                    <hr/>
+                    <TextControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'Classes', 'bloclklib' ) }
+                        value={ manualClasses || '' }
+                        onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
+                        placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
+                    />
+                    <BaseControl
+                        __nextHasNoMarginBottom
+                    >
+                        <TextControl
+                            __nextHasNoMarginBottom
+                            label={ __( 'Other attributes', 'bloclklib' ) }
+                            value={ otherAttributes || '' }
+                            onChange={ ( value ) => setAttributes( { otherAttributes: value } ) }
+                            placeholder={ __( 'Add HTML attributes if needed', 'blocklib' ) }
+                        />
+                    </BaseControl>
+                    <TextControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'Anchor', 'bloclklib' ) }
+                        value={ anchor || '' }
+                        onChange={ ( value ) => setAttributes( { anchor: value } ) }
+                        placeholder={ __( 'Add HTML ID if needed (no spaces)', 'blocklib' ) }
+                    />
                 </PanelBody>
             </InspectorControls>
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }

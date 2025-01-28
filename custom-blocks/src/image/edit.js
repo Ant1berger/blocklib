@@ -141,7 +141,38 @@ ${query.css ? `${query.css}` : ''}
     return (
         <Fragment>
             <InspectorControls>
-                <PanelBody title={ __( 'Base settings', 'bloclklib' ) }>
+                <PanelBody title={ __( 'Styles', 'bloclklib' ) } initialOpen={false}>
+                    {mediaQueries.map((query, index) => (
+                        <div key={index} className="media-query">
+                            <TextControl
+                                __nextHasNoMarginBottom
+                                label={ __( '@media (min-width: ', 'bloclklib' ) }
+                                value={query.minWidth}
+                                onChange={(value) => updateMediaQuery(setAttributes, index, 'minWidth', value, mediaQueries)}
+                            />
+                            <PanelRow className="monaco-editor">
+                                <MyMonacoEditor
+                                    defaultValue={`& {\n}`}
+                                    value={query.css}
+                                    onChange={(value) => updateMediaQuery(setAttributes, index, 'css', value, mediaQueries)}
+                                />
+                            </PanelRow>
+                            <Button
+                                isDestructive
+                                variant="secondary"
+                                size="small"
+                                icon="trash"
+                                className="delete"
+                                onClick={() => removeMediaQuery(setAttributes, index, mediaQueries)}
+                            >
+                            </Button>
+                        </div>
+                    ))}
+                    <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
+                        { __( 'Add a media query', 'bloclklib' ) }
+                    </Button>
+                </PanelBody>
+                <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <BaseControl
                         __nextHasNoMarginBottom
                         label={ __( 'Image', 'bloclklib' ) }
@@ -197,7 +228,6 @@ ${query.css ? `${query.css}` : ''}
                     />
                     <BaseControl
                         __nextHasNoMarginBottom
-                        help={ __( 'Avoid using style attribute, it\'s already in use and might be ignored.', 'bloclklib' ) }
                     >
                         <TextControl
                             __nextHasNoMarginBottom
@@ -214,37 +244,6 @@ ${query.css ? `${query.css}` : ''}
                         onChange={ ( value ) => setAttributes( { anchor: value } ) }
                         placeholder={ __( 'Add HTML ID if needed (no spaces)', 'blocklib' ) }
                     />
-                </PanelBody>
-                <PanelBody title={ __( 'Spacing, sizing, moving...', 'bloclklib' ) } initialOpen={true}>
-                    {mediaQueries.map((query, index) => (
-                        <div key={index} className="media-query">
-                            <TextControl
-                                __nextHasNoMarginBottom
-                                label={ __( '@media (min-width: ', 'bloclklib' ) }
-                                value={query.minWidth}
-                                onChange={(value) => updateMediaQuery(setAttributes, index, 'minWidth', value, mediaQueries)}
-                            />
-                            <PanelRow className="monaco-editor">
-                                <MyMonacoEditor
-                                    defaultValue={`& {\n}`}
-                                    value={query.css}
-                                    onChange={(value) => updateMediaQuery(setAttributes, index, 'css', value, mediaQueries)}
-                                />
-                            </PanelRow>
-                            <Button
-                                isDestructive
-                                variant="secondary"
-                                size="small"
-                                icon="trash"
-                                className="delete"
-                                onClick={() => removeMediaQuery(setAttributes, index, mediaQueries)}
-                            >
-                            </Button>
-                        </div>
-                    ))}
-                    <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
-                        { __( 'Add a media query', 'bloclklib' ) }
-                    </Button>
                 </PanelBody>
                 <PanelBody title={ __( 'Image performance settings', 'bloclklib' ) } initialOpen={true}>
                     <Text>

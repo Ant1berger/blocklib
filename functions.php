@@ -730,7 +730,7 @@ html:not(.interface-interface-skeleton__html-container) { /* To avoid applying u
         font-family: var(--font_1);
         font-size: 1.8rem;
         color: var(--grey_start);
-        min-inline-size: 32rem;
+        min-inline-size: 20rem;
         min-block-size: 100vh;
         display: flex;
         flex-direction: column;
