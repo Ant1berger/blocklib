@@ -1,8 +1,7 @@
 .grouping-link {
-    --bgColorFallback: #dddddd;
     display: block;
     color: inherit;
-    background-color: var(--bgColor, var(--bgColorFallback));
+    background-color: var(--bgColor);
     text-decoration: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;

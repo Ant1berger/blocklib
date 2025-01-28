@@ -2,22 +2,18 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/stackable-link/index.css ***!
   \**********************************************************************************************************************************************************************************/
 .stackable-link {
-    --sizeFallback: 1.8rem;
-    --colorFallback: #cccccc;
-    --bgColorFallback: #dddddd;
-    --fontFamilyFallback: Arial, Helvetica, sans-serif;
-    font-family: var(--fontFamily, var(--fontFamilyFallback));
-    font-size: var(--size, var(--sizeFallback));
-    line-height: calc(var(--size, var(--sizeFallback)) * 1.5);
+    font-family: var(--fontFamily);
+    font-size: var(--size);
+    line-height: 1.5;
     text-decoration: none;
     display: flex;
-    gap: calc(var(--size, var(--sizeFallback)) / 2);
+    gap: .5em;
     inline-size: -webkit-fill-available;
     inline-size: -moz-available;
-    color: var(--color, var(--colorFallback));
-    background-color: var(--bgColor, var(--bgColorFallback));
-    padding-inline: var(--size, var(--sizeFallback));
-    padding-block: calc(var(--size, var(--sizeFallback)) / 2);
+    color: var(--color);
+    background-color: var(--bgColor);
+    padding-inline: 1em;
+    padding-block: .5em;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -36,8 +32,8 @@
 .stackable-link.-leftIcon > svg,
 .stackable-link.-rightIcon > svg {
     /* Could have 2 SVGs: one left and one right. */
-    inline-size: calc(var(--size, var(--sizeFallback)) * 1.5);
-    block-size: calc(var(--size, var(--sizeFallback)) * 1.5);
+    inline-size: 1.5em;
+    block-size: 1.5em;
     fill: var(--color);
     flex-shrink: 0;
 }
@@ -56,12 +52,12 @@
 .stackable-link:hover,
 .stackable-link:focus-visible,
 .stackable-link.-current {
-    background-color: oklch(from var(--bgColor, var(--bgColorFallback)) l c h / 70%);
+    background-color: oklch(from var(--bgColor) l c h / 70%);
     outline: none;
 }
 
 .stackable-link:hover.-rightIcon > svg:last-child,
 .stackable-link:focus-visible.-rightIcon > svg:last-child {
-    translate: calc(var(--size, var(--sizeFallback)) / 2);
+    translate: .5em;
 }
 

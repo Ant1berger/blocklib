@@ -1,6 +1,5 @@
 .stage {
-    --bgColorFallback: transparent;
-    background-color: var(--bgColor, var(--bgColorFallback));
+    background-color: var(--bgColor);
     display: flex;
     justify-content: center;
 }

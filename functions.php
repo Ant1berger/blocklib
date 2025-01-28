@@ -716,6 +716,40 @@ function get_custom_block_common_styles() {
     background-color: var(--brand_1);
 } */
 
+/* Our custom properties for predifined styles must not inherit. */
+/* And they should not have initial values either: properties of which they are the values should themselve fallback to their own initial values. */
+/* But Chrome seems to not apply inherits: false; if there is no initial value, so we leave it for now. */
+
+@property --color {
+    syntax: "*";
+    inherits: false;
+    initial-value:rgb(143, 143, 143);
+}
+
+@property --bgColor {
+    syntax: "*";
+    inherits: false;
+    initial-value: transparent;
+}
+
+@property --borderColor {
+    syntax: "*";
+    inherits: false;
+    initial-value: currentcolor;
+}
+
+@property --fontFamily {
+    syntax: "*";
+    inherits: false;
+    initial-value: sans-serif;
+}
+
+@property --size {
+    syntax: "*";
+    inherits: false;
+    initial-value: 1rem;
+}
+
 @media(prefers-reduced-motion: no-preference) {
 
     html {
@@ -723,66 +757,63 @@ function get_custom_block_common_styles() {
     }
 }
 
-html:not(.interface-interface-skeleton__html-container) { /* To avoid applying unwanted styles to editor elements. */
+body {
+    margin: 0;
+    font-family: var(--font_1);
+    font-size: 1rem;
+    color: var(--grey_start);
+    min-inline-size: 20rem;
+    min-block-size: 100vh;
+    display: flex;
+    flex-direction: column;
 
-    body {
-        margin: 0;
-        font-family: var(--font_1);
-        font-size: 1.8rem;
-        color: var(--grey_start);
-        min-inline-size: 20rem;
-        min-block-size: 100vh;
-        display: flex;
-        flex-direction: column;
+    &:has(.menuOpen) {
+        overflow: hidden;
 
-        &:has(.menuOpen) {
-            overflow: hidden;
-
-            @media(min-width: 1240px) {
-                overflow: visible;
-            }
+        @media(min-width: 1240px) {
+            overflow: visible;
         }
     }
+}
 
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-        border: none;
-    }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    border: none;
+}
 
-    label,
-    button,
-    select,
-    summary,
-    [type=radio],
-    [type=submit],
-    [type=checkbox] {
-        cursor: pointer;
-    }
+label,
+button,
+select,
+summary,
+[type=radio],
+[type=submit],
+[type=checkbox] {
+    cursor: pointer;
+}
 
-    article,
-    aside,
-    details,
-    figcaption,
-    figure,
-    footer,
-    header,
-    hgroup,
-    menu,
-    nav,
-    section {
-        display: block;
-    }
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
 
-    .noScript {
-        background-color: var(--grey_end);
-        padding: 1rem;
-        color: var(--grey_start);
-        display: block;
-        position: relative;
-        z-index: 1000000;
-    }
+.noScript {
+    background-color: var(--grey_end);
+    padding: 1rem;
+    color: var(--grey_start);
+    display: block;
+    position: relative;
+    z-index: 1000000;
 }
 
 /* To hide page title on editing area. */

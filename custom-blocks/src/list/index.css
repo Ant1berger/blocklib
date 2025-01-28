@@ -1,10 +1,7 @@
 .list {
-    --colorFallback: #cccccc;
-    --bgColorFallback: transparent;
-    --fontFamilyFallback: Arial, Helvetica, sans-serif;
-    background-color: var(--bgColor, var(--bgColorFallback));
-    color: var(--color, var(--colorFallback));
-    font-family: var(--fontFamily, var(--fontFamilyFallback));
+    background-color: var(--bgColor);
+    color: var(--color);
+    font-family: var(--fontFamily);
     margin: 0;
 
     &:has(.-customMarker) {

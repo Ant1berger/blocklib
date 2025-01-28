@@ -1,8 +1,6 @@
 .title {
-    --colorFallback: #cccccc;
-    --fontFamilyFallback: Arial, Helvetica, sans-serif;
-    color: var(--color, var(--colorFallback));
-    font-family: var(--fontFamily, var(--fontFamilyFallback));
+    color: var(--color);
+    font-family: var(--fontFamily);
     margin: 0;
     text-wrap: balance;
     hyphens: auto;

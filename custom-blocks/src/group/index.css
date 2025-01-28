@@ -1,4 +1,3 @@
 .group {
-    --bgColorFallback: #dddddd;
-    background-color: var(--bgColor, var(--bgColorFallback));
+    background-color: var(--bgColor);
 }

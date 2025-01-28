@@ -1,25 +1,21 @@
 .knob {
-    --sizeFallback: 1.8rem;
-    --colorFallback: #cccccc;
-    --bgColorFallback: #dddddd;
-    --fontFamilyFallback: Arial, Helvetica, sans-serif;
-    font-family: var(--fontFamily, var(--fontFamilyFallback));
-    font-size: var(--size, var(--sizeFallback));
-    line-height: calc(var(--size, var(--sizeFallback)) * 1.5);
+    font-family: var(--fontFamily);
+    font-size: var(--size);
+    line-height: 1.5;
     text-align: center;
     text-decoration: none;
     display: inline-flex;
-    gap: calc(var(--size, var(--sizeFallback)) / 2);
-    color: var(--color, var(--colorFallback));
-    background-color: var(--bgColor, var(--bgColorFallback));
-    border: var(--borderColor, var(--colorFallback)) .1rem solid;
-    outline-color: oklch(from var(--borderColor, var(--colorFallback)) l c h / 0%);
+    gap: .5em;
+    color: var(--color);
+    background-color: var(--bgColor);
+    border: var(--borderColor) .1rem solid;
+    outline-color: oklch(from var(--borderColor) l c h / 0%);
     outline-width: .3rem;
     outline-offset: .2rem;
     outline-style: solid;
     border-radius: .4rem;
-    padding-inline: var(--size, var(--sizeFallback));
-    padding-block: calc(var(--size, var(--sizeFallback)) / 2);
+    padding-inline: 1em;
+    padding-block: .5em;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -34,12 +30,12 @@
 }
 
 .knob.-rounded {
-    border-radius: calc(var(--size, var(--sizeFallback)) * 4/3);
+    border-radius: 4/3em;
 }
 
 .knob.-inverted {
     background-color: transparent;
-    color: var(--bgColor, var(--bgColorFallback));
+    color: var(--bgColor);
 }
 
 .knob.-invisibleBorder { /* Meant to be used with -inverted. */
@@ -50,7 +46,7 @@
 .knob.-invisibleBorder:hover,
 .knob.-invisibleBorder:focus-visible {
     outline: none;
-    background-color: oklch(from var(--bgColor, var(--bgColorFallback)) l c h / 20%);
+    background-color: oklch(from var(--bgColor) l c h / 20%);
 }
 
 @media(prefers-reduced-motion: no-preference) {
@@ -68,18 +64,18 @@
 }
 
 .knob.-leftIcon svg {
-    inline-size: calc(var(--size, var(--sizeFallback)) * 1.5);
-    block-size: calc(var(--size, var(--sizeFallback)) * 1.5);
-    fill: var(--color, var(--colorFallback));
+    inline-size: 1.5em;
+    block-size: 1.5em;
+    fill: var(--color);
     flex-shrink: 0;
 }
 
 .knob.-inverted.-leftIcon svg {
-    fill: var(--bgColor, var(--bgColorFallback));
+    fill: var(--bgColor);
 }
 
 .knob.-invisibleText {
-    padding-inline: calc(var(--size, var(--sizeFallback)) / 2);
+    padding-inline: .5em;
 }
 
 .knob.-invisibleText .knob-text {
@@ -100,5 +96,5 @@
 
 .knob:hover,
 .knob:focus-visible {
-    outline-color: oklch(from var(--borderColor, var(--borderColor)) l c h / 100%);
+    outline-color: oklch(from var(--borderColor) l c h / 100%);
 }
