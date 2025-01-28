@@ -53,14 +53,10 @@ ${mediaQueries.map((query) => {
                     } else {
                         return `${query.minWidth ?
 `@media (min-width: ${query.minWidth}px) {
-${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
 ${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
 ${query.css ? `${query.css}` : ''}
 }` :
-`${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
-${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+`${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
 ${query.css ? `${query.css}` : ''}`
 }`;
                     }
@@ -89,24 +85,10 @@ ${query.css ? `${query.css}` : ''}`
                             />
                             <SelectControl
                                 __nextHasNoMarginBottom
-                                label={__( 'Color', 'bloclklib' )}
-                                options={selectColorOptions}
-                                value={query.predefinedColor}
-                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedColor', newValue, mediaQueries)}
-                            />
-                            <SelectControl
-                                __nextHasNoMarginBottom
                                 label={__( 'Background color', 'bloclklib' )}
                                 options={selectBGColorOptions}
                                 value={query.predefinedBGColor}
                                 onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedBGColor', newValue, mediaQueries)}
-                            />
-                            <SelectControl
-                                __nextHasNoMarginBottom
-                                label={__( 'Font', 'bloclklib' )}
-                                options={selectFontOptions}
-                                value={query.predefinedFont}
-                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedFont', newValue, mediaQueries)}
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor

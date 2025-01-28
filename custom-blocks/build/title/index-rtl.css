@@ -4,6 +4,7 @@
 .title {
     color: var(--color);
     font-family: var(--fontFamily);
+    font-size: var(--size);
     margin: 0;
     text-wrap: balance;
     -webkit-hyphens: auto;

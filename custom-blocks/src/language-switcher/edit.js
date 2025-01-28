@@ -51,10 +51,12 @@ ${mediaQueries.map((query) => {
 `@media (min-width: ${query.minWidth}px) {
 ${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
 ${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
 ${query.css ? `${query.css}` : ''}
 }` :
 `${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
 ${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
 ${query.css ? `${query.css}` : ''}`
 }`;
                     }
@@ -94,6 +96,13 @@ ${query.css ? `${query.css}` : ''}`
                                 options={selectFontOptions}
                                 value={query.predefinedFont}
                                 onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedFont', newValue, mediaQueries)}
+                            />
+                            <TextControl
+                                __nextHasNoMarginBottom
+                                label={ __( 'Size', 'bloclklib' ) }
+                                value={query.predefinedSize}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedSize', newValue, mediaQueries)}
+                                placeholder={ __( 'Default: 1rem', 'blocklib' ) }
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor

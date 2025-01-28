@@ -4,6 +4,7 @@
 .language-switcher {
     color: var(--color);
     font-family: var(--fontFamily);
+    font-size: var(--size);
 }
 
 .language-switcher-list {

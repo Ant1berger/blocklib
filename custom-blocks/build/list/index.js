@@ -873,13 +873,9 @@ ${mediaQueries.map(query => {
           return null;
         } else {
           return `${query.minWidth ? `@media (min-width: ${query.minWidth}px) {
-${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
 ${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
 ${query.css ? `${query.css}` : ''}
-}` : `${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
-${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+}` : `${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
 ${query.css ? `${query.css}` : ''}`}`;
         }
       }).join('\n')}
@@ -908,22 +904,10 @@ ${query.css ? `${query.css}` : ''}`}`;
             onChange: value => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'minWidth', value, mediaQueries)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
             __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Color', 'bloclklib'),
-            options: selectColorOptions,
-            value: query.predefinedColor,
-            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedColor', newValue, mediaQueries)
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
-            __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Background color', 'bloclklib'),
             options: selectBGColorOptions,
             value: query.predefinedBGColor,
             onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedBGColor', newValue, mediaQueries)
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
-            __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font', 'bloclklib'),
-            options: selectFontOptions,
-            value: query.predefinedFont,
-            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedFont', newValue, mediaQueries)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_blocks__WEBPACK_IMPORTED_MODULE_3__.MyMonacoEditor, {
