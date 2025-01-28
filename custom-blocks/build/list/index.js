@@ -836,7 +836,12 @@ function Edit(props) {
   const [selectColorOptions, setSelectColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const [selectFontOptions, setSelectFontOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
-  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)(blockProps);
+  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)(blockProps, {
+    template: [['custom-blocks/list-item', {
+      content: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Default List content, put as many of those components you like inside.', 'bloclklib')
+    }]],
+    templateLock: false
+  });
 
   // Fetches datas from WP database and pass it to the themeOptions state.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -869,7 +874,7 @@ function Edit(props) {
     if (mediaQueries.length > 0) {
       return `[data-persistentid="${persistentID}"] {
 ${mediaQueries.map(query => {
-        if (!query.css && !query.predefinedColor && !query.predefinedBGColor && !query.predefinedFont) {
+        if (!query.css && !query.predefinedBGColor) {
           return null;
         } else {
           return `${query.minWidth ? `@media (min-width: ${query.minWidth}px) {

@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "custom-blocks/list-item",
+	"version": "0.1.0",
+	"title": "List item",
+	"category": "text",
+    "keywords": [ "blocklib", "list item" ],
+	"description": "A list item for <u>l and <ol>.",
+	"example": {},
+    "supports": {
+        "html": false,
+        "className": false,
+        "customClassName": false
+	},
+    "attributes": {
+        "anchor": {
+            "type": "string",
+            "default": ""
+        },
+		"content": {
+			"type": "string",
+            "default": ""
+		},
+        "persistentID": {
+            "type": "string",
+            "default": ""
+        },
+        "manualClasses": {
+            "type": "string",
+            "default": ""
+        },
+        "blockName": {
+            "type": "string",
+            "default": ""
+        },
+        "otherAttributes": {
+            "type": "string",
+            "default": ""
+        },
+        "mediaQueries": {
+            "type": "array",
+            "default": []
+        },
+        "renderedMediaQueries": {
+            "type": "string",
+            "default": ""
+        }
+	},
+	"textdomain": "custom-blocks",
+    "render": "file:./render.php",
+	"editorScript": "file:./index.js",
+    "editorStyle": "file:./index.css"
+}

@@ -1,8 +1,8 @@
 
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
-import { MyMonacoEditor, updatePersistentIDs, handleThemeOptionsForSelects, updateTagName, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
+import { MyMonacoEditor, updatePersistentIDs, handleThemeOptionsForSelects, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
 import { PanelBody, PanelRow, TextControl, Button, SelectControl, BaseControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
@@ -10,24 +10,17 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
-    const [tagName, setTagName] = useState(tag);
+    const { persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [themeOptions, setThemeOptions] = useState({});
-    const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
     const [selectColorOptions, setSelectColorOptions] = useState([]);
     const [selectFontOptions, setSelectFontOptions] = useState([]);
     const blockProps = useBlockProps();
-    const innerBlocksProps = useInnerBlocksProps(blockProps, {
-        template: [[ 'custom-blocks/list-item', { content: __( 'Default List content, put as many of those components you like inside.', 'bloclklib' ) } ]],
-        templateLock: false
-    });
 
     // Fetches datas from WP database and pass it to the themeOptions state.
     useEffect(() => {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a background color', 'bloclklib' )));
             setSelectColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
             setSelectFontOptions(handleThemeOptionsForSelects(settings.theme_fonts, __( 'Select a font', 'bloclklib' )));
         })
@@ -37,9 +30,9 @@ export default function Edit(props) {
     }, [blockName]);
 
     // Set the block name attribute from json "name" path for automatic reuse.
-    useEffect(() => {
+    useEffect( () => {
         setAttributes({ blockName: metadata.name.slice(14) });
-    }, []);
+    }, [] );
 
     // Create a unique and persistent ID for useBlockProps.
     useEffect( () => {
@@ -51,15 +44,19 @@ export default function Edit(props) {
         if (mediaQueries.length > 0) {
             return `[data-persistentid="${persistentID}"] {
 ${mediaQueries.map((query) => {
-                    if (!query.css && !query.predefinedBGColor ) {
+                    if (!query.css && !query.predefinedColor && !query.predefinedFont && !query.predefinedSize ) {
                         return null;
                     } else {
                         return `${query.minWidth ?
 `@media (min-width: ${query.minWidth}px) {
-${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
+${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
 ${query.css ? `${query.css}` : ''}
 }` :
-`${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+`${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
+${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
+${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
 ${query.css ? `${query.css}` : ''}`
 }`;
                     }
@@ -88,10 +85,24 @@ ${query.css ? `${query.css}` : ''}`
                             />
                             <SelectControl
                                 __nextHasNoMarginBottom
-                                label={__( 'Background color', 'bloclklib' )}
-                                options={selectBGColorOptions}
-                                value={query.predefinedBGColor}
-                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedBGColor', newValue, mediaQueries)}
+                                label={__( 'Color', 'bloclklib' )}
+                                options={selectColorOptions}
+                                value={query.predefinedColor}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedColor', newValue, mediaQueries)}
+                            />
+                            <SelectControl
+                                __nextHasNoMarginBottom
+                                label={__( 'Font', 'bloclklib' )}
+                                options={selectFontOptions}
+                                value={query.predefinedFont}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedFont', newValue, mediaQueries)}
+                            />
+                            <TextControl
+                                __nextHasNoMarginBottom
+                                label={ __( 'Size', 'bloclklib' ) }
+                                value={query.predefinedSize}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedSize', newValue, mediaQueries)}
+                                placeholder={ __( 'Default: 1rem', 'blocklib' ) }
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
@@ -118,14 +129,6 @@ ${query.css ? `${query.css}` : ''}`
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <TextControl
                         __nextHasNoMarginBottom
-                        label={ __( 'Tag', 'bloclklib' ) }
-                        value={ tag || 'ul' }
-                        onChange={ (newTag) => updateTagName(setAttributes, setTagName, newTag, 'div') }
-                        placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
-                    />
-                    <hr/>
-                    <TextControl
-                        __nextHasNoMarginBottom
                         label={ __( 'Classes', 'bloclklib' ) }
                         value={ manualClasses || '' }
                         onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
@@ -147,22 +150,23 @@ ${query.css ? `${query.css}` : ''}`
                         label={ __( 'Anchor', 'bloclklib' ) }
                         value={ anchor || '' }
                         onChange={ ( value ) => setAttributes( { anchor: value } ) }
-                        placeholder={ __( 'Add ID if needed (no spaces)', 'blocklib' ) }
+                        placeholder={ __( 'Add HTML ID if needed (no spaces)', 'blocklib' ) }
                     />
                 </PanelBody>
             </InspectorControls>
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
-            { React.createElement(
-                tag,
-                {
-                    ...innerBlocksProps,
-                    'data-persistentid': persistentID,
-                    className: [
-                        blockName,
-                        manualClasses || ''
-                    ].filter(Boolean).join(' ')
-                },
-            ) }
+            <RichText {...blockProps}
+                tagName="li"
+                placeholder={ __( 'Write your content here', 'blocklib' ) }
+                value={ content }
+                data-persistentid={ persistentID }
+                className={[
+                    blockName,
+                    manualClasses || ''
+                ].filter(Boolean).join(' ')}
+                onChange={ ( content ) => setAttributes( { content } ) }
+                allowedFormats={ [ 'core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/link', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space' ] }
+            />
         </Fragment>
     )
 }

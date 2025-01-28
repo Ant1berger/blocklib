@@ -779,10 +779,10 @@ const updateMediaQuery = (setAttributes, index, field, value, mediaQueries) => {
 
 /***/ }),
 
-/***/ "./src/text/edit.js":
-/*!**************************!*\
-  !*** ./src/text/edit.js ***!
-  \**************************/
+/***/ "./src/list-item/edit.js":
+/*!*******************************!*\
+  !*** ./src/list-item/edit.js ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -800,7 +800,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/text/block.json");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/list-item/block.json");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -821,7 +821,6 @@ function Edit(props) {
     clientId
   } = props;
   const {
-    tag,
     persistentID,
     blockName,
     otherAttributes,
@@ -831,7 +830,6 @@ function Edit(props) {
     anchor,
     content
   } = attributes;
-  const [tagName, setTagName] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(tag);
   const [themeOptions, setThemeOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
   const [selectColorOptions, setSelectColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const [selectFontOptions, setSelectFontOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
@@ -947,12 +945,6 @@ ${query.css ? `${query.css}` : ''}`}`;
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Other settings', 'bloclklib'),
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
           __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tag', 'bloclklib'),
-          value: tag || 'p',
-          onChange: newTag => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateTagName)(setAttributes, setTagName, newTag, 'p'),
-          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Use any HTML tag', 'blocklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
-          __nextHasNoMarginBottom: true,
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Classes', 'bloclklib'),
           value: manualClasses || '',
           onChange: value => setAttributes({
@@ -984,7 +976,7 @@ ${query.css ? `${query.css}` : ''}`}`;
       children: renderedMediaQueries
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
       ...blockProps,
-      tagName: tag,
+      tagName: "li",
       placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Write your content here', 'blocklib'),
       value: content,
       "data-persistentid": persistentID,
@@ -999,10 +991,10 @@ ${query.css ? `${query.css}` : ''}`}`;
 
 /***/ }),
 
-/***/ "./src/text/save.js":
-/*!**************************!*\
-  !*** ./src/text/save.js ***!
-  \**************************/
+/***/ "./src/list-item/save.js":
+/*!*******************************!*\
+  !*** ./src/list-item/save.js ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1023,21 +1015,20 @@ function save(props) {
     attributes
   } = props;
   const {
-    tag,
     content
   } = attributes;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.RichText.Content, {
-    tagName: tag,
+    tagName: "li",
     value: content
   });
 }
 
 /***/ }),
 
-/***/ "./src/text/index.css":
-/*!****************************!*\
-  !*** ./src/text/index.css ***!
-  \****************************/
+/***/ "./src/list-item/index.css":
+/*!*********************************!*\
+  !*** ./src/list-item/index.css ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1354,13 +1345,13 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
 
 /***/ }),
 
-/***/ "./src/text/block.json":
-/*!*****************************!*\
-  !*** ./src/text/block.json ***!
-  \*****************************/
+/***/ "./src/list-item/block.json":
+/*!**********************************!*\
+  !*** ./src/list-item/block.json ***!
+  \**********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/text","version":"0.1.0","title":"Text","category":"text","keywords":["blocklib","text"],"description":"A rich text text.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"p"},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/list-item","version":"0.1.0","title":"List item","category":"text","keywords":["blocklib","list item"],"description":"A list item for <u>l and <ol>.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 
@@ -1435,16 +1426,16 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-/*!***************************!*\
-  !*** ./src/text/index.js ***!
-  \***************************/
+/*!********************************!*\
+  !*** ./src/list-item/index.js ***!
+  \********************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/text/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./src/text/save.js");
-/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.css */ "./src/text/index.css");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/text/block.json");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/list-item/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./src/list-item/save.js");
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.css */ "./src/list-item/index.css");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/list-item/block.json");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 /**
@@ -1464,12 +1455,13 @@ __webpack_require__.r(__webpack_exports__);
 
 const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
-  height: "48px",
-  viewBox: "0 -960 960 960",
-  width: "48px",
-  fill: "#000000",
+  viewBox: "0 0 24 24",
+  width: "48",
+  height: "48",
+  "aria-hidden": "true",
+  focusable: "false",
   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
-    d: "M160-200v-60h386v60H160Zm0-167v-60h640v60H160Zm0-166v-60h640v60H160Zm0-167v-60h640v60H160Z"
+    d: "M12 11v1.5h8V11h-8zm-6-1c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
   })
 });
 

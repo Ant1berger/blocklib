@@ -44,7 +44,7 @@ export default function Edit(props) {
         if (mediaQueries.length > 0) {
             return `[data-persistentid="${persistentID}"] {
 ${mediaQueries.map((query) => {
-                    if (!query.css && !query.predefinedColor && !query.predefinedFont ) {
+                    if (!query.css && !query.predefinedColor && !query.predefinedFont && !query.predefinedSize ) {
                         return null;
                     } else {
                         return `${query.minWidth ?
