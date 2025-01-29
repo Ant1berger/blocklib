@@ -959,6 +959,25 @@ ${query.css ? `${query.css}` : ''}`}`;
           onClick: () => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.addMediaQuery)(setAttributes, mediaQueries),
           className: "add-media-query",
           children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add a media query', 'bloclklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
+          __nextHasNoMarginBottom: true,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Left icon', 'bloclklib'),
+            value: leftIcon || '',
+            onChange: value => setAttributes({
+              leftIcon: value
+            }),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Paste <svg>', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Right icon', 'bloclklib'),
+            value: rightIcon || '',
+            onChange: value => setAttributes({
+              rightIcon: value
+            }),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Paste <svg>', 'blocklib')
+          })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Other settings', 'bloclklib'),
@@ -993,25 +1012,6 @@ ${query.css ? `${query.css}` : ''}`}`;
             type: newValue
           }),
           placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Enter a type', 'blocklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
-          __nextHasNoMarginBottom: true,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
-            __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Left icon', 'bloclklib'),
-            value: leftIcon || '',
-            onChange: value => setAttributes({
-              leftIcon: value
-            }),
-            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Paste <svg>', 'blocklib')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
-            __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Right icon', 'bloclklib'),
-            value: rightIcon || '',
-            onChange: value => setAttributes({
-              rightIcon: value
-            }),
-            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Paste <svg>', 'blocklib')
-          })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("hr", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
           __nextHasNoMarginBottom: true,
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Classes', 'bloclklib'),

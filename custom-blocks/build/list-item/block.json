@@ -9,7 +9,7 @@
     "blocklib",
     "list item"
   ],
-  "description": "A list item for <u>l and <ol>.",
+  "description": "A list item for <ul> and <ol>.",
   "example": {},
   "supports": {
     "html": false,

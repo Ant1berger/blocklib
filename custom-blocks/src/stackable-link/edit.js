@@ -140,6 +140,24 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                     { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
+                    <BaseControl
+                        __nextHasNoMarginBottom
+                    >
+                        <TextControl
+                            __nextHasNoMarginBottom
+                            label={ __( 'Left icon', 'bloclklib' ) }
+                            value={ leftIcon || '' }
+                            onChange={ ( value ) => setAttributes( { leftIcon: value } ) }
+                            placeholder={ __( 'Paste <svg>', 'blocklib' ) }
+                        />
+                        <TextControl
+                            __nextHasNoMarginBottom
+                            label={ __( 'Right icon', 'bloclklib' ) }
+                            value={ rightIcon || '' }
+                            onChange={ ( value ) => setAttributes( { rightIcon: value } ) }
+                            placeholder={ __( 'Paste <svg>', 'blocklib' ) }
+                        />
+                    </BaseControl>
                 </PanelBody>
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <TextControl
@@ -179,25 +197,6 @@ ${query.css ? `${query.css}` : ''}`
                             placeholder={ __( 'Enter a type', 'blocklib' ) }
                         />
                     }
-                    <hr/>
-                    <BaseControl
-                        __nextHasNoMarginBottom
-                    >
-                        <TextControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Left icon', 'bloclklib' ) }
-                            value={ leftIcon || '' }
-                            onChange={ ( value ) => setAttributes( { leftIcon: value } ) }
-                            placeholder={ __( 'Paste <svg>', 'blocklib' ) }
-                        />
-                        <TextControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Right icon', 'bloclklib' ) }
-                            value={ rightIcon || '' }
-                            onChange={ ( value ) => setAttributes( { rightIcon: value } ) }
-                            placeholder={ __( 'Paste <svg>', 'blocklib' ) }
-                        />
-                    </BaseControl>
                     <hr/>
                     <TextControl
                         __nextHasNoMarginBottom
