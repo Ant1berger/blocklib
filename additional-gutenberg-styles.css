@@ -52,6 +52,7 @@
 .add-media-query {
     display: block;
     inline-size: 100%;
+    margin-block-end: 1rem;
 }
 
 .media-query .components-base-control {

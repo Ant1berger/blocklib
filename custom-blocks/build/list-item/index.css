@@ -9,13 +9,24 @@
     text-wrap: pretty;
     -webkit-hyphens: auto;
             hyphens: auto;
-    margin-block-end: 1rem;
+    margin-block-end: .5em;
 
     &.-customMarker {
         list-style: none;
-        padding-inline-start: 4rem;
-        background-repeat: no-repeat;
-        background-size: clamp(2rem, calc(var(--vertical-base) * 1.3333), 3.5rem);
+        position: relative;
+
+        &::before {
+            content:"";
+            position: absolute;
+            inset-inline-end: 100%;
+            inset-block-start: 0;
+            inline-size: 1lh;
+            block-size: 1lh;
+            background-image: var(--customMarker);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 75%; /* Adjust the size of the custom marker here. */
+        }
     }
 }
 

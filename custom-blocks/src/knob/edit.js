@@ -150,46 +150,6 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                     { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
-                </PanelBody>
-                <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
-                    <TextControl
-                        __nextHasNoMarginBottom
-                        label={ __( 'Tag', 'bloclklib' ) }
-                        value={ tag || 'a' }
-                        onChange={ (newTag) => updateTagName(setAttributes, setTagName, newTag, 'a') }
-                        placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
-                    />
-                    { tag === 'a' &&
-                        <div>
-                            <TextControl
-                                __nextHasNoMarginBottom
-                                label={ __( 'URL', 'bloclklib' ) }
-                                value={ url || '#' }
-                                onChange={(newValue) => setAttributes({ url: newValue })}
-                                placeholder={ __( 'Enter a URL', 'blocklib' ) }
-                            />
-                            <ToggleControl
-                                __nextHasNoMarginBottom
-                                label={ __( 'Open in a new tab ?', 'bloclklib' ) }
-                                checked={ !! openInNewTab }
-                                onChange={ () =>
-                                    setAttributes( {
-                                        openInNewTab: ! openInNewTab,
-                                    } )
-                                }
-                            />
-                        </div>
-                    }
-                    { tag === 'button' &&
-                        <TextControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Type', 'bloclklib' ) }
-                            value={ type || '' }
-                            onChange={(newValue) => setAttributes({ type: newValue })}
-                            placeholder={ __( 'Enter a type', 'blocklib' ) }
-                        />
-                    }
-                    <hr/>
                     <BaseControl
                         __nextHasNoMarginBottom
                         help={ !inverted && invisibleBorder ? __( 'Invisible border is more suitable with Inverted buttons', 'bloclklib' ) : ''}
@@ -257,6 +217,45 @@ ${query.css ? `${query.css}` : ''}`
                             } )
                         }
                     />
+                </PanelBody>
+                <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
+                    <TextControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'Tag', 'bloclklib' ) }
+                        value={ tag || 'a' }
+                        onChange={ (newTag) => updateTagName(setAttributes, setTagName, newTag, 'a') }
+                        placeholder={ __( 'Use any HTML tag', 'blocklib' ) }
+                    />
+                    { tag === 'a' &&
+                        <div>
+                            <TextControl
+                                __nextHasNoMarginBottom
+                                label={ __( 'URL', 'bloclklib' ) }
+                                value={ url || '#' }
+                                onChange={(newValue) => setAttributes({ url: newValue })}
+                                placeholder={ __( 'Enter a URL', 'blocklib' ) }
+                            />
+                            <ToggleControl
+                                __nextHasNoMarginBottom
+                                label={ __( 'Open in a new tab ?', 'bloclklib' ) }
+                                checked={ !! openInNewTab }
+                                onChange={ () =>
+                                    setAttributes( {
+                                        openInNewTab: ! openInNewTab,
+                                    } )
+                                }
+                            />
+                        </div>
+                    }
+                    { tag === 'button' &&
+                        <TextControl
+                            __nextHasNoMarginBottom
+                            label={ __( 'Type', 'bloclklib' ) }
+                            value={ type || '' }
+                            onChange={(newValue) => setAttributes({ type: newValue })}
+                            placeholder={ __( 'Enter a type', 'blocklib' ) }
+                        />
+                    }
                     <hr/>
                     <TextControl
                         __nextHasNoMarginBottom

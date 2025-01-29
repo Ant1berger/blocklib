@@ -718,14 +718,13 @@ function get_custom_block_common_styles() {
     background-color: var(--brand_1);
 } */
 
-/* Our custom properties for predifined styles must not inherit. */
+/* Our custom properties for predifined styles must not inherit sometimes. */
 /* And they should not have initial values either: properties of which they are the values should themselve fallback to their own initial values. */
-/* But Chrome seems to not apply inherits: false; if there is no initial value, so we leave it for now. */
+/* But Chrome seems to not apply inherits: false; if there is no initial value, so we try to mimic the native CSS initial value. */
 
 @property --color {
     syntax: "*";
-    inherits: false;
-    initial-value:rgb(143, 143, 143);
+    inherits: true;
 }
 
 @property --bgColor {
@@ -742,14 +741,12 @@ function get_custom_block_common_styles() {
 
 @property --fontFamily {
     syntax: "*";
-    inherits: false;
-    initial-value: sans-serif;
+    inherits: true;
 }
 
 @property --size {
     syntax: "*";
-    inherits: false;
-    initial-value: 1rem;
+    inherits: true;
 }
 
 @media(prefers-reduced-motion: no-preference) {

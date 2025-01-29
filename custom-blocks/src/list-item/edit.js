@@ -2,7 +2,7 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
-import { MyMonacoEditor, updatePersistentIDs, handleThemeOptionsForSelects, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
+import { MyMonacoEditor, updatePersistentIDs, parseSVG, handleThemeOptionsForSelects, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
 import { PanelBody, PanelRow, TextControl, Button, SelectControl, BaseControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { persistentID, blockName, otherAttributes, customMarker, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
     const [selectFontOptions, setSelectFontOptions] = useState([]);
@@ -125,6 +125,13 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                     { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
+                    <TextControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'Custom marker', 'bloclklib' ) }
+                        value={ customMarker || '' }
+                        onChange={ ( value ) => setAttributes( { customMarker: value } ) }
+                        placeholder={ __( 'Paste data-uri\'ed <svg>', 'blocklib' ) }
+                    />
                 </PanelBody>
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <TextControl
@@ -158,10 +165,13 @@ ${query.css ? `${query.css}` : ''}`
             <RichText {...blockProps}
                 tagName="li"
                 placeholder={ __( 'Write your content here', 'blocklib' ) }
+                // style= {customMarker && {'--customMarker': `url(${customMarker})`}}
+                style={customMarker ? {'--customMarker': `url(${customMarker})`} : {}}
                 value={ content }
                 data-persistentid={ persistentID }
                 className={[
                     blockName,
+                    customMarker ? '-customMarker' : '',
                     manualClasses || ''
                 ].filter(Boolean).join(' ')}
                 onChange={ ( content ) => setAttributes( { content } ) }

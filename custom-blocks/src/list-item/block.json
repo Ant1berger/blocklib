@@ -26,6 +26,10 @@
             "type": "string",
             "default": ""
         },
+        "customMarker": {
+            "type": "string",
+            "default": ""
+        },
         "manualClasses": {
             "type": "string",
             "default": ""

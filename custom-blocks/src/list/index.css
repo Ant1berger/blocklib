@@ -2,9 +2,7 @@
     background-color: var(--bgColor);
     color: var(--color);
     font-family: var(--fontFamily);
+    font-size: var(--size);
     margin: 0;
-
-    &:has(.-customMarker) {
-        padding: 0;
-    }
+    padding-inline-start: 1lh;
 }

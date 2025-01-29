@@ -25,12 +25,18 @@ if (!empty($attributes['renderedMediaQueries'])) {
 
 <li
     data-persistentid="<?php echo $attributes['persistentID']; ?>"
+    <?php if (!empty($attributes['customMarker'])) { ?>
+    style="--customMarker: url('<?php echo $attributes['customMarker']; ?>')"
+    <?php } ?>
     <?php if (!empty($attributes['anchor'])) { ?>
     id="<?php echo $attributes['anchor']; ?>"
     <?php } ?>
     class="<?php echo $attributes['blockName']; ?><?php
         if (!empty($attributes['manualClasses'])) {
             echo ' ' . $attributes['manualClasses'];
+        }
+        if (!empty($attributes['customMarker'])) {
+            echo ' -customMarker';
         }
     ?>"
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
