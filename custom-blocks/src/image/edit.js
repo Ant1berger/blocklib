@@ -273,7 +273,6 @@ ${query.css ? `${query.css}` : ''}
                                     : __('Set this image as LCP', 'blocklib')
                                 }
                             </Button>
-
                             <Button
                                 variant="secondary"
                                 onClick={disableLCP}
