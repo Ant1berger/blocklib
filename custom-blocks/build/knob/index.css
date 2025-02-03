@@ -4,21 +4,19 @@
 .knob {
     font-family: var(--fontFamily);
     font-size: var(--size);
-    line-height: 1.5;
     text-align: center;
     text-decoration: none;
     display: inline-flex;
-    gap: .5em;
     color: var(--color);
     background-color: var(--bgColor);
-    border: var(--borderColor) .1rem solid;
-    outline-color: oklch(from var(--borderColor) l c h / 0%);
-    outline-width: .3rem;
-    outline-offset: .2rem;
-    outline-style: solid;
-    border-radius: .4rem;
+    border-style: solid;
+    border-color: var(--borderColor);
+    border-width: .1em;
+    border-radius: .4em;
     padding-inline: 1em;
     padding-block: .5em;
+    gap: .5em;
+    line-height: 1.5;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -27,43 +25,18 @@
             user-select: none;
 }
 
-@media(prefers-reduced-motion: no-preference) {
-
-    .knob {
-        transition: outline-color .2s;
-    }
-}
-
 .knob.-rounded {
     border-radius: 1.3333em;
 }
 
 .knob.-inverted {
     background-color: transparent;
-    color: var(--bgColor);
-}
-
-.knob.-invisibleBorder { /* Meant to be used with -inverted. */
-    border-color: transparent;
-    outline: none;
-}
-
-.knob.-invisibleBorder:hover,
-.knob.-invisibleBorder:focus-visible {
-    outline: none;
-    background-color: oklch(from var(--bgColor) l c h / 20%);
-}
-
-@media(prefers-reduced-motion: no-preference) {
-
-    .knob.-invisibleBorder {
-        transition: background-color .2s;
-    }
+    color: var(--borderColor);
 }
 
 /* Icons come from Google Fonts: */
 /* https://fonts.google.com/icons?icon.size=24&icon.color=%235f6368 */
-/* Use them as inline SVGs to allow CSS control on their sub-elements (e.g. fill). */
+/* Used as inline SVGs to allow CSS control on their sub-elements (e.g. fill). */
 .knob.-leftIcon {
     text-align: start;
 }
@@ -76,7 +49,7 @@
 }
 
 .knob.-inverted.-leftIcon svg {
-    fill: var(--bgColor);
+    fill: var(--borderColor);
 }
 
 .knob.-invisibleText {
@@ -99,9 +72,67 @@
     justify-content: center;
 }
 
-.knob:hover,
-.knob:focus-visible {
+/* Hover and focused states */
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob.-hoverOutlined {
+        transition: outline-color .2s;
+    }
+}
+
+.knob.-hoverOutlined {
+    outline-color: oklch(from var(--borderColor) l c h / 0%);
+    outline-width: .3rem;
+    outline-offset: .2rem;
+    outline-style: solid;
+}
+
+.knob.-hoverOutlined:hover,
+.knob.-hoverOutlined:focus-visible {
     outline-color: oklch(from var(--borderColor) l c h / 100%);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob.-hoverBGDarken,
+    .knob.-hoverBGLighten {
+        transition: background-color .2s;
+    }
+}
+
+.knob.-hoverBGDarken,
+.knob.-hoverBGLighten {
+    outline: none;
+}
+
+/* Have to ask for a result in HSL to get a constant lightening (or darkening) while keeping the same hue */
+.knob.-hoverBGDarken:hover,
+.knob.-hoverBGDarken:focus-visible {
+    background-color: color-mix(in hsl, var(--bgColor) 100%, #000000 30%);
+}
+
+.knob.-hoverBGLighten:hover,
+.knob.-hoverBGLighten:focus-visible {
+    background-color: color-mix(in hsl, var(--bgColor) 100%, #ffffff 10%);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob.-hoverUnstuck {
+        transition: scale .2s, box-shadow .2s;
+    }
+}
+
+.knob.-hoverUnstuck {
+    scale: 1;
+    box-shadow: none;
+}
+
+.knob.-hoverUnstuck:hover,
+.knob.-hoverUnstuck:focus-visible {
+    scale: 1.05;
+    box-shadow: 0 0.2em 0.5em oklch(from var(--grey_start) l c h / 40%);
 }
 
 

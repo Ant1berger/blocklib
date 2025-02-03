@@ -6,12 +6,22 @@
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    @media(prefers-reduced-motion: no-preference) {
-        transition: transform .2s;
-    }
+}
 
-    &:hover,
-    &:focus-visible {
-        transform: scale(1.05);
+/* Hover and focused states */
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .grouping-link.-hoverUnstuck {
+        transition: scale .2s, box-shadow .2s;
     }
+}
+
+.grouping-link.-hoverUnstuck {
+    scale: 1;
+}
+
+.grouping-link.-hoverUnstuck:hover,
+.grouping-link.-hoverUnstuck:focus-visible {
+    scale: 1.05;
 }

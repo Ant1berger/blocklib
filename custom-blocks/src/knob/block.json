@@ -50,9 +50,9 @@
             "type": "boolean",
             "default": false
         },
-        "invisibleBorder": {
-            "type": "boolean",
-            "default": false
+        "hoverState": {
+            "type": "string",
+            "default": ""
         },
         "leftIcon": {
             "type": "string",

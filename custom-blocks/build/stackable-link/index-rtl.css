@@ -22,13 +22,6 @@
             user-select: none;
 }
 
-@media(prefers-reduced-motion: no-preference) {
-
-    .stackable-link {
-        transition: background-color .2s;
-    }
-}
-
 .stackable-link.-leftIcon > svg,
 .stackable-link.-rightIcon > svg {
     /* Could have 2 SVGs: one left and one right. */
@@ -42,22 +35,67 @@
     margin-inline-start: auto;
 }
 
+/* Hover and focused states */
+
 @media(prefers-reduced-motion: no-preference) {
 
     .stackable-link.-rightIcon > svg:last-child {
         transition: translate .2s;
     }
-}
 
-.stackable-link:hover,
-.stackable-link:focus-visible,
-.stackable-link.-current {
-    background-color: oklch(from var(--bgColor) l c h / 70%);
-    outline: none;
+    .stackable-link.-hoverBGDarken,
+    .stackable-link.-hoverBGLighten {
+        transition: background-color .2s;
+    }
 }
 
 .stackable-link:hover.-rightIcon > svg:last-child,
 .stackable-link:focus-visible.-rightIcon > svg:last-child {
     translate: .5em;
+}
+
+.stackable-link.-hoverBGDarken,
+.stackable-link.-hoverBGLighten {
+    outline: none;
+}
+
+/* Have to ask for a result in HSL to get a constant lightening (or darkening) while keeping the same hue */
+.stackable-link.-hoverBGDarken:hover,
+.stackable-link.-hoverBGDarken:focus-visible,
+.stackable-link.-hoverBGDarken.-current {
+    background-color: color-mix(in hsl, var(--bgColor) 100%, #000000 30%);
+}
+
+.stackable-link.-hoverBGLighten:hover,
+.stackable-link.-hoverBGLighten:focus-visible,
+.stackable-link.-hoverBGLighten.-current {
+    background-color: color-mix(in hsl, var(--bgColor) 100%, #ffffff 10%);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .stackable-link.-hoverUnderlined::after {
+        transition: block-size .2s;
+    }
+}
+
+.stackable-link.-hoverUnderlined {
+    position: relative;
+}
+
+.stackable-link.-hoverUnderlined::after {
+    content: "";
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    block-size: 0;
+    background-color: var(--color);
+}
+
+.stackable-link.-hoverUnderlined:hover::after,
+.stackable-link.-hoverUnderlined:focus-visible::after,
+.stackable-link.-hoverUnderlined.-current::after {
+    block-size: .3em;
 }
 

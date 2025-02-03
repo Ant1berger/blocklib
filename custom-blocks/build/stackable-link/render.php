@@ -59,6 +59,9 @@ if (!empty($attributes['renderedMediaQueries'])) {
         if (!empty($attributes['rightIcon'])) {
             echo ' -rightIcon';
         }
+        if (!empty($attributes['hoverState'])) {
+            echo ' ' . $attributes['hoverState'];
+        }
         if (!empty($attributes['url']) && trim($relative_url, '/') === trim($attributes['url'], '/')) {
             echo ' -current';
         }

@@ -38,6 +38,10 @@
             "type": "string",
             "default": ""
         },
+        "hoverState": {
+            "type": "string",
+            "default": ""
+        },
         "manualClasses": {
             "type": "string",
             "default": ""

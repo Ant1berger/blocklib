@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
+    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, hoverState, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
@@ -107,6 +107,22 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                     { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
+                    <SelectControl
+                        __nextHasNoMarginBottom
+                        label={__( 'Hover state', 'bloclklib' )}
+                        options={[
+                            {
+                                label: 'Select a state',
+                                value: ''
+                            },
+                            {
+                                label: 'Unstuck',
+                                value: '-hoverUnstuck'
+                            }
+                        ]}
+                        value={hoverState}
+                        onChange={(newValue) => setAttributes({ hoverState: newValue })}
+                    />
                 </PanelBody>
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <TextControl
@@ -183,6 +199,7 @@ ${query.css ? `${query.css}` : ''}`
                     href: '#',
                     className: [
                         blockName,
+                        hoverState ? hoverState : '',
                         manualClasses || ''
                     ].filter(Boolean).join(' ')
                 },

@@ -9,5 +9,9 @@
     text-wrap: pretty;
     -webkit-hyphens: auto;
             hyphens: auto;
+
+    a {
+        color: inherit;
+    }
 }
 

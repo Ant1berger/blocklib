@@ -828,6 +828,7 @@ function Edit(props) {
     persistentID,
     blockName,
     otherAttributes,
+    hoverState,
     manualClasses,
     mediaQueries = [],
     renderedMediaQueries,
@@ -927,6 +928,20 @@ ${query.css ? `${query.css}` : ''}`}`;
           onClick: () => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.addMediaQuery)(setAttributes, mediaQueries),
           className: "add-media-query",
           children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add a media query', 'bloclklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+          __nextHasNoMarginBottom: true,
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hover state', 'bloclklib'),
+          options: [{
+            label: 'Select a state',
+            value: ''
+          }, {
+            label: 'Unstuck',
+            value: '-hoverUnstuck'
+          }],
+          value: hoverState,
+          onChange: newValue => setAttributes({
+            hoverState: newValue
+          })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Other settings', 'bloclklib'),
@@ -997,7 +1012,7 @@ ${query.css ? `${query.css}` : ''}`}`;
       ...innerBlocksProps,
       'data-persistentid': persistentID,
       href: '#',
-      className: [blockName, manualClasses || ''].filter(Boolean).join(' ')
+      className: [blockName, hoverState ? hoverState : '', manualClasses || ''].filter(Boolean).join(' ')
     })]
   });
 }
@@ -1037,6 +1052,7 @@ function save(props) {
     persistentID,
     blockName,
     anchor,
+    hoverState,
     manualClasses,
     otherAttributes
   } = attributes;
@@ -1063,7 +1079,7 @@ function save(props) {
   }
   return React.createElement(tag, {
     'data-persistentid': persistentID,
-    className: [blockName, manualClasses || ''].filter(Boolean).join(' '),
+    className: [blockName, hoverState ? hoverState : '', manualClasses || ''].filter(Boolean).join(' '),
     ...extraAttributes
   }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InnerBlocks.Content, {}));
 }
@@ -1396,7 +1412,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \**************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/grouping-link","version":"0.1.0","title":"Grouping link","category":"design","keywords":["grouping","link","design"],"description":"An clickable element that can encompass other elements.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/grouping-link","version":"0.1.0","title":"Grouping link","category":"design","keywords":["grouping","link","design"],"description":"An clickable element that can encompass other elements.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"hoverState":{"type":"string","default":""},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 

@@ -118,7 +118,7 @@ ${query.css ? `${query.css}` : ''}`
                                 label={ __( 'Size', 'bloclklib' ) }
                                 value={query.predefinedSize}
                                 onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedSize', newValue, mediaQueries)}
-                                placeholder={ __( 'Default: 1rem', 'blocklib' ) }
+                                placeholder={ __( 'Défault: inherit', 'blocklib' ) }
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor

@@ -5,4 +5,8 @@
     margin: 0;
     text-wrap: pretty;
     hyphens: auto;
+
+    a {
+        color: inherit;
+    }
 }

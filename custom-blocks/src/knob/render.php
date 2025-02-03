@@ -51,9 +51,6 @@ if (!empty($attributes['renderedMediaQueries'])) {
         if (!empty($attributes['inverted'])) {
             echo ' -inverted';
         }
-        if (!empty($attributes['invisibleBorder'])) {
-            echo ' -invisibleBorder';
-        }
         if (!empty($attributes['leftIcon'])) {
             echo ' -leftIcon';
         }
@@ -62,6 +59,9 @@ if (!empty($attributes['renderedMediaQueries'])) {
         }
         if (!empty($attributes['fullWidth'])) {
             echo ' -fullWidth';
+        }
+        if (!empty($attributes['hoverState'])) {
+            echo ' ' . $attributes['hoverState'];
         }
     ?>"
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>

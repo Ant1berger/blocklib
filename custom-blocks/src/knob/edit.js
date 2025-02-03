@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, rounded, inverted, invisibleBorder, leftIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, rounded, inverted, hoverState, leftIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -127,7 +127,7 @@ ${query.css ? `${query.css}` : ''}`
                                 label={ __( 'Size', 'bloclklib' ) }
                                 value={query.predefinedSize}
                                 onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedSize', newValue, mediaQueries)}
-                                placeholder={ __( 'Default: 1rem', 'blocklib' ) }
+                                placeholder={ __( 'Défault: inherit', 'blocklib' ) }
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
@@ -150,41 +150,26 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                     { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
-                    <BaseControl
+                    <ToggleControl
                         __nextHasNoMarginBottom
-                        help={ !inverted && invisibleBorder ? __( 'Invisible border is more suitable with Inverted buttons', 'bloclklib' ) : ''}
-                    >
-                        <ToggleControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Rounded ?', 'bloclklib' ) }
-                            checked={ !! rounded }
-                            onChange={ () =>
-                                setAttributes( {
-                                    rounded: ! rounded,
-                                } )
-                            }
-                        />
-                        <ToggleControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Inverted ?', 'bloclklib' ) }
-                            checked={ !! inverted }
-                            onChange={ () =>
-                                setAttributes( {
-                                    inverted: ! inverted,
-                                } )
-                            }
-                        />
-                        <ToggleControl
-                            __nextHasNoMarginBottom
-                            label={ __( 'Invisible border ?', 'bloclklib' ) }
-                            checked={ !! invisibleBorder }
-                            onChange={ () =>
-                                setAttributes( {
-                                    invisibleBorder: ! invisibleBorder,
-                                } )
-                            }
-                        />
-                    </BaseControl>
+                        label={ __( 'Rounded ?', 'bloclklib' ) }
+                        checked={ !! rounded }
+                        onChange={ () =>
+                            setAttributes( {
+                                rounded: ! rounded,
+                            } )
+                        }
+                    />
+                    <ToggleControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'Inverted ?', 'bloclklib' ) }
+                        checked={ !! inverted }
+                        onChange={ () =>
+                            setAttributes( {
+                                inverted: ! inverted,
+                            } )
+                        }
+                    />
                     <BaseControl
                         __nextHasNoMarginBottom
                         help={ !leftIcon && invisibleText ? __( 'Hide text only if there is at least on icon, or your knob will be empty!', 'bloclklib' ) : ''}
@@ -216,6 +201,34 @@ ${query.css ? `${query.css}` : ''}`
                                 fullWidth: ! fullWidth,
                             } )
                         }
+                    />
+                    <SelectControl
+                        __nextHasNoMarginBottom
+                        label={__( 'Hover state', 'bloclklib' )}
+                        options={[
+                            {
+                                label: 'Select a state',
+                                value: ''
+                            },
+                            {
+                                label: 'Outlined',
+                                value: '-hoverOutlined'
+                            },
+                            {
+                                label: 'Background darken',
+                                value: '-hoverBGDarken'
+                            },
+                            {
+                                label: 'Background lighten',
+                                value: '-hoverBGLighten'
+                            },
+                            {
+                                label: 'Unstuck',
+                                value: '-hoverUnstuck'
+                            }
+                        ]}
+                        value={hoverState}
+                        onChange={(newValue) => setAttributes({ hoverState: newValue })}
                     />
                 </PanelBody>
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
@@ -294,10 +307,10 @@ ${query.css ? `${query.css}` : ''}`
                         blockName,
                         rounded ? '-rounded' : '',
                         inverted ? '-inverted' : '',
-                        invisibleBorder ? '-invisibleBorder' : '',
                         leftIcon ? '-leftIcon' : '',
                         invisibleText ? '-invisibleText' : '',
                         fullWidth ? '-fullWidth' : '',
+                        hoverState ? hoverState : '',
                         manualClasses || ''
                     ].filter(Boolean).join(' ')
                 },

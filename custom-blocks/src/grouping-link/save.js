@@ -9,7 +9,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
 
 export default function save(props) {
     const { attributes } = props;
-    const { tag, url, persistentID, blockName, anchor, manualClasses, otherAttributes } = attributes;
+    const { tag, url, persistentID, blockName, anchor, hoverState, manualClasses, otherAttributes } = attributes;
 
     const extraAttributes = {};
     if (tag === 'a' && url) {
@@ -39,6 +39,7 @@ export default function save(props) {
             'data-persistentid': persistentID,
             className: [
                 blockName,
+                hoverState ? hoverState : '',
                 manualClasses || ''
             ].filter(Boolean).join(' '),
             ...extraAttributes

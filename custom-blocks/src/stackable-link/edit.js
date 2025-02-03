@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, leftIcon, rightIcon, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, leftIcon, rightIcon, hoverState, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -117,7 +117,7 @@ ${query.css ? `${query.css}` : ''}`
                                 label={ __( 'Size', 'bloclklib' ) }
                                 value={query.predefinedSize}
                                 onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedSize', newValue, mediaQueries)}
-                                placeholder={ __( 'Default: 1rem', 'blocklib' ) }
+                                placeholder={ __( 'Défault: inherit', 'blocklib' ) }
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor
@@ -156,6 +156,30 @@ ${query.css ? `${query.css}` : ''}`
                             value={ rightIcon || '' }
                             onChange={ ( value ) => setAttributes( { rightIcon: value } ) }
                             placeholder={ __( 'Paste <svg>', 'blocklib' ) }
+                        />
+                        <SelectControl
+                            __nextHasNoMarginBottom
+                            label={__( 'Hover state', 'bloclklib' )}
+                            options={[
+                                {
+                                    label: 'Select a state',
+                                    value: ''
+                                },
+                                {
+                                    label: 'Background darken',
+                                    value: '-hoverBGDarken'
+                                },
+                                {
+                                    label: 'Background lighten',
+                                    value: '-hoverBGLighten'
+                                },
+                                {
+                                    label: 'Underlined',
+                                    value: '-hoverUnderlined'
+                                }
+                            ]}
+                            value={hoverState}
+                            onChange={(newValue) => setAttributes({ hoverState: newValue })}
                         />
                     </BaseControl>
                 </PanelBody>
@@ -235,6 +259,7 @@ ${query.css ? `${query.css}` : ''}`
                         blockName,
                         leftIcon ? '-leftIcon' : '',
                         rightIcon ? '-rightIcon' : '',
+                        hoverState ? hoverState : '',
                         manualClasses || ''
                     ].filter(Boolean).join(' '),
                 },
