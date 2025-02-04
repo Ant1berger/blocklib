@@ -40,8 +40,6 @@ export default function save(props) {
             ].filter(Boolean).join(' '),
             ...extraAttributes
         },
-        <div className={ blockName + '-content' }>
-            <InnerBlocks.Content />
-        </div>
+        <InnerBlocks.Content />
     )
 }

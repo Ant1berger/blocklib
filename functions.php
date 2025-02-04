@@ -183,12 +183,14 @@ function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/title' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/text' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/stage' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/stage-content' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/group' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/grouping-link' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/image' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/knob' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/stackable-link' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/dropdown' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/dropdown-content' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/list' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/list-item' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/language-switcher' );
@@ -205,12 +207,14 @@ function custom_allowed_block_types( $allowed_block_types, $block_editor_context
         'custom-blocks/text',
         'custom-blocks/title',
         'custom-blocks/stage',
+        'custom-blocks/stage-content',
         'custom-blocks/group',
         'custom-blocks/grouping-link',
         'custom-blocks/image',
         'custom-blocks/knob',
         'custom-blocks/stackable-link',
         'custom-blocks/dropdown',
+        'custom-blocks/dropdown-content',
         'custom-blocks/list',
         'custom-blocks/list-item',
         'custom-blocks/language-switcher'
@@ -824,6 +828,16 @@ section {
 .block-editor-iframe__body:not(.post-type-page) {
     background-color: #eeeeee;
 }
+
+/* Disable styles of some intermediary editor blocks to preserve the WYSIWYG experience */
+/* For Stage and Dropdown blocks */
+.is-root-container .stage > .block-editor-inner-blocks,
+.is-root-container .stage > .block-editor-inner-blocks > .block-editor-block-list__layout,
+.is-root-container .dropdown > .block-editor-inner-blocks,
+.is-root-container .dropdown > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    display: contents;
+}
+
 ';
 }
 ?>

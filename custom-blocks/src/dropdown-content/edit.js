@@ -139,7 +139,7 @@ ${query.css ? `${query.css}` : ''}`
                         label={ __( 'Anchor', 'bloclklib' ) }
                         value={ anchor || '' }
                         onChange={ ( value ) => setAttributes( { anchor: value } ) }
-                        placeholder={ __( 'Add ID if needed (no spaces)', 'blocklib' ) }
+                        placeholder={ __( 'Add HTML ID if needed (no spaces)', 'blocklib' ) }
                     />
                 </PanelBody>
             </InspectorControls>
@@ -154,9 +154,7 @@ ${query.css ? `${query.css}` : ''}`
                         manualClasses || ''
                     ].filter(Boolean).join(' ')
                 },
-                <InnerBlocks
-                    template={ [[ 'custom-blocks/dropdown-content', {} ]] }
-                />
+                <InnerBlocks />
             ) }
         </Fragment>
     )

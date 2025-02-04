@@ -834,9 +834,6 @@ function Edit(props) {
   const [themeOptions, setThemeOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)({});
   const [selectBGColorOptions, setSelectBGColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
-  const innerBlocksProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useInnerBlocksProps)({
-    className: `${blockName}-content`
-  });
 
   // Fetches datas from WP database and pass it to the themeOptions state.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -970,8 +967,8 @@ ${query.css ? `${query.css}` : ''}`}`;
       ...blockProps,
       'data-persistentid': persistentID,
       className: [blockName, manualClasses || ''].filter(Boolean).join(' ')
-    }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-      ...innerBlocksProps
+    }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InnerBlocks, {
+      template: [['custom-blocks/stage-content', {}]]
     }))]
   });
 }
@@ -1035,10 +1032,7 @@ function save(props) {
     'data-persistentid': persistentID,
     className: [blockName, manualClasses || ''].filter(Boolean).join(' '),
     ...extraAttributes
-  }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: blockName + '-content',
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InnerBlocks.Content, {})
-  }));
+  }, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.InnerBlocks.Content, {}));
 }
 
 /***/ }),
@@ -1369,7 +1363,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \******************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/stage","version":"0.1.0","title":"Stage","category":"design","keywords":["blocklib","design","stage","section"],"description":"The biggest part of a page: a section containing the main column of the website.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/stage","version":"0.1.0","title":"Stage","category":"design","keywords":["blocklib","design","stage","section"],"description":"The biggest part of a page: a section containing the main column of the website. Its only direct child has to be a Stage content block.","allowedBlocks":["custom-blocks/stage-content"],"example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"div"},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 

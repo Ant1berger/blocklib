@@ -3,11 +3,3 @@
     display: flex;
     justify-content: center;
 }
-
-.stage-content {
-    flex-grow: 0;
-    flex-shrink: 0;
-    inline-size: 100%;
-    max-inline-size: 128rem;
-    padding-inline: var(--stagePadding);
-}

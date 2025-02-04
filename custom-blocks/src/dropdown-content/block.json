@@ -1,13 +1,13 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "custom-blocks/dropdown",
+	"name": "custom-blocks/dropdown-content",
 	"version": "0.1.0",
-	"title": "Dropdown",
+	"title": "Dropdown content",
 	"category": "design",
-    "keywords": [ "blocklib", "design", "dropdown" ],
-	"description": "An animated component for showing/hiding embeded stuff.",
-    "allowedBlocks": [ "custom-blocks/dropdown-content" ],
+    "keywords": [ "blocklib", "dropdown", "design" ],
+	"description": "The mandatory only direct child of the Dropdown block.",
+    "parent": [ "custom-blocks/dropdown" ],
 	"example": {},
     "supports": {
         "html": false,

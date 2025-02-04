@@ -6,7 +6,8 @@
 	"title": "Stage",
 	"category": "design",
     "keywords": [ "blocklib", "design", "stage", "section" ],
-	"description": "The biggest part of a page: a section containing the main column of the website.",
+	"description": "The biggest part of a page: a section containing the main column of the website. Its only direct child has to be a Stage content block.",
+    "allowedBlocks": [ "custom-blocks/stage-content" ],
 	"example": {},
     "supports": {
         "html": false,

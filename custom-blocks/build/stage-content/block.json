@@ -1,18 +1,18 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "custom-blocks/dropdown",
+  "name": "custom-blocks/stage-content",
   "version": "0.1.0",
-  "title": "Dropdown",
+  "title": "Stage content",
   "category": "design",
   "keywords": [
     "blocklib",
-    "design",
-    "dropdown"
+    "stage",
+    "design"
   ],
-  "description": "An animated component for showing/hiding embeded stuff.",
-  "allowedBlocks": [
-    "custom-blocks/dropdown-content"
+  "description": "The mandatory only direct child of the Stage block.",
+  "parent": [
+    "custom-blocks/stage"
   ],
   "example": {},
   "supports": {

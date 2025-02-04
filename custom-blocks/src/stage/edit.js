@@ -1,6 +1,6 @@
 
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import { MyMonacoEditor, updatePersistentIDs, handleThemeOptionsForSelects, updateTagName, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
 import { PanelBody, PanelRow, TextControl, Button, SelectControl, BaseControl } from '@wordpress/components';
@@ -15,7 +15,6 @@ export default function Edit(props) {
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
     const blockProps = useBlockProps();
-    const innerBlocksProps = useInnerBlocksProps({ className: `${blockName}-content` });
 
     // Fetches datas from WP database and pass it to the themeOptions state.
     useEffect(() => {
@@ -155,7 +154,9 @@ ${query.css ? `${query.css}` : ''}`
                         manualClasses || ''
                     ].filter(Boolean).join(' ')
                 },
-                <div {...innerBlocksProps}></div>
+                <InnerBlocks
+                    template={ [[ 'custom-blocks/stage-content', {} ]] }
+                />
             ) }
         </Fragment>
     )
