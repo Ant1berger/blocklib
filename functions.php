@@ -93,7 +93,7 @@ add_filter( 'style_loader_src', '_remove_script_version', 15, 1 );
 //****************************
 function remove_plugin_assets() {
     wp_dequeue_style( 'contact-form-7' );
-    wp_dequeue_script( 'contact-form-7' );
+    //wp_dequeue_script( 'contact-form-7' );
 }
 add_action( 'wp_enqueue_scripts', 'remove_plugin_assets', 100 );
 // And remove the <p> tags around the form elements.

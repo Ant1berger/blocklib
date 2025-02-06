@@ -1497,10 +1497,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./src/grouping-link/save.js");
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.css */ "./src/grouping-link/index.css");
 /* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/grouping-link/block.json");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -1516,14 +1514,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("svg", {
+const blockIcon = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   height: "48px",
   viewBox: "0 -960 960 960",
   width: "48px",
   fill: "#000000",
-  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("path", {
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("path", {
     d: "M180-160q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h600q24 0 42 18t18 42v302q-8-1-14.65-1.5T811-520h-31v-300H180v600h137q5 16 10.5 31t13.5 29H180Zm0-120v60-600 540Zm110-50h30q11-37 36-74t57-66H290v140Zm0-240h140v-140H290v140Zm270 450q-66 0-113-47t-47-113q0-66 47-113t113-47h70v60h-70q-42 0-71 29t-29 71q0 42 29 71t71 29h81v60h-81Zm-30-450h140v-140H530v140Zm30 320v-60h240v60H560Zm160 130v-60h80q42 0 71-29t29-71q0-42-29-71t-71-29h-70v-60h70q66 0 113 46.5T960-280q0 66-47 113t-113 47h-80Z"
   })
 });
