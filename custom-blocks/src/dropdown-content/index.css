@@ -1,3 +1,4 @@
 .dropdown-content {
+    background-color: var(--bgColor);
     overflow: hidden;
 }

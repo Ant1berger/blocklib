@@ -2,32 +2,28 @@
 /*!*************************************!*\
   !*** ./src/dropdown/view-inline.js ***!
   \*************************************/
-const DROPDOWN_CONTROLLER_CLASS = 'dropdown-controller';
-const DROPDOWN_OPEN_CLASS = 'dropdownOpen';
-const dropdownControllers = document.querySelectorAll(`.${DROPDOWN_CONTROLLER_CLASS}`);
-if (dropdownControllers.length > 0) {
-  const tellDropdownIsOpen = event => {
-    const dropdownController = event.target.closest(`.${DROPDOWN_CONTROLLER_CLASS}`);
-    const parent = dropdownController.closest(`:not(.${DROPDOWN_CONTROLLER_CLASS})`);
-    parent.classList.toggle(DROPDOWN_OPEN_CLASS);
+const dropdownControllers = document.querySelectorAll(`.dropdown-parent:has(.dropdown:not(.-openOnHover)) .dropdown-controller`);
+if (dropdownControllers.length) {
+  // To open dropdowns when we click on the dropdown controller.
+  const toggleDropdown = ({
+    target
+  }) => {
+    target.closest('.dropdown-parent').classList.toggle('dropdownOpen');
   };
-  dropdownControllers.forEach(i => {
-    i.addEventListener('click', tellDropdownIsOpen);
-  });
+  dropdownControllers.forEach(controller => controller.addEventListener('click', toggleDropdown));
 
   // To close open dropdowns when we click outside.
-  const closeOpenDropdowns = event => {
-    const target = event.target;
-    if (target) {
-      const openDropdowns = document.querySelectorAll(`.${DROPDOWN_OPEN_CLASS}`);
-      openDropdowns.forEach(i => {
-        if (!i.contains(target)) {
-          i.classList.remove(DROPDOWN_OPEN_CLASS);
-        }
-      });
-    }
+  const closeDropdowns = ({
+    target
+  }) => {
+    const openDropdowns = document.querySelectorAll('.dropdownOpen:has(.-closeWhenClickOutside)');
+    openDropdowns.forEach(i => {
+      if (!i.contains(target)) {
+        i.classList.remove('dropdownOpen');
+      }
+    });
   };
-  document.addEventListener('click', closeOpenDropdowns);
+  document.addEventListener('click', closeDropdowns);
 }
 /******/ })()
 ;

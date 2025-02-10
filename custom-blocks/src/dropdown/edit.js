@@ -3,14 +3,14 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import { MyMonacoEditor, updatePersistentIDs, handleThemeOptionsForSelects, updateTagName, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
-import { PanelBody, PanelRow, TextControl, Button, SelectControl, BaseControl } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl, Button, ToggleControl, SelectControl, BaseControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
 import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
+    const { tag, persistentID, blockName, closeWhenClickOutside, openOnHover, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
@@ -106,6 +106,27 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                     { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
+                    <ToggleControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'Close when click outside ?', 'bloclklib' ) }
+                        checked={ !! closeWhenClickOutside }
+                        onChange={ () =>
+                            setAttributes( {
+                                closeWhenClickOutside: ! closeWhenClickOutside,
+                            } )
+                        }
+                    />
+                    <ToggleControl
+                        __nextHasNoMarginBottom
+                        help={ __( 'If "open on hover" is enabled, "close when click outside" has no effect.', 'bloclklib' ) }
+                        label={ __( 'Open on hover ?', 'bloclklib' ) }
+                        checked={ !! openOnHover }
+                        onChange={ () =>
+                            setAttributes( {
+                                openOnHover: ! openOnHover,
+                            } )
+                        }
+                    />
                 </PanelBody>
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <TextControl
@@ -151,6 +172,8 @@ ${query.css ? `${query.css}` : ''}`
                     'data-persistentid': persistentID,
                     className: [
                         blockName,
+                        closeWhenClickOutside ? '-closeWhenClickOutside' : '',
+                        openOnHover ? '-openOnHover' : '',
                         manualClasses || ''
                     ].filter(Boolean).join(' ')
                 },

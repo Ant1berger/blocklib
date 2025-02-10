@@ -1,15 +1,17 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "custom-blocks/form",
+  "name": "custom-blocks/knob-glossy",
   "version": "0.1.0",
-  "title": "Form",
-  "category": "design",
+  "title": "Knob glossy",
+  "category": "text",
   "keywords": [
     "blocklib",
-    "form"
+    "text",
+    "knob",
+    "button"
   ],
-  "description": "To input a CF7 shortcode.",
+  "description": "A fully customizable button.",
   "example": {},
   "supports": {
     "html": false,
@@ -28,6 +30,46 @@
     "persistentID": {
       "type": "string",
       "default": ""
+    },
+    "tag": {
+      "type": "string",
+      "default": "a"
+    },
+    "url": {
+      "type": "string",
+      "default": "#"
+    },
+    "openInNewTab": {
+      "type": "boolean",
+      "default": false
+    },
+    "type": {
+      "type": "string",
+      "default": ""
+    },
+    "rounded": {
+      "type": "boolean",
+      "default": false
+    },
+    "inverted": {
+      "type": "boolean",
+      "default": false
+    },
+    "hoverState": {
+      "type": "string",
+      "default": ""
+    },
+    "leftIcon": {
+      "type": "string",
+      "default": ""
+    },
+    "invisibleText": {
+      "type": "boolean",
+      "default": false
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false
     },
     "manualClasses": {
       "type": "string",

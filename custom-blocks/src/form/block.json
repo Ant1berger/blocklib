@@ -4,7 +4,7 @@
 	"name": "custom-blocks/form",
 	"version": "0.1.0",
 	"title": "Form",
-	"category": "Design",
+	"category": "design",
     "keywords": [ "blocklib", "form" ],
 	"description": "To input a CF7 shortcode.",
 	"example": {},

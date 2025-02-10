@@ -1,4 +1,5 @@
 .dropdown {
+    background-color: var(--bgColor);
     display: none;
     grid-template-rows: 0fr;
     @media(prefers-reduced-motion: no-preference) {
@@ -6,14 +7,18 @@
     }
 }
 
-.dropdownOpen .dropdown {
+.dropdown-parent.dropdownOpen .dropdown,
+.dropdown-parent:hover .dropdown.-openOnHover,
+.dropdown-parent:focus-within .dropdown.-openOnHover {
     display: grid;
     grid-template-rows: 1fr;
 }
 
 @starting-style {
 
-    .dropdownOpen .dropdown {
+    .dropdown-parent.dropdownOpen .dropdown,
+    .dropdown-parent:hover .dropdown.-openOnHover,
+    .dropdown-parent:focus-within .dropdown.-openOnHover {
         grid-template-rows: 0fr;
     }
 }

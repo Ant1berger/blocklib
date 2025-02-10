@@ -41,6 +41,14 @@
       "type": "string",
       "default": ""
     },
+    "closeWhenClickOutside": {
+      "type": "boolean",
+      "default": false
+    },
+    "openOnHover": {
+      "type": "boolean",
+      "default": false
+    },
     "otherAttributes": {
       "type": "string",
       "default": ""

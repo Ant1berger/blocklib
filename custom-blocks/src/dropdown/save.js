@@ -9,7 +9,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
 
 export default function save(props) {
     const { attributes } = props;
-    const { tag, persistentID, blockName, anchor, manualClasses, otherAttributes } = attributes;
+    const { tag, persistentID, blockName, anchor, manualClasses, closeWhenClickOutside, openOnHover, otherAttributes } = attributes;
 
     const extraAttributes = {};
     if (anchor) {
@@ -36,6 +36,8 @@ export default function save(props) {
             'data-persistentid': persistentID,
             className: [
                 blockName,
+                closeWhenClickOutside ? '-closeWhenClickOutside' : '',
+                openOnHover ? '-openOnHover' : '',
                 manualClasses || ''
             ].filter(Boolean).join(' '),
             ...extraAttributes
