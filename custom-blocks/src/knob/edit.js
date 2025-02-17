@@ -225,6 +225,10 @@ ${query.css ? `${query.css}` : ''}`
                             {
                                 label: 'Unstuck',
                                 value: '-hoverUnstuck'
+                            },
+                            {
+                                label: 'Inverted',
+                                value: '-hoverInverted'
                             }
                         ]}
                         value={hoverState}

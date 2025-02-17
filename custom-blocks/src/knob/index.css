@@ -31,7 +31,7 @@
 
 /* Icons come from Google Fonts: */
 /* https://fonts.google.com/icons?icon.size=24&icon.color=%235f6368 */
-/* Used as inline SVGs to allow CSS control on their sub-elements (e.g. fill). */
+/* Used as inline SVGs to allow CSS control on their attributes (e.g. fill). */
 .knob.-leftIcon {
     text-align: start;
 }
@@ -39,12 +39,8 @@
 .knob.-leftIcon svg {
     inline-size: 1.5em;
     block-size: 1.5em;
-    fill: var(--color);
+    fill: currentcolor;
     flex-shrink: 0;
-}
-
-.knob.-inverted.-leftIcon svg {
-    fill: var(--borderColor);
 }
 
 .knob.-invisibleText {
@@ -128,4 +124,27 @@
 .knob.-hoverUnstuck:focus-visible {
     scale: 1.05;
     box-shadow: 0 0.2em 0.5em oklch(from var(--grey_start) l c h / 40%);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob.-hoverInverted {
+        transition: background-color .2s, color .2s, color .2s;
+
+        &.-leftIcon svg {
+            transition: fill .2s;
+        }
+    }
+}
+
+.knob.-hoverInverted:hover,
+.knob.-hoverInverted:focus-visible {
+    background-color: transparent;
+    color: var(--borderColor);
+}
+
+.knob.-inverted.-hoverInverted:hover,
+.knob.-inverted.-hoverInverted:focus-visible {
+    background-color: var(--bgColor);
+    color: var(--color);
 }
