@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, rounded, inverted, hoverState, leftIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, hoverState, leftIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -273,8 +273,6 @@ ${query.css ? `${query.css}` : ''}`
                     'data-persistentid': persistentID,
                     className: [
                         blockName,
-                        rounded ? '-rounded' : '',
-                        inverted ? '-inverted' : '',
                         leftIcon ? '-leftIcon' : '',
                         invisibleText ? '-invisibleText' : '',
                         fullWidth ? '-fullWidth' : '',

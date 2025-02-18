@@ -828,8 +828,6 @@ function Edit(props) {
     persistentID,
     blockName,
     otherAttributes,
-    rounded,
-    inverted,
     hoverState,
     leftIcon,
     invisibleText,
@@ -1080,7 +1078,7 @@ ${query.css ? `${query.css}` : ''}`}`;
     }), React.createElement(tag, {
       ...blockProps,
       'data-persistentid': persistentID,
-      className: [blockName, rounded ? '-rounded' : '', inverted ? '-inverted' : '', leftIcon ? '-leftIcon' : '', invisibleText ? '-invisibleText' : '', fullWidth ? '-fullWidth' : '', hoverState ? hoverState : '', manualClasses || ''].filter(Boolean).join(' ')
+      className: [blockName, leftIcon ? '-leftIcon' : '', invisibleText ? '-invisibleText' : '', fullWidth ? '-fullWidth' : '', hoverState ? hoverState : '', manualClasses || ''].filter(Boolean).join(' ')
     }, leftSvg, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
       className: `${blockName}-text`,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
@@ -1460,7 +1458,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/knob-glossy","version":"0.1.0","title":"Knob glossy","category":"text","keywords":["blocklib","text","knob","button"],"description":"A fully customizable button.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"rounded":{"type":"boolean","default":false},"inverted":{"type":"boolean","default":false},"hoverState":{"type":"string","default":""},"leftIcon":{"type":"string","default":""},"invisibleText":{"type":"boolean","default":false},"fullWidth":{"type":"boolean","default":false},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/knob-glossy","version":"0.1.0","title":"Knob glossy","category":"text","keywords":["blocklib","text","knob","button"],"description":"A fully customizable button.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"hoverState":{"type":"string","default":""},"leftIcon":{"type":"string","default":""},"invisibleText":{"type":"boolean","default":false},"fullWidth":{"type":"boolean","default":false},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 

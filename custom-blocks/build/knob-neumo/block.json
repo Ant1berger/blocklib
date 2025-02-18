@@ -47,14 +47,6 @@
       "type": "string",
       "default": ""
     },
-    "rounded": {
-      "type": "boolean",
-      "default": false
-    },
-    "inverted": {
-      "type": "boolean",
-      "default": false
-    },
     "hoverState": {
       "type": "string",
       "default": ""
