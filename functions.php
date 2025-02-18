@@ -323,17 +323,65 @@ function my_theme_customize_register( $wp_customize ) {
         )
     );
 
+    // Sanitize colors
+
+    function sanitize_css_color($color) {
+        if (empty($color)) {
+            return '';
+        }
+
+        $color = trim($color);
+
+        $color_patterns = array(
+            // Hex colors (#fff, #ffffff)
+            '/^#([A-Fa-f0-9]{3}){1,2}$/',
+
+            // Hex colors with alpha (#fff8, #ffffff88)
+            '/^#([A-Fa-f0-9]{4}){1,2}$/',
+
+            // RGB and RGBA - old and new syntaxes
+            '/^rgb\(\s*(\d{1,3}(?:\.\d+)?%?)\s*(?:,\s*|\s+)(\d{1,3}(?:\.\d+)?%?)\s*(?:,\s*|\s+)(\d{1,3}(?:\.\d+)?%?)\s*(?:\/\s*(0|1|0?\.\d+|(?:\d{1,3})?%))?\s*\)$/',
+
+            // HSL and HSLA - old and new syntaxes
+            '/^hsl\(\s*(\d+|calc\([^)]+\))\s*(?:(?:,\s*(\d{1,3}%)\s*,\s*(\d{1,3}%)|(?:\s+\d{1,3}%\s+\d{1,3}%)))\s*(?:\/\s*(0|1|0?\.\d+|(?:\d{1,3})?%))?\s*\)$/',
+
+            // LCH
+            '/^lch\(\s*(\d+|\d*\.?\d+%)\s+(\d+|\d*\.?\d+)\s+(\d+|\d*\.?\d+)\s*(?:\/\s*(0|1|0?\.\d+|(?:\d{1,3})?%))?\s*\)$/',
+
+            // OKLCH
+            '/^oklch\(\s*(\d+|\d*\.?\d+%)\s+(\d+|\d*\.?\d+)\s+(\d+|\d*\.?\d+)\s*(?:\/\s*(0|1|0?\.\d+|(?:\d{1,3})?%))?\s*\)$/',
+
+            // Keywords
+            '/^(aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|rebeccapurple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen|transparent|currentcolor|inherit)$/i',
+        );
+
+        foreach ($color_patterns as $pattern) {
+            if (preg_match($pattern, $color)) {
+                return $color;
+            }
+        }
+
+        return '';
+    }
+
     // Add colors array setting.
-    $wp_customize->add_setting( 'theme_colors[brand_1]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_colors[brand_2]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_colors[brand_3]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_colors[brand_4]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_colors[brand_5]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_colors[relax]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_colors[warning]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_colors[danger]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_colors[grey_start]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_colors[grey_end]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
+    $wp_customize->add_setting( 'theme_colors[brand_1]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[brand_2]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[brand_3]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[brand_4]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[brand_5]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[brand_6]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[brand_7]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[brand_8]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[brand_9]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[brand_10]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[cool]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[relax]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[warning]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[danger]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[grey_start]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[grey_end]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
+    $wp_customize->add_setting( 'theme_colors[transparent]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
 
     // Add each color setting.
     /* !!! WARNING !!! Carfull when changing control keys. Old keys will persist in the array. Check phpMyAdmin if cleaning is needed. */
@@ -358,6 +406,30 @@ function my_theme_customize_register( $wp_customize ) {
     );
 
     $wp_customize->add_control(
+        'brand_6', array( 'label' => __( 'Brand 6', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_6]', 'type' => 'text' )
+    );
+
+    $wp_customize->add_control(
+        'brand_7', array( 'label' => __( 'Brand 7', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_7]', 'type' => 'text' )
+    );
+
+    $wp_customize->add_control(
+        'brand_8', array( 'label' => __( 'Brand 8', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_8]', 'type' => 'text' )
+    );
+
+    $wp_customize->add_control(
+        'brand_9', array( 'label' => __( 'Brand 9', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_9]', 'type' => 'text' )
+    );
+
+    $wp_customize->add_control(
+        'brand_10', array( 'label' => __( 'Brand 10', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_10]', 'type' => 'text' )
+    );
+
+    $wp_customize->add_control(
+        'cool', array( 'label' => __( 'Cool', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[cool]', 'type' => 'text' )
+    );
+
+    $wp_customize->add_control(
         'relax', array( 'label' => __( 'Relax', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[relax]', 'type' => 'text' )
     );
 
@@ -377,6 +449,10 @@ function my_theme_customize_register( $wp_customize ) {
         'grey_end', array( 'label' => __( 'Grey end', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[grey_end]', 'type' => 'text' )
     );
 
+    $wp_customize->add_control(
+        'transparent', array( 'label' => __( 'Transparent', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[transparent]', 'type' => 'text' )
+    );
+
     // Add Typography section
     $wp_customize->add_section(
         // ID
@@ -390,12 +466,42 @@ function my_theme_customize_register( $wp_customize ) {
         )
     );
 
+    // Sanitize fonts
+
+    function sanitize_font_family($font_value) {
+        if (empty($font_value)) {
+            return '';
+        }
+
+        // Remove all quotes and trim whitespace to avoid quotes fights in the BDD.
+        $font_value = str_replace(array('"', "'"), '', trim($font_value));
+
+        $patterns = array(
+            // Keywords
+            '/^(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-serif|ui-sans-serif|ui-monospace|ui-rounded|emoji|math|fangsong)$/',
+
+            // Single font name or font family name with spaces, commas, and hyphens.
+            '/^[a-zA-Z0-9\-\s,]+$/',
+
+            // Fonts with ASCII characters.
+            '/^[\p{L}\p{N}\p{P}\p{Z}]+$/u'
+        );
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $font_value)) {
+                return $font_value;
+            }
+        }
+
+        return '';
+    }
+
     // Add fonts array setting.
-    $wp_customize->add_setting( 'theme_fonts[font_1]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_fonts[font_2]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_fonts[font_3]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_fonts[font_4]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
-    $wp_customize->add_setting( 'theme_fonts[font_5]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', ));
+    $wp_customize->add_setting( 'theme_fonts[font_1]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
+    $wp_customize->add_setting( 'theme_fonts[font_2]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
+    $wp_customize->add_setting( 'theme_fonts[font_3]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
+    $wp_customize->add_setting( 'theme_fonts[font_4]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
+    $wp_customize->add_setting( 'theme_fonts[font_5]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
 
     // Add each font setting.
     /* !!! WARNING !!! Carfull when changing control keys. Old keys will persist in the array. Check phpMyAdmin if cleaning is needed. */
