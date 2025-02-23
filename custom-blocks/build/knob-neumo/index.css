@@ -7,6 +7,7 @@
     text-align: center;
     text-decoration: none;
     display: inline-flex;
+    white-space: nowrap;
     color: var(--color);
     background-color: var(--bgColor);
     border-width: .0;
@@ -79,7 +80,6 @@
     height: 1px;
     overflow: hidden;
     position: absolute;
-    white-space: nowrap;
     width: 1px;
 }
 

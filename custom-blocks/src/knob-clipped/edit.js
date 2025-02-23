@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, rounded, inverted, hoverState, leftIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, hoverState, leftIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -150,26 +150,6 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                     { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
-                    <ToggleControl
-                        __nextHasNoMarginBottom
-                        label={ __( 'Rounded ?', 'bloclklib' ) }
-                        checked={ !! rounded }
-                        onChange={ () =>
-                            setAttributes( {
-                                rounded: ! rounded,
-                            } )
-                        }
-                    />
-                    <ToggleControl
-                        __nextHasNoMarginBottom
-                        label={ __( 'Inverted ?', 'bloclklib' ) }
-                        checked={ !! inverted }
-                        onChange={ () =>
-                            setAttributes( {
-                                inverted: ! inverted,
-                            } )
-                        }
-                    />
                     <BaseControl
                         __nextHasNoMarginBottom
                         help={ !leftIcon && invisibleText ? __( 'Hide text only if there is at least one icon, or your knob will be empty!', 'bloclklib' ) : ''}
@@ -227,8 +207,8 @@ ${query.css ? `${query.css}` : ''}`
                                 value: '-hoverUnstuck'
                             },
                             {
-                                label: 'Inverted',
-                                value: '-hoverInverted'
+                                label: 'Rotate (to only use with invisible text)',
+                                value: '-hoverRotate'
                             }
                         ]}
                         value={hoverState}
@@ -309,8 +289,6 @@ ${query.css ? `${query.css}` : ''}`
                     'data-persistentid': persistentID,
                     className: [
                         blockName,
-                        rounded ? '-rounded' : '',
-                        inverted ? '-inverted' : '',
                         leftIcon ? '-leftIcon' : '',
                         invisibleText ? '-invisibleText' : '',
                         fullWidth ? '-fullWidth' : '',

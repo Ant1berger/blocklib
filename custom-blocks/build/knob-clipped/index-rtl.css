@@ -1,0 +1,159 @@
+/*!********************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/knob-clipped/index.css ***!
+  \********************************************************************************************************************************************************************************/
+.knob-clipped {
+    font-family: var(--fontFamily);
+    font-size: var(--size);
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    white-space: nowrap;
+    color: var(--color);
+    border: none;
+    padding-inline: 1em;
+    padding-block: .5em;
+    gap: .5em;
+    line-height: 1.5;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    scale: 1; /* Weirdly, it has to be scaled for the background to appear. */
+    border-radius: calc(tan(30deg) * 1.25em);
+
+    &::before {
+        content: "";
+        --bgColor: inherit;
+        position: absolute;
+        z-index: -1;
+        inset: 0;
+        background-color: var(--bgColor);
+        clip-path: polygon(calc(tan(30deg) * 1.25em) 0, calc(100% - (tan(30deg) * 1.25em)) 0, 100% 50%, calc(100% - (tan(30deg) * 1.25em)) 100%, calc(tan(30deg) * 1.25em) 100%, 0 50%);
+    }
+}
+
+.knob.-inverted {
+    background-color: transparent;
+    color: var(--borderColor);
+}
+
+/* Icons come from Google Fonts: */
+/* https://fonts.google.com/icons?icon.size=24&icon.color=%235f6368 */
+/* Used as inline SVGs to allow CSS control on their attributes (e.g. fill). */
+.knob-clipped.-leftIcon {
+    text-align: start;
+}
+
+.knob-clipped.-leftIcon svg {
+    inline-size: 1.5em;
+    block-size: 1.5em;
+    fill: currentcolor;
+    flex-shrink: 0;
+}
+
+.knob-clipped.-invisibleText {
+    padding-inline: calc(((5 * sqrt(3) / 6) - 0.75) * 1em);
+}
+
+.knob-clipped.-invisibleText .knob-clipped-text {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+}
+
+.knob-clipped.-fullWidth {
+    inline-size: -webkit-fill-available;
+    inline-size: -moz-available;
+    justify-content: center;
+}
+
+/* Hover and focused states */
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob-clipped.-hoverOutlined {
+        transition: outline-color .2s;
+    }
+}
+
+.knob-clipped.-hoverOutlined {
+    outline-color: oklch(from var(--borderColor) l c h / 0%);
+    outline-width: 0.3rem;
+    outline-offset: 0.3rem;
+    outline-style: dashed;
+}
+
+.knob-clipped.-hoverOutlined:hover,
+.knob-clipped.-hoverOutlined:focus-visible {
+    outline-color: oklch(from var(--borderColor) l c h / 100%);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob-clipped.-hoverBGDarken::before,
+    .knob-clipped.-hoverBGLighten::before {
+        transition: background-color .2s;
+    }
+}
+
+.knob-clipped.-hoverBGDarken,
+.knob-clipped.-hoverBGLighten {
+    outline: none;
+}
+
+/* Have to ask for a result in HSL to get a constant lightening (or darkening) while keeping the same hue */
+.knob-clipped.-hoverBGDarken:hover::before,
+.knob-clipped.-hoverBGDarken:focus-visible::before {
+    background-color: color-mix(in hsl, var(--bgColor) 100%, #000000 30%);
+}
+
+.knob-clipped.-hoverBGLighten:hover::before,
+.knob-clipped.-hoverBGLighten:focus-visible::before {
+    background-color: color-mix(in hsl, var(--bgColor) 100%, #ffffff 10%);
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob-clipped.-hoverUnstuck {
+        transition: scale .2s, filter .2s;
+    }
+}
+
+.knob-clipped.-hoverUnstuck {
+    filter: none;
+    outline: none;
+}
+
+.knob-clipped.-hoverUnstuck:hover,
+.knob-clipped.-hoverUnstuck:focus-visible {
+    scale: 1.05;
+    filter: drop-shadow(0 0.2em 0.5em oklch(from var(--grey_start) l c h / 40%));
+}
+
+@media(prefers-reduced-motion: no-preference) {
+
+    .knob-clipped.-hoverRotate,
+    .knob-clipped.-hoverRotate svg {
+        transition: rotate .2s;
+    }
+}
+
+.knob-clipped.-hoverRotate {
+    filter: none;
+    outline: none;
+}
+
+.knob-clipped.-hoverRotate:hover,
+.knob-clipped.-hoverRotate:focus-visible {
+    rotate: 30deg;
+
+    & svg {
+        rotate: -30deg;
+    }
+}
+

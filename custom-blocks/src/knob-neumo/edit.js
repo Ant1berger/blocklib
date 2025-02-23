@@ -152,7 +152,7 @@ ${query.css ? `${query.css}` : ''}`
                     </Button>
                     <BaseControl
                         __nextHasNoMarginBottom
-                        help={ !leftIcon && invisibleText ? __( 'Hide text only if there is at least on icon, or your knob will be empty!', 'bloclklib' ) : ''}
+                        help={ !leftIcon && invisibleText ? __( 'Hide text only if there is at least one icon, or your knob will be empty!', 'bloclklib' ) : ''}
                     >
                         <TextControl
                             __nextHasNoMarginBottom
