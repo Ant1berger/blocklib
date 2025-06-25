@@ -1,0 +1,8 @@
+.embed {
+    /* inline-size and block-size are set to allow aspect-ratio to work properly, */
+    /* otherwise it has no effect if the iframe has the width and height HTML attributes set. */
+    /* It can always be overriden in the block's instances CSS. */
+    inline-size: 100%;
+    block-size: 100%;
+    max-inline-size: 100%;
+}

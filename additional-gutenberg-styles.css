@@ -112,3 +112,8 @@
 .disable-lcp-button {
     justify-content: center;
 }
+
+/* A simple utility to make text wrap. */
+.white-space-normal {
+    white-space: normal;
+}

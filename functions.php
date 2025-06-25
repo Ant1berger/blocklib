@@ -198,6 +198,7 @@ function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/list-item' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/language-switcher' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/form' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/embed' );
 }
 add_action( 'init', 'theme_register_blocks' );
 
@@ -225,7 +226,8 @@ function custom_allowed_block_types( $allowed_block_types, $block_editor_context
         'custom-blocks/list',
         'custom-blocks/list-item',
         'custom-blocks/language-switcher',
-        'custom-blocks/form'
+        'custom-blocks/form',
+        'custom-blocks/embed'
     );
     return $allowed_block_types;
 }
@@ -950,6 +952,15 @@ section {
 .is-root-container .dropdown > .block-editor-inner-blocks,
 .is-root-container .dropdown > .block-editor-inner-blocks > .block-editor-block-list__layout {
     display: contents;
+}
+
+/* To apply a background image to iframes when they have no url yet. */
+.is-root-container iframe.embed[src=""] {
+    background-image: url("/wordpress_local/wp-content/themes/blocklib/assets/images/iframe.webp");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: lightgray;
 }
 
 ';
