@@ -42,15 +42,9 @@ if (!empty($attributes['renderedMediaQueries'])) {
 <img
     data-persistentid="<?php echo $attributes['persistentID']; ?>"
     <?php if (!empty($attributes['anchor'])) { ?>
-    id="<?php echo $attributes['anchor']; ?>"
+        id="<?php echo $attributes['anchor']; ?>"
     <?php } ?>
     class="<?php echo $attributes['blockName']; ?><?php
-        if (!empty($attributes['selectedColorClass'])) {
-            echo ' ' . $attributes['selectedColorClass'];
-        }
-        if (!empty($attributes['selectedFontClass'])) {
-            echo ' ' . $attributes['selectedFontClass'];
-        }
         if (!empty($attributes['manualClasses'])) {
             echo ' ' . $attributes['manualClasses'];
         }

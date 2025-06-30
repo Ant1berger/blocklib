@@ -1,0 +1,1 @@
+{"version":3,"file":"video/index.css","mappings":";;;AAAA;IACI,qBAAqB;IACrB,gBAAgB;IAChB,cAAc;AAClB","sources":["webpack://custom-blocks/./src/video/index.css"],"sourcesContent":[".video {\n    max-inline-size: 100%;\n    block-size: auto;\n    display: block;\n}\n"],"names":[],"sourceRoot":""}

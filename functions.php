@@ -199,6 +199,7 @@ function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/language-switcher' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/form' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/embed' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/video' );
 }
 add_action( 'init', 'theme_register_blocks' );
 
@@ -227,7 +228,8 @@ function custom_allowed_block_types( $allowed_block_types, $block_editor_context
         'custom-blocks/list-item',
         'custom-blocks/language-switcher',
         'custom-blocks/form',
-        'custom-blocks/embed'
+        'custom-blocks/embed',
+        'custom-blocks/video'
     );
     return $allowed_block_types;
 }

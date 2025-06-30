@@ -1,8 +1,8 @@
 
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
-import { Fragment, useEffect, useState } from '@wordpress/element';
-import { MyMonacoEditor, updatePersistentIDs, handleThemeOptionsForSelects, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { Fragment, useEffect } from '@wordpress/element';
+import { MyMonacoEditor, updatePersistentIDs, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
 import { PanelBody, PanelRow, TextControl, Button, BaseControl, __experimentalText as Text } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
@@ -11,7 +11,6 @@ export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
     const { persistentID, blockName, url, width, height, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
     const blockProps = useBlockProps();
-    const innerBlocksProps = useInnerBlocksProps(blockProps);
 
     // Set the block name attribute from json "name" path for automatic reuse.
     useEffect(() => {
@@ -84,14 +83,7 @@ ${query.css ? `${query.css}` : ''}
                     </Button>
                 </PanelBody>
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
-                    <TextControl
-                        __nextHasNoMarginBottom
-                        label={ __( 'Classes', 'bloclklib' ) }
-                        value={ manualClasses || '' }
-                        onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
-                        placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
-                    />
-                    <TextControl
+                    <TextControl actions
                         __nextHasNoMarginBottom
                         help={ __( 'https://www.youtube-nocookie.com/embed/bssZTv3BgkE', 'bloclklib' ) }
                         label={ __( 'Url', 'bloclklib' ) }
@@ -104,7 +96,6 @@ ${query.css ? `${query.css}` : ''}
                         label={ __( 'Width', 'bloclklib' ) }
                         value={ width || '' }
                         onChange={ ( value ) => setAttributes( { width: value } ) }
-                        placeholder={ __( 'Add the iframe src value', 'blocklib' ) }
                     />
                     <TextControl
                         __nextHasNoMarginBottom
@@ -112,7 +103,13 @@ ${query.css ? `${query.css}` : ''}
                         label={ __( 'Height', 'bloclklib' ) }
                         value={ height || '' }
                         onChange={ ( value ) => setAttributes( { height: value } ) }
-                        placeholder={ __( 'Add the iframe src value', 'blocklib' ) }
+                    />
+                    <TextControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'Classes', 'bloclklib' ) }
+                        value={ manualClasses || '' }
+                        onChange={ ( value ) => setAttributes( { manualClasses: value } ) }
+                        placeholder={ __( 'Add HTML classes if needed', 'blocklib' ) }
                     />
                     <BaseControl
                         __nextHasNoMarginBottom
