@@ -905,7 +905,7 @@ ${query.css ? `${query.css}` : ''}
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
           actions: true,
           __nextHasNoMarginBottom: true,
-          help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('https://www.youtube-nocookie.com/embed/bssZTv3BgkE', 'bloclklib'),
+          help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Use URLs with "embed" in it like in the sample, otherwise it might not work: https://www.youtube-nocookie.com/embed/bssZTv3BgkE', 'bloclklib'),
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Url', 'bloclklib'),
           value: url || '',
           onChange: value => setAttributes({
@@ -921,7 +921,7 @@ ${query.css ? `${query.css}` : ''}
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
           __nextHasNoMarginBottom: true,
-          help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Set width and height to prevent layout shifts', 'bloclklib'),
+          help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Width and height has no effect, they are just meant to prevent layout shifts. Use CSS to size the iframe.', 'bloclklib'),
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Height', 'bloclklib'),
           value: height || '',
           onChange: value => setAttributes({

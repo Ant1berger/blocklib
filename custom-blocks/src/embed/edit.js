@@ -85,7 +85,7 @@ ${query.css ? `${query.css}` : ''}
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <TextControl actions
                         __nextHasNoMarginBottom
-                        help={ __( 'https://www.youtube-nocookie.com/embed/bssZTv3BgkE', 'bloclklib' ) }
+                        help={ __( 'Use URLs with "embed" in it like in the sample, otherwise it might not work: https://www.youtube-nocookie.com/embed/bssZTv3BgkE', 'bloclklib' ) }
                         label={ __( 'Url', 'bloclklib' ) }
                         value={ url || '' }
                         onChange={ ( value ) => setAttributes( { url: value } ) }
@@ -99,7 +99,7 @@ ${query.css ? `${query.css}` : ''}
                     />
                     <TextControl
                         __nextHasNoMarginBottom
-                        help={ __( 'Set width and height to prevent layout shifts', 'bloclklib' ) }
+                        help={ __( 'Width and height has no effect, they are just meant to prevent layout shifts. Use CSS to size the iframe.', 'bloclklib' ) }
                         label={ __( 'Height', 'bloclklib' ) }
                         value={ height || '' }
                         onChange={ ( value ) => setAttributes( { height: value } ) }
