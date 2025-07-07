@@ -352,10 +352,10 @@ function my_theme_customize_register( $wp_customize ) {
             '/^hsl\(\s*(\d+|calc\([^)]+\))\s*(?:(?:,\s*(\d{1,3}%)\s*,\s*(\d{1,3}%)|(?:\s+\d{1,3}%\s+\d{1,3}%)))\s*(?:\/\s*(0|1|0?\.\d+|(?:\d{1,3})?%))?\s*\)$/',
 
             // LCH
-            '/^lch\(\s*(\d+|\d*\.?\d+%)\s+(\d+|\d*\.?\d+)\s+(\d+|\d*\.?\d+)\s*(?:\/\s*(0|1|0?\.\d+|(?:\d{1,3})?%))?\s*\)$/',
+            '/^lch\(\s*(\d+(?:\.\d+)?%?|0?\.\d+%?)\s+(\d+(?:\.\d+)?%?|0?\.\d+%?)\s+(\d+(?:\.\d+)?(?:deg|rad|grad|turn)?|0?\.\d+(?:deg|rad|grad|turn)?)\s*(?:\/\s*(\d+(?:\.\d+)?%?|0?\.\d+%?))?\s*\)$/i',
 
             // OKLCH
-            '/^oklch\(\s*(\d+|\d*\.?\d+%)\s+(\d+|\d*\.?\d+)\s+(\d+|\d*\.?\d+)\s*(?:\/\s*(0|1|0?\.\d+|(?:\d{1,3})?%))?\s*\)$/',
+            '/^oklch\(\s*(\d+(?:\.\d+)?%?|0?\.\d+%?)\s+(\d+(?:\.\d+)?%?|0?\.\d+%?)\s+(\d+(?:\.\d+)?(?:deg|rad|grad|turn)?|0?\.\d+(?:deg|rad|grad|turn)?)\s*(?:\/\s*(\d+(?:\.\d+)?%?|0?\.\d+%?))?\s*\)$/i',
 
             // Keywords
             '/^(aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|rebeccapurple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen|transparent|currentcolor|inherit)$/i',
