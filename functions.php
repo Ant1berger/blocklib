@@ -118,7 +118,7 @@ add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
 
 //****************************
-// Enqueue main styles and scripts
+// Enqueue main styles and scripts in the frontend.
 //****************************
 function addMainCssJs() {
     // We don't want to enqueue files with src to reduce the number of http requests.
@@ -873,68 +873,59 @@ function get_custom_block_common_styles() {
 
 @media(prefers-reduced-motion: no-preference) {
 
-    html {
+    [class="blb-html"],
+    [class="block-editor-iframe__html"] { /* Styles scoped to avoid bleeding outside the editor iframe. */
         scroll-behavior: smooth;
     }
 }
 
-body {
-    margin: 0;
-    font-family: var(--font_1);
-    font-size: 1rem;
-    color: var(--grey_start);
-    min-inline-size: 20rem;
-    min-block-size: 100vh;
-    display: flex;
-    flex-direction: column;
+[class="blb-html"],
+[class="block-editor-iframe__html"] { /* Styles scoped to avoid bleeding outside the editor iframe. */
 
-    &:has(.menuOpen) {
-        overflow: hidden;
+    body {
+        margin: 0;
+        font-family: var(--font_1);
+        font-size: 1rem;
+        color: var(--grey_start);
+        min-inline-size: 20rem;
+        min-block-size: 100vh;
+        display: flex;
+        flex-direction: column;
 
-        @media(min-width: 1240px) {
-            overflow: visible;
+        &:has(.menuOpen) {
+            overflow: hidden;
+
+            @media(min-width: 1240px) {
+                overflow: visible;
+            }
         }
     }
-}
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    border: none;
-}
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+        border: none;
+    }
 
-label,
-button,
-select,
-summary,
-[type=radio],
-[type=submit],
-[type=checkbox] {
-    cursor: pointer;
-}
+    label,
+    button,
+    select,
+    summary,
+    [type=radio],
+    [type=submit],
+    [type=checkbox] {
+        cursor: pointer;
+    }
 
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-    display: block;
-}
-
-.noScript {
-    background-color: var(--grey_end);
-    padding: 1rem;
-    color: var(--grey_start);
-    display: block;
-    position: relative;
-    z-index: 1000000;
+    .noScript {
+        background-color: var(--grey_end);
+        padding: 1rem;
+        color: var(--grey_start);
+        display: block;
+        position: relative;
+        z-index: 1000000;
+    }
 }
 
 /* To hide page title on editing area. */
@@ -942,7 +933,7 @@ section {
     display: none;
 }
 
-/* To see transparent header in composition editor. */
+/* To see white stuff in composition editor. */
 .block-editor-iframe__body:not(.post-type-page) {
     background-color: #eeeeee;
 }
@@ -951,6 +942,8 @@ section {
 /* For Stage and Dropdown blocks */
 .is-root-container .stage > .block-editor-inner-blocks,
 .is-root-container .stage > .block-editor-inner-blocks > .block-editor-block-list__layout,
+.is-root-container .stage-content > .block-editor-inner-blocks,
+.is-root-container .stage-content > .block-editor-inner-blocks > .block-editor-block-list__layout,
 .is-root-container .dropdown > .block-editor-inner-blocks,
 .is-root-container .dropdown > .block-editor-inner-blocks > .block-editor-block-list__layout {
     display: contents;
@@ -958,7 +951,7 @@ section {
 
 /* To apply a background image to iframes when they have no url yet. */
 .is-root-container iframe.embed[src=""] {
-    background-image: url("/wordpress_local/wp-content/themes/blocklib/assets/images/iframe.webp");
+    background-image: url(' . get_template_directory_uri() . '/assets/images/iframe.webp);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;

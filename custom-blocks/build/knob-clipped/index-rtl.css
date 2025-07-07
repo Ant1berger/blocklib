@@ -21,6 +21,7 @@
        -moz-user-select: none;
             user-select: none;
     scale: 1; /* Weirdly, it has to be scaled for the background to appear. */
+    background-color: transparent; /* It's the ::before that has the --bgColor applied. */
     border-radius: calc(tan(30deg) * 1.25em);
 
     &::before {

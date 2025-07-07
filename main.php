@@ -6,7 +6,7 @@
 ?>
 <!-- Default structure for a wide majority of pages. -->
 <!doctype html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> class="blb-html">
     <head>
         <meta charset="<?php bloginfo('charset'); ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1">
