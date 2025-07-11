@@ -900,7 +900,7 @@ ${query.css ? `${query.css}` : ''}
   const onSelectVideo = video => {
     setAttributes({
       videoID: video.id,
-      videoURL: video.url,
+      videoURL: db_data.siteUrl + video.url,
       videoMime: video.mime,
       videoWidth: video.width,
       videoHeight: video.height,
@@ -933,7 +933,7 @@ ${query.css ? `${query.css}` : ''}
   const onSelectPoster = poster => {
     setAttributes({
       posterID: poster.id,
-      posterURL: poster.url
+      posterURL: db_data.siteUrl + poster.url
     });
   };
   const onRemovePoster = () => {

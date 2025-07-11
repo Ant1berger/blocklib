@@ -3,9 +3,17 @@
 
 export default function save(props) {
     const { attributes } = props;
-    const { pictureURL, pictureAlt, persistentID } = attributes;
+    const { pictureFile, pictureAlt, persistentID } = attributes;
+
+    const siteUrl = (typeof db_data !== 'undefined' && db_data.siteUrl)
+        ? db_data.siteUrl
+        : window.location.origin;
 
     return (
-        <img src={ pictureURL } alt={ pictureAlt } data-persistentid={ persistentID } />
+        <img
+            src={`${siteUrl}/wp-content/uploads/${pictureFile}`}
+            alt={pictureAlt}
+            data-persistentid={persistentID}
+        />
     );
 }

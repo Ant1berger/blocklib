@@ -828,11 +828,9 @@ function Edit(props) {
     blockName,
     otherAttributes,
     pictureID,
-    pictureURL,
+    pictureFile,
     pictureMime,
     pictureAlt,
-    pictureSizes,
-    pictureSrcset,
     pictureSizesAttribute,
     pictureLoading,
     pictureFetchPriority,
@@ -845,11 +843,15 @@ function Edit(props) {
   const {
     selectBlock
   } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_7__.useDispatch)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.store);
+  const imageData = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_7__.useSelect)(select => {
+    return pictureID ? select('core').getMedia(pictureID) : null;
+  }, [pictureID]);
   const handleImageClick = e => {
     e.preventDefault();
     e.stopPropagation();
     selectBlock(clientId);
   };
+  const isLoading = pictureID && !imageData?.source_url;
 
   // Set the block name attribute from json "name" path for automatic reuse.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -892,37 +894,33 @@ ${query.css ? `${query.css}` : ''}
   const onSelectImage = picture => {
     setAttributes({
       pictureID: picture.id,
-      pictureURL: picture.url,
+      pictureFile: picture.filename,
+      // Only for use in save.js.
       pictureMime: picture.mime,
-      pictureAlt: picture.alt,
-      pictureSizes: picture.sizes
+      pictureAlt: picture.alt
     });
   };
   const onRemoveImage = () => {
     setAttributes({
       pictureID: null,
-      pictureURL: null,
+      pictureFile: null,
       pictureMime: null,
-      pictureAlt: null,
-      pictureSizes: null,
-      pictureSrcset: null
+      pictureAlt: null
     });
   };
 
-  // Set srcset from pictureSizes
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  // Set srcset for lcp_preload
+  const getSrcset = imageData => {
+    if (!imageData?.media_details?.sizes) return '';
     let srcset = '';
-    if (pictureSizes) {
-      Object.keys(pictureSizes).forEach(size => {
-        if (pictureSizes[size].width != '150') {
-          srcset += `${pictureSizes[size].url} ${pictureSizes[size].width}w, `;
-        }
-      });
-      setAttributes({
-        pictureSrcset: srcset.slice(0, -2)
-      });
-    }
-  }, [pictureSizes]);
+    Object.keys(imageData.media_details.sizes).forEach(size => {
+      const sizeData = imageData.media_details.sizes[size];
+      if (sizeData.width !== 150) {
+        srcset += `${db_data.siteUrl + sizeData.source_url} ${sizeData.width}w, `;
+      }
+    });
+    return srcset.slice(0, -2);
+  };
 
   // Manage LCP
   const postType = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_7__.useSelect)(select => select('core/editor').getCurrentPostType(), []);
@@ -931,8 +929,8 @@ ${query.css ? `${query.css}` : ''}
     const newMeta = {
       ...meta,
       lcp_preload: {
-        url: pictureURL,
-        srcset: pictureSrcset,
+        url: db_data.siteUrl + imageData?.source_url,
+        srcset: getSrcset(imageData),
         sizes: pictureSizesAttribute,
         as: pictureMime?.split('/')[0] || 'image',
         mime: pictureMime
@@ -955,7 +953,7 @@ ${query.css ? `${query.css}` : ''}
   };
   const lcpData = meta?.lcp_preload || {};
   const hasLCP = !!lcpData.url;
-  const isThisImageLCP = hasLCP && lcpData.url === pictureURL;
+  const isThisImageLCP = hasLCP && lcpData.url === db_data.siteUrl + imageData?.source_url;
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (isThisImageLCP) {
       setAttributes({
@@ -1010,15 +1008,20 @@ ${query.css ? `${query.css}` : ''}
               render: ({
                 open
               }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-                children: [!pictureID && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+                children: [!pictureID && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
                   variant: "secondary",
                   onClick: open,
-                  children: [" ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select an image', 'bloclklib')]
-                }), !!pictureID && pictureID && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+                  children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select an image', 'bloclklib')
+                }), pictureID && !imageData && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+                  className: "components-placeholder",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Spinner, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("p", {
+                    children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading image...', 'blocklib')
+                  })]
+                }), !!imageData?.source_url && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
                   variant: "link",
                   onClick: open,
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
-                    src: pictureURL,
+                    src: db_data.siteUrl + imageData.source_url,
                     alt: pictureAlt
                   })
                 })]
@@ -1085,7 +1088,7 @@ ${query.css ? `${query.css}` : ''}
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
               variant: isThisImageLCP ? "secondary" : "primary",
               onClick: setAsLCP,
-              disabled: !pictureURL,
+              disabled: !pictureID,
               className: "set-lcp-button",
               children: isThisImageLCP ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('This image is the current LCP', 'blocklib') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Set this image as LCP', 'blocklib')
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
@@ -1145,14 +1148,12 @@ ${query.css ? `${query.css}` : ''}
       })]
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("style", {
       children: renderedMediaQueries
-    }), !!pictureID && pictureID ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
-      ...blockProps,
-      onClick: handleImageClick,
-      src: pictureURL,
-      alt: pictureAlt,
-      "data-persistentid": persistentID,
-      className: [blockName, manualClasses || ''].filter(Boolean).join(' ')
-    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("svg", {
+    }), isLoading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Placeholder, {
+      icon: "format-image",
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Loading image...', 'blocklib'),
+      className: "wp-block-image",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Spinner, {})
+    }), !pictureID && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("svg", {
       id: "Layer_1",
       "data-name": "Layer 1",
       xmlns: "http://www.w3.org/2000/svg",
@@ -1207,7 +1208,14 @@ ${query.css ? `${query.css}` : ''}
         class: "cls-1",
         points: "2 472 0 472 0 512 40 512 40 510 2 510 2 472"
       })]
-    })]
+    }), !!pictureID && imageData?.source_url ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
+      ...blockProps,
+      onClick: handleImageClick,
+      src: db_data.siteUrl + imageData.source_url,
+      alt: pictureAlt,
+      "data-persistentid": persistentID,
+      className: [blockName, manualClasses || ''].filter(Boolean).join(' ')
+    }) : null]
   });
 }
 
@@ -1234,12 +1242,13 @@ function save(props) {
     attributes
   } = props;
   const {
-    pictureURL,
+    pictureFile,
     pictureAlt,
     persistentID
   } = attributes;
+  const siteUrl = typeof db_data !== 'undefined' && db_data.siteUrl ? db_data.siteUrl : window.location.origin;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("img", {
-    src: pictureURL,
+    src: `${siteUrl}/wp-content/uploads/${pictureFile}`,
     alt: pictureAlt,
     "data-persistentid": persistentID
   });
@@ -1583,7 +1592,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \******************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/image","version":"0.1.0","title":"Image","category":"media","keywords":["blocklib","image","media"],"description":"A responsive image.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"pictureID":{"type":"number","default":null},"pictureURL":{"type":"string","default":""},"pictureMime":{"type":"string","default":""},"pictureAlt":{"type":"string","default":""},"pictureSizes":{"type":"object","default":{}},"pictureSrcset":{"type":"string","default":""},"pictureSizesAttribute":{"type":"string","default":""},"pictureLoading":{"type":"string","default":"lazy"},"pictureFetchPriority":{"type":"string","default":"auto"},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/image","version":"0.1.0","title":"Image","category":"media","keywords":["blocklib","image","media"],"description":"A responsive image.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"pictureID":{"type":"number","default":null},"pictureFile":{"type":"string","default":""},"pictureMime":{"type":"string","default":""},"pictureAlt":{"type":"string","default":""},"pictureSizesAttribute":{"type":"string","default":""},"pictureLoading":{"type":"string","default":"lazy"},"pictureFetchPriority":{"type":"string","default":"auto"},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 

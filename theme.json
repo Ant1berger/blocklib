@@ -3,6 +3,12 @@
     "version": 2,
     "settings": {
         "color": {
+            "custom": false,
+			"customDuotone": false,
+			"customGradient": false,
+			"defaultDuotone": false,
+			"defaultGradients": false,
+			"defaultPalette": false,
             "background": false,
             "text": false
         },
@@ -16,8 +22,11 @@
             "letterSpacing": false,
             "textDecoration": false,
             "textTransform": false,
-            "fontSizes": [],
-            "fontFamilies": []
-        }
+            "fontSizes": []
+        },
+		"shadow": {
+			"defaultPresets": false,
+			"presets": []
+		}
     }
 }

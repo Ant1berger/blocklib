@@ -118,6 +118,220 @@ add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
 
 //****************************
+// Make media urls relative to /wp-content...
+//****************************
+function make_media_urls_relative( $url ) {
+    // Test if $url is OK.
+    if ( ! is_string( $url ) || empty( $url ) ) {
+        return $url;
+    }
+    // Make relative path.
+    $relative_path = strstr( $url, '/wp-content/' );
+    // Test if relative path is OK
+    if ( false === $relative_path ) {
+        return $url;
+    }
+    return $relative_path;
+}
+add_filter( 'wp_get_attachment_url', 'make_media_urls_relative' );
+
+// //****************************
+// // Make media library use custom urls to display its own images.
+// // Because relative urls from "/" don't work if the website is in a sub-directory.
+// //****************************
+
+// Hook principal pour intercepter les URLs d'images
+add_filter('image_downsize', 'custom_medias_urls_for_admin', 10, 3);
+
+function custom_medias_urls_for_admin($out, $id, $size) {
+    // Vérifier si on est dans la media library
+    if (!is_media_library_context()) {
+        return false; // Laisser WordPress gérer normalement
+    }
+
+    // Récupérer les métadonnées de l'image
+    $image_meta = wp_get_attachment_metadata($id);
+    $image_url = wp_get_attachment_url($id);
+
+    if (!$image_url || empty($image_meta) || !isset($image_meta['width']) || !isset($image_meta['height'])) {
+        return false;
+    }
+
+    // Transformer l'URL selon ta logique
+    $custom_url = transform_media_url($image_url);
+
+    // Gérer les différentes tailles
+    if ($size === 'full') {
+        return array($custom_url, $image_meta['width'], $image_meta['height'], false);
+    }
+
+    // Si c'est un tableau de dimensions [width, height]
+    if (is_array($size)) {
+        return array($custom_url, $image_meta['width'], $image_meta['height'], false);
+    }
+
+    // Pour les tailles spécifiques (thumbnail, medium, large)
+    if (isset($image_meta['sizes'][$size])) {
+        $size_data = $image_meta['sizes'][$size];
+
+        // Construire l'URL pour la taille spécifique
+        $path_info = pathinfo($image_url);
+        $custom_sized_url = $path_info['dirname'] . '/' . $size_data['file'];
+        $custom_sized_url = transform_media_url($custom_sized_url);
+
+        return array($custom_sized_url, $size_data['width'], $size_data['height'], true);
+    }
+
+    // Si la taille n'existe pas, retourner l'image complète
+    return array($custom_url, $image_meta['width'], $image_meta['height'], false);
+}
+
+// Hook complémentaire pour être sûr
+add_filter('wp_get_attachment_url', 'custom_medias_urls_for_admin_url', 10, 2);
+
+function custom_medias_urls_for_admin_url($url, $attachment_id) {
+    if (!is_media_library_context()) {
+        return $url;
+    }
+
+    return transform_media_url($url);
+}
+
+// Détecter si on est dans le contexte de la media library
+function is_media_library_context() {
+    // Vérifier si on est dans l'admin
+    if (!is_admin()) {
+        return false;
+    }
+
+    global $pagenow;
+
+    // Page upload.php (Media Library)
+    if ($pagenow === 'upload.php') {
+        return true;
+    }
+
+    // Requêtes AJAX de la media library
+    if (defined('DOING_AJAX') && DOING_AJAX) {
+        $action = $_POST['action'] ?? $_GET['action'] ?? '';
+
+        // L'action principale qu'on a vue dans tes logs
+        if ($action === 'query-attachments') {
+            $referer = wp_get_referer();
+            // Vérifier que le referer contient upload.php OU post.php/post-new.php (Gutenberg)
+            if ($referer && (strpos($referer, 'upload.php') !== false ||
+                           strpos($referer, 'post.php') !== false ||
+                           strpos($referer, 'post-new.php') !== false)) {
+                return true;
+            }
+        }
+
+        // Actions spécifiques à Gutenberg
+        $gutenberg_media_actions = array(
+            'get-attachment',
+            'save-attachment',
+            'save-attachment-compat',
+            'send-link-to-editor',
+            'send-attachment-to-editor',
+            'get-media-item',
+            'save-attachment-order',
+            // Actions spécifiques à l'éditeur de blocs
+            'wp-rest-endpoint', // Pour les requêtes REST API de Gutenberg
+            'heartbeat' // Parfois utilisé par Gutenberg
+        );
+
+        if (in_array($action, $gutenberg_media_actions)) {
+            return true;
+        }
+
+        // Vérifier si c'est une requête REST API pour les médias
+        if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], '/wp-json/wp/v2/media') !== false) {
+            return true;
+        }
+    }
+
+    // Vérifier si on est dans l'éditeur de posts/pages (contexte Gutenberg)
+    if (in_array($pagenow, array('post.php', 'post-new.php'))) {
+        // Vérifier si c'est une requête pour les médias
+        if (defined('DOING_AJAX') && DOING_AJAX) {
+            return true; // Dans le doute, on active pour l'éditeur
+        }
+    }
+
+    return false;
+}
+
+// Transformation de l'URL
+function transform_media_url($original_url) {
+    // Si l'URL commence déjà par http, ne pas la transformer
+    if (strpos($original_url, 'http') === 0) {
+        return $original_url;
+    }
+
+    return get_site_url() . $original_url;
+}
+
+
+
+
+// //****************************
+// // Make media library use custom urls to display its own images.
+// // Because relative urls from "/" don't work if the website is in a sub-directory.
+// //****************************
+// function custom_medias_urls_for_admin( $out, $id, $size ) {
+
+//     // Vérifier si on est dans la media library
+//     if (!is_media_library_context()) {
+//         return false; // Laisser WordPress gérer normalement
+//     }
+
+//     // Récupérer les métadonnées de l'image
+//     $image_meta = wp_get_attachment_metadata($id);
+//     $image_url = wp_get_attachment_url($id);
+
+//     if (!$image_url || !$image_meta) {
+//         return false;
+//     }
+
+//     // Transformer l'URL selon ta logique
+//     $custom_url = transform_media_url($image_url);
+
+//     // Si la taille n'existe pas, retourner l'image complète
+//     return array($custom_url, $image_meta['width'], $image_meta['height'], false);
+// }
+// add_filter( 'image_downsize', 'custom_medias_urls_for_admin', 10, 3 );
+
+// // Détecter si on est dans le contexte de la media library.
+// function is_media_library_context() {
+//     if (!is_admin()) {
+//         return false;
+//     }
+
+//     global $pagenow;
+
+//     // Si on est sur la page upload.php
+//     if ($pagenow === 'upload.php') {
+//         return true;
+//     }
+
+//     // Pour les requêtes AJAX, on vérifie si le referer contient upload.php
+//     if (defined('DOING_AJAX') && DOING_AJAX) {
+//         $referer = wp_get_referer();
+//         if ($referer && strpos($referer, 'upload.php') !== false) {
+//             return true;
+//         }
+//     }
+
+//     return false;
+// }
+
+// // Transformation de l'url
+// function transform_media_url($original_url) {
+
+//     return get_site_url() . $original_url;
+// }
+
+//****************************
 // Enqueue main styles and scripts in the frontend.
 //****************************
 function addMainCssJs() {
@@ -249,7 +463,16 @@ add_action('admin_enqueue_scripts', 'theme_admin_styles');
 // For the Gutenberg interface.
 function add_scripts_to_gutenberg() {
     wp_enqueue_style( 'additional-gutenberg-styles', get_theme_file_uri('/additional-gutenberg-styles.css'), array(), '1.0');
-    wp_enqueue_script( 'additional-gutenberg-scripts', get_theme_file_uri('/additional-gutenberg-scripts.js'), array(), '1.0');
+    wp_enqueue_script( 'additional-gutenberg-scripts', get_theme_file_uri('/additional-gutenberg-scripts.js'), array(), '1.0', true);
+
+    // To pass database stuff to editor's JavaScript.
+    wp_localize_script(
+        'additional-gutenberg-scripts',
+        'db_data',
+        [
+            'siteUrl' => get_site_url()
+        ]
+    );
 }
 add_action('enqueue_block_editor_assets', 'add_scripts_to_gutenberg');
 // For inside the editing area iframe to get a true WYSIWYG.
@@ -635,7 +858,7 @@ function fix_wp_get_attachment_image_svg($image, $attachment_id, $size, $icon) {
 }
 
 //****************************
-// to insert theme variables into the main CSS.
+// To insert theme variables into the main CSS.
 //****************************
 function writeCssVariablesFromThemeOptions( $optionId ) {
     $css_vars_array = array();

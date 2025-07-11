@@ -1,5 +1,5 @@
 <?php
-    if(!empty($attributes['pictureURL'])) {
+    if(!empty($attributes['pictureID'])) {
         $componentName = $attributes['blockName'];
         if (!in_array($componentName, get_components())) {
 
@@ -15,17 +15,21 @@
             add_component($componentName);
         }
 
-        $image_attributes = wp_get_attachment_image_src( $attachment_id = $attributes['pictureID'], 'full' );
+        $attachment_id = $attributes['pictureID'];
+        $image_attributes = wp_get_attachment_image_src($attachment_id, 'full');
+        $image_metadata = wp_get_attachment_metadata($attachment_id);
+        $image_srcset = wp_get_attachment_image_srcset($attachment_id, 'full');
 
         if ($image_attributes && is_array($image_attributes)) {
             $image_url = $image_attributes[0];
             $image_width = $image_attributes[1];
             $image_height = $image_attributes[2];
+            $image_sizes = $image_metadata['sizes'] ?? [];
         } else {
-            // Handle the case where $image_attributes is not valid
             $image_url = '';
             $image_width = '';
             $image_height = '';
+            $image_sizes = [];
         }
     }
 ?>
@@ -37,7 +41,7 @@ if (!empty($attributes['renderedMediaQueries'])) {
 }
 ?>
 
-<?php if (!empty($attributes['pictureURL'])) { ?>
+<?php if (!empty($attributes['pictureID'])) { ?>
 
 <img
     data-persistentid="<?php echo $attributes['persistentID']; ?>"
@@ -55,18 +59,12 @@ if (!empty($attributes['renderedMediaQueries'])) {
     <?php if (!empty($attributes['pictureFetchPriority'])) { ?>
         fetchpriority="<?php echo $attributes['pictureFetchPriority']; ?>"
     <?php } ?>
-    src="<?php echo $attributes['pictureURL']; ?>"
+    src="<?php echo get_site_url() . $image_url; ?>"
     <?php if (!str_contains($attributes['pictureMime'], 'svg')) { ?>
-        srcset="
-            <?php foreach( $attributes['pictureSizes'] as $size ): ?>
-                <?php if ($size['width'] != '150') { ?>
-                    <?php echo $size['url'] . ' ' . $size['width'] . 'w,'; ?>
-                <?php } ?>
-            <?php endforeach; ?>
-        "
+        srcset="<?php echo esc_attr($image_srcset) ?>"
         sizes="<?php echo $attributes['pictureSizesAttribute']; ?>"
     <?php } ?>
-    <?php // Here we use the dimensions from wp_get_attachment_image_src, in case the image is a SVG. ?>
+    <?php ?>
     width="<?php echo esc_attr($image_width); ?>"
     height="<?php echo esc_attr($image_height); ?>"
     alt="<?php echo $attributes['pictureAlt']; ?>"
