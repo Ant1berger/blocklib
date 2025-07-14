@@ -2,7 +2,7 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
-import { MyMonacoEditor, updatePersistentIDs, handleThemeOptionsForSelects, updateTagName, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
+import { MyMonacoEditor, updatePersistentIDs, handleWPOptionsColorsForSelects, updateTagName, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
 import { PanelBody, PanelRow, TextControl, Button, ToggleControl, SelectControl, BaseControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
@@ -21,7 +21,7 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            setSelectBGColorOptions(handleThemeOptionsForSelects(settings.theme_colors, __( 'Select a background color', 'bloclklib' )));
+            setSelectBGColorOptions(handleWPOptionsColorsForSelects(settings.theme_colors, __( 'Select a background color', 'bloclklib' )));
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des options de thème :', error);

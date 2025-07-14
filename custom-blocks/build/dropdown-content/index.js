@@ -636,7 +636,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   MyMonacoEditor: () => (/* binding */ MyMonacoEditor),
 /* harmony export */   addMediaQuery: () => (/* binding */ addMediaQuery),
-/* harmony export */   handleThemeOptionsForSelects: () => (/* binding */ handleThemeOptionsForSelects),
+/* harmony export */   handleWPOptionsColorsForSelects: () => (/* binding */ handleWPOptionsColorsForSelects),
+/* harmony export */   handleWPOptionsFontsForSelects: () => (/* binding */ handleWPOptionsFontsForSelects),
 /* harmony export */   parseSVG: () => (/* binding */ parseSVG),
 /* harmony export */   persistentIDs: () => (/* binding */ persistentIDs),
 /* harmony export */   removeMediaQuery: () => (/* binding */ removeMediaQuery),
@@ -717,8 +718,8 @@ const parseSVG = svgString => {
   });
 };
 
-// Generates the choices for <select>s from the theme options.
-const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
+// Generates the choices for <select>s from wp_options for colors.
+const handleWPOptionsColorsForSelects = (optionId, emptyOptionText) => {
   let optionsArray = [{
     label: emptyOptionText,
     value: ''
@@ -730,6 +731,26 @@ const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
         value: 'var(--' + property + ')'
       });
     }
+  }
+  ;
+  return optionsArray;
+};
+
+// Generates the choices for <select>s from wp_options for fonts.
+const handleWPOptionsFontsForSelects = (optionId, emptyOptionText) => {
+  let optionsArray = [{
+    label: emptyOptionText,
+    value: ''
+  }];
+  if (Array.isArray(optionId)) {
+    optionId.forEach(fontItem => {
+      if (fontItem.variable && fontItem.font_family) {
+        optionsArray.push({
+          label: `${fontItem.variable} (${fontItem.font_family})`,
+          value: `var(${fontItem.variable})`
+        });
+      }
+    });
   }
   ;
   return optionsArray;
@@ -841,7 +862,7 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
-      setSelectBGColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleThemeOptionsForSelects)(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a background color', 'bloclklib')));
+      setSelectBGColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a background color', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
     });

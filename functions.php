@@ -118,6 +118,15 @@ add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' );
 
 //****************************
+// Disable featured image button in Gutenberg. Maybe put it back another day if needed.
+//****************************
+function remove_featured_image_support() {
+    remove_post_type_support('post', 'thumbnail');
+    remove_post_type_support('page', 'thumbnail');
+}
+add_action('init', 'remove_featured_image_support');
+
+//****************************
 // Make media urls relative to /wp-content...
 //****************************
 function make_media_urls_relative( $url ) {
@@ -135,10 +144,10 @@ function make_media_urls_relative( $url ) {
 }
 add_filter( 'wp_get_attachment_url', 'make_media_urls_relative' );
 
-// //****************************
-// // Make media library use custom urls to display its own images.
-// // Because relative urls from "/" don't work if the website is in a sub-directory.
-// //****************************
+//****************************
+// Make media library use custom urls to display its own images.
+// Because relative urls from "/" don't work if the website is in a sub-directory.
+//****************************
 
 // Hook principal pour intercepter les URLs d'images
 add_filter('image_downsize', 'custom_medias_urls_for_admin', 10, 3);
@@ -220,8 +229,8 @@ function is_media_library_context() {
             $referer = wp_get_referer();
             // Vérifier que le referer contient upload.php OU post.php/post-new.php (Gutenberg)
             if ($referer && (strpos($referer, 'upload.php') !== false ||
-                           strpos($referer, 'post.php') !== false ||
-                           strpos($referer, 'post-new.php') !== false)) {
+                                strpos($referer, 'post.php') !== false ||
+                                strpos($referer, 'post-new.php') !== false)) {
                 return true;
             }
         }
@@ -270,66 +279,6 @@ function transform_media_url($original_url) {
 
     return get_site_url() . $original_url;
 }
-
-
-
-
-// //****************************
-// // Make media library use custom urls to display its own images.
-// // Because relative urls from "/" don't work if the website is in a sub-directory.
-// //****************************
-// function custom_medias_urls_for_admin( $out, $id, $size ) {
-
-//     // Vérifier si on est dans la media library
-//     if (!is_media_library_context()) {
-//         return false; // Laisser WordPress gérer normalement
-//     }
-
-//     // Récupérer les métadonnées de l'image
-//     $image_meta = wp_get_attachment_metadata($id);
-//     $image_url = wp_get_attachment_url($id);
-
-//     if (!$image_url || !$image_meta) {
-//         return false;
-//     }
-
-//     // Transformer l'URL selon ta logique
-//     $custom_url = transform_media_url($image_url);
-
-//     // Si la taille n'existe pas, retourner l'image complète
-//     return array($custom_url, $image_meta['width'], $image_meta['height'], false);
-// }
-// add_filter( 'image_downsize', 'custom_medias_urls_for_admin', 10, 3 );
-
-// // Détecter si on est dans le contexte de la media library.
-// function is_media_library_context() {
-//     if (!is_admin()) {
-//         return false;
-//     }
-
-//     global $pagenow;
-
-//     // Si on est sur la page upload.php
-//     if ($pagenow === 'upload.php') {
-//         return true;
-//     }
-
-//     // Pour les requêtes AJAX, on vérifie si le referer contient upload.php
-//     if (defined('DOING_AJAX') && DOING_AJAX) {
-//         $referer = wp_get_referer();
-//         if ($referer && strpos($referer, 'upload.php') !== false) {
-//             return true;
-//         }
-//     }
-
-//     return false;
-// }
-
-// // Transformation de l'url
-// function transform_media_url($original_url) {
-
-//     return get_site_url() . $original_url;
-// }
 
 //****************************
 // Enqueue main styles and scripts in the frontend.
@@ -681,78 +630,6 @@ function my_theme_customize_register( $wp_customize ) {
     $wp_customize->add_control(
         'transparent', array( 'label' => __( 'Transparent', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[transparent]', 'type' => 'text' )
     );
-
-    // Add Typography section
-    $wp_customize->add_section(
-        // ID
-        'typography_section',
-        // Arguments array
-        array(
-            'title' => __( 'Typograpy', 'blocklib' ),
-            'panel'       => 'graphic_chart_panel',
-            'capability' => 'edit_theme_options',
-            'description' => __( 'Manage theme\'s typography.', 'blocklib' )
-        )
-    );
-
-    // Sanitize fonts
-
-    function sanitize_font_family($font_value) {
-        if (empty($font_value)) {
-            return '';
-        }
-
-        // Remove all quotes and trim whitespace to avoid quotes fights in the BDD.
-        $font_value = str_replace(array('"', "'"), '', trim($font_value));
-
-        $patterns = array(
-            // Keywords
-            '/^(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-serif|ui-sans-serif|ui-monospace|ui-rounded|emoji|math|fangsong)$/',
-
-            // Single font name or font family name with spaces, commas, and hyphens.
-            '/^[a-zA-Z0-9\-\s,]+$/',
-
-            // Fonts with ASCII characters.
-            '/^[\p{L}\p{N}\p{P}\p{Z}]+$/u'
-        );
-
-        foreach ($patterns as $pattern) {
-            if (preg_match($pattern, $font_value)) {
-                return $font_value;
-            }
-        }
-
-        return '';
-    }
-
-    // Add fonts array setting.
-    $wp_customize->add_setting( 'theme_fonts[font_1]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
-    $wp_customize->add_setting( 'theme_fonts[font_2]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
-    $wp_customize->add_setting( 'theme_fonts[font_3]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
-    $wp_customize->add_setting( 'theme_fonts[font_4]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
-    $wp_customize->add_setting( 'theme_fonts[font_5]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_font_family' ));
-
-    // Add each font setting.
-    /* !!! WARNING !!! Carfull when changing control keys. Old keys will persist in the array. Check phpMyAdmin if cleaning is needed. */
-    $wp_customize->add_control(
-        'font_1', array( 'label' => __( 'Font 1', 'blocklib' ), 'section' => 'typography_section', 'settings' => 'theme_fonts[font_1]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'font_2', array( 'label' => __( 'Font 2', 'blocklib' ), 'section' => 'typography_section', 'settings' => 'theme_fonts[font_2]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'font_3', array( 'label' => __( 'Font 3', 'blocklib' ), 'section' => 'typography_section', 'settings' => 'theme_fonts[font_3]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'font_4', array( 'label' => __( 'Font 4', 'blocklib' ), 'section' => 'typography_section', 'settings' => 'theme_fonts[font_4]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'font_5', array( 'label' => __( 'Font 5', 'blocklib' ), 'section' => 'typography_section', 'settings' => 'theme_fonts[font_5]', 'type' => 'text' )
-    );
 }
 
 // Need to expose theme options in the REST API.
@@ -771,13 +648,21 @@ function mytheme_register_theme_options_in_rest() {
         'default' => [],
     ]);
 
-    register_setting('general', 'theme_fonts', [
+    register_setting('general', 'font_matching_mapping', [
         'show_in_rest' => [
             'schema' => [
-                'type' => 'object',
-                'additionalProperties' => [
-                    'type' => 'string'
-                ],
+                'type' => 'array',
+                'items' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'variable' => [
+                            'type' => 'string'
+                        ],
+                        'font_family' => [
+                            'type' => 'string'
+                        ]
+                    ]
+                ]
             ],
         ],
         'type' => 'array',
@@ -785,6 +670,82 @@ function mytheme_register_theme_options_in_rest() {
     ]);
 }
 add_action('rest_api_init', 'mytheme_register_theme_options_in_rest');
+
+//****************************
+// A new way to manage fonts with WP 6.5 Font Manager.
+//****************************
+function get_fonts_from_global_styles() {
+    $global_styles_posts = get_posts([
+        'post_type' => 'wp_global_styles',
+        'post_status' => 'publish',
+        'numberposts' => -1
+    ]);
+
+    $fonts_data = [];
+
+    foreach ($global_styles_posts as $post) {
+        $content = json_decode($post->post_content, true);
+
+        // Do we have custom fonts ?
+        if (isset($content['settings']['typography']['fontFamilies']['custom'])) {
+            $custom_fonts = $content['settings']['typography']['fontFamilies']['custom'];
+
+            foreach ($custom_fonts as $font) {
+                // Avoid duplicate (same slug)
+                $exists = false;
+                foreach ($fonts_data as $existing_font) {
+                    if ($existing_font['slug'] === $font['slug']) {
+                        $exists = true;
+                        break;
+                    }
+                }
+
+                if (!$exists) {
+                    $fonts_data[] = [
+                        'name' => $font['name'],
+                        'slug' => $font['slug'],
+                        'fontFamily' => $font['fontFamily']
+                    ];
+                }
+            }
+        }
+    }
+
+    return $fonts_data;
+}
+
+// Saving matchings in wp_options
+function save_font_matching_mapping($mappings) {
+    update_option('font_matching_mapping', $mappings);
+}
+
+// Retrieving matchings (empty array if nothing)
+function get_font_matching_mapping() {
+    return get_option('font_matching_mapping', []);
+}
+
+if (is_admin()) {
+    require_once get_template_directory() . '/inc/font-matching/font-matching.php';
+}
+
+function generate_font_css_variables() {
+    $mappings = get_font_matching_mapping();
+
+    if (empty($mappings)) {
+        return '';
+    }
+
+    $css_variables = [];
+
+    foreach ($mappings as $mapping) {
+        $variable_name = $mapping['variable'];
+        $font_family = $mapping['font_family'];
+
+        $css_variables[] = "{$variable_name}: {$font_family};";
+    }
+
+    return implode('; ', $css_variables);
+}
 
 //****************************
 // Add a custom field that stores LCP datas.
@@ -888,17 +849,11 @@ function get_custom_block_common_styles() {
 /* Variables */
 /************/
 
-/* As a reminder for media queries:
-    $sm: 480px;
-    $md: 768px;
-    $lg: 992px;
-    $xl: 1280px;
-*/
 :root {
 
 ' . writeCssVariablesFromThemeOptions( 'theme_colors' ) . '
 
-' . writeCssVariablesFromThemeOptions( 'theme_fonts' ) . '
+' . generate_font_css_variables() . '
 
     /* Some recurring lengths */
     --stagePadding: 1rem;
@@ -919,135 +874,8 @@ function get_custom_block_common_styles() {
 }
 
 /**********/
-/* Fonts */
+/* Fonts: @font-face are automatically created by the new WP Font Manager and that is great! */
 /********/
-
-/* math */
-@font-face {
-    font-family: "Bodoni Moda";
-    font-style: italic;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/bodonimoda-italic-math.woff2) format("woff2");
-    unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0330, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2034-2037, U+2057, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2102, U+210A-210E, U+2110-2112, U+2115, U+2119-211D, U+2124, U+2128, U+212C-212D, U+212F-2131, U+2133-2138, U+213C-2140, U+2145-2149, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B6, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
-}
-/* symbols */
-@font-face {
-    font-family: "Bodoni Moda";
-    font-style: italic;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/bodonimoda-italic-symbol.woff2) format("woff2");
-    unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8B1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA88, U+1FA90-1FABD, U+1FABF-1FAC5, U+1FACE-1FADB, U+1FAE0-1FAE8, U+1FAF0-1FAF8, U+1FB00-1FBFF;
-}
-/* latin-ext */
-@font-face {
-    font-family: "Bodoni Moda";
-    font-style: italic;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/bodonimoda-italic-latinext.woff2) format("woff2");
-    unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-    font-family: "Bodoni Moda";
-    font-style: italic;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/bodonimoda-italic-latin.woff2) format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* math */
-@font-face {
-    font-family: "Bodoni Moda";
-    font-style: normal;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/bodonimoda-normal-math.woff2) format("woff2");
-    unicode-range: U+0302-0303, U+0305, U+0307-0308, U+0330, U+0391-03A1, U+03A3-03A9, U+03B1-03C9, U+03D1, U+03D5-03D6, U+03F0-03F1, U+03F4-03F5, U+2034-2037, U+2057, U+20D0-20DC, U+20E1, U+20E5-20EF, U+2102, U+210A-210E, U+2110-2112, U+2115, U+2119-211D, U+2124, U+2128, U+212C-212D, U+212F-2131, U+2133-2138, U+213C-2140, U+2145-2149, U+2190, U+2192, U+2194-21AE, U+21B0-21E5, U+21F1-21F2, U+21F4-2211, U+2213-2214, U+2216-22FF, U+2308-230B, U+2310, U+2319, U+231C-2321, U+2336-237A, U+237C, U+2395, U+239B-23B6, U+23D0, U+23DC-23E1, U+2474-2475, U+25AF, U+25B3, U+25B7, U+25BD, U+25C1, U+25CA, U+25CC, U+25FB, U+266D-266F, U+27C0-27FF, U+2900-2AFF, U+2B0E-2B11, U+2B30-2B4C, U+2BFE, U+FF5B, U+FF5D, U+1D400-1D7FF, U+1EE00-1EEFF;
-}
-/* symbols */
-@font-face {
-    font-family: "Bodoni Moda";
-    font-style: normal;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/bodonimoda-normal-symbol.woff2) format("woff2");
-    unicode-range: U+0001-000C, U+000E-001F, U+007F-009F, U+20DD-20E0, U+20E2-20E4, U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3, U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A, U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF, U+29EB, U+2B00-2BFF, U+4DC0-4DFF, U+FFF9-FFFB, U+10140-1018E, U+10190-1019C, U+101A0, U+101D0-101FD, U+102E0-102FB, U+10E60-10E7E, U+1D2C0-1D2D3, U+1D2E0-1D37F, U+1F000-1F0FF, U+1F100-1F1AD, U+1F1E6-1F1FF, U+1F30D-1F30F, U+1F315, U+1F31C, U+1F31E, U+1F320-1F32C, U+1F336, U+1F378, U+1F37D, U+1F382, U+1F393-1F39F, U+1F3A7-1F3A8, U+1F3AC-1F3AF, U+1F3C2, U+1F3C4-1F3C6, U+1F3CA-1F3CE, U+1F3D4-1F3E0, U+1F3ED, U+1F3F1-1F3F3, U+1F3F5-1F3F7, U+1F408, U+1F415, U+1F41F, U+1F426, U+1F43F, U+1F441-1F442, U+1F444, U+1F446-1F449, U+1F44C-1F44E, U+1F453, U+1F46A, U+1F47D, U+1F4A3, U+1F4B0, U+1F4B3, U+1F4B9, U+1F4BB, U+1F4BF, U+1F4C8-1F4CB, U+1F4D6, U+1F4DA, U+1F4DF, U+1F4E3-1F4E6, U+1F4EA-1F4ED, U+1F4F7, U+1F4F9-1F4FB, U+1F4FD-1F4FE, U+1F503, U+1F507-1F50B, U+1F50D, U+1F512-1F513, U+1F53E-1F54A, U+1F54F-1F5FA, U+1F610, U+1F650-1F67F, U+1F687, U+1F68D, U+1F691, U+1F694, U+1F698, U+1F6AD, U+1F6B2, U+1F6B9-1F6BA, U+1F6BC, U+1F6C6-1F6CF, U+1F6D3-1F6D7, U+1F6E0-1F6EA, U+1F6F0-1F6F3, U+1F6F7-1F6FC, U+1F700-1F7FF, U+1F800-1F80B, U+1F810-1F847, U+1F850-1F859, U+1F860-1F887, U+1F890-1F8AD, U+1F8B0-1F8B1, U+1F900-1F90B, U+1F93B, U+1F946, U+1F984, U+1F996, U+1F9E9, U+1FA00-1FA6F, U+1FA70-1FA7C, U+1FA80-1FA88, U+1FA90-1FABD, U+1FABF-1FAC5, U+1FACE-1FADB, U+1FAE0-1FAE8, U+1FAF0-1FAF8, U+1FB00-1FBFF;
-}
-/* latin-ext */
-@font-face {
-    font-family: "Bodoni Moda";
-    font-style: normal;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/bodonimoda-normal-latinext.woff2) format("woff2");
-    unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-    font-family: "Bodoni Moda";
-    font-style: normal;
-    font-weight: 400 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/bodonimoda-normal-latin.woff2) format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic */
-@font-face {
-    font-family: "Jost";
-    font-style: italic;
-    font-weight: 100 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/jost-italic-cyrillic.woff2) format("woff2");
-    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* latin-ext */
-@font-face {
-    font-family: "Jost";
-    font-style: italic;
-    font-weight: 100 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/jost-italic-latinext.woff2) format("woff2");
-    unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-    font-family: "Jost";
-    font-style: italic;
-    font-weight: 100 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/jost-italic-latin.woff2) format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* cyrillic */
-@font-face {
-    font-family: "Jost";
-    font-style: normal;
-    font-weight: 100 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/jost-normal-cyrillic.woff2) format("woff2");
-    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-/* latin-ext */
-@font-face {
-    font-family: "Jost";
-    font-style: normal;
-    font-weight: 100 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/jost-normal-latinext.woff2) format("woff2");
-    unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-    font-family: "Jost";
-    font-style: normal;
-    font-weight: 100 900;
-    font-display: swap;
-    src: url(' . get_template_directory_uri() . '/assets/fonts/jost-normal-latin.woff2) format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 
 /***********/
 /* Global */

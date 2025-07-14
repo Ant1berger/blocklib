@@ -59,8 +59,8 @@ export const parseSVG = (svgString) => {
     );
 };
 
-// Generates the choices for <select>s from the theme options.
-export const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
+// Generates the choices for <select>s from wp_options for colors.
+export const handleWPOptionsColorsForSelects = (optionId, emptyOptionText) => {
     let optionsArray = [{ label: emptyOptionText, value: '' }];
     for (const property in optionId) {
         if( optionId[property] ) {
@@ -69,6 +69,23 @@ export const handleThemeOptionsForSelects = (optionId, emptyOptionText) => {
     };
     return optionsArray;
 }
+
+// Generates the choices for <select>s from wp_options for fonts.
+export const handleWPOptionsFontsForSelects = (optionId, emptyOptionText) => {
+    let optionsArray = [{ label: emptyOptionText, value: '' }];
+
+    if (Array.isArray(optionId)) {
+        optionId.forEach(fontItem => {
+            if (fontItem.variable && fontItem.font_family) {
+                optionsArray.push({
+                    label: `${fontItem.variable} (${fontItem.font_family})`,
+                    value: `var(${fontItem.variable})`
+                });
+            }
+        });
+    };
+    return optionsArray;
+};
 
 // Avoid empty tagName for the rendered component.
 export const updateTagName = (setAttributes, setTagName, newTag, defaultTag) => {
