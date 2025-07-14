@@ -14,9 +14,9 @@
         },
         "typography": {
             "fontSizes": [],
-			"customFontSize": true,
-			"defaultFontSizes": true,
-			"writingMode": true,
+			"customFontSize": false,
+			"defaultFontSizes": false,
+			"writingMode": false,
 			"dropCap": true,
 			"textDecoration": true,
 			"letterSpacing": true,
