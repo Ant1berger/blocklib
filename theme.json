@@ -3,16 +3,17 @@
     "version": 2,
     "settings": {
         "color": {
-            "custom": true,
-			"customDuotone": true,
-			"customGradient": true,
-			"defaultDuotone": true,
-			"defaultGradients": true,
-			"defaultPalette": true,
-            "background": true,
-            "text": true
+            "custom": false,
+			"customDuotone": false,
+			"customGradient": false,
+			"defaultDuotone": false,
+			"defaultGradients": false,
+			"defaultPalette": false,
+            "background": false,
+            "text": false
         },
         "typography": {
+            "fontSizes": [],
 			"customFontSize": true,
 			"defaultFontSizes": true,
 			"writingMode": true,
@@ -25,10 +26,12 @@
 			"lineHeight": true,
 			"textAlign": true,
 			"textColumns": true,
+			"fontFamilies": [],
 			"fluid": true
         },
 		"shadow": {
-			"defaultPresets": true
+			"defaultPresets": false,
+			"presets": []
 		}
     }
 }
