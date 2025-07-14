@@ -873,7 +873,7 @@ function Edit(props) {
       setThemeOptions(settings);
       setSelectColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
       setSelectBGColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a background color', 'bloclklib')));
-      setSelectFontOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsFontsForSelects)(settings.theme_fonts, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
+      setSelectFontOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsFontsForSelects)(settings.font_matching_mapping, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
     });

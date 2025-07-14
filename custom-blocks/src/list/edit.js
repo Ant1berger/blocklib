@@ -29,7 +29,7 @@ export default function Edit(props) {
             setThemeOptions(settings);
             setSelectBGColorOptions(handleWPOptionsColorsForSelects(settings.theme_colors, __( 'Select a background color', 'bloclklib' )));
             setSelectColorOptions(handleWPOptionsColorsForSelects(settings.theme_colors, __( 'Select a color', 'bloclklib' )));
-            setSelectFontOptions(handleWPOptionsFontsForSelects(settings.theme_fonts, __( 'Select a font', 'bloclklib' )));
+            setSelectFontOptions(handleWPOptionsFontsForSelects(settings.font_matching_mapping, __( 'Select a font', 'bloclklib' )));
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des options de thème :', error);
