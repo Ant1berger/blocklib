@@ -3,30 +3,32 @@
     "version": 2,
     "settings": {
         "color": {
-            "custom": false,
-			"customDuotone": false,
-			"customGradient": false,
-			"defaultDuotone": false,
-			"defaultGradients": false,
-			"defaultPalette": false,
-            "background": false,
-            "text": false
+            "custom": true,
+			"customDuotone": true,
+			"customGradient": true,
+			"defaultDuotone": true,
+			"defaultGradients": true,
+			"defaultPalette": true,
+            "background": true,
+            "text": true
         },
         "typography": {
-            "customFontSize": false,
-            "lineHeight": false,
-            "dropCap": false,
-            "fluid": false,
-            "fontStyle": false,
-            "fontWeight": false,
-            "letterSpacing": false,
-            "textDecoration": false,
-            "textTransform": false,
-            "fontSizes": []
+			"customFontSize": true,
+			"defaultFontSizes": true,
+			"writingMode": true,
+			"dropCap": true,
+			"textDecoration": true,
+			"letterSpacing": true,
+			"textTransform": true,
+			"fontWeight": true,
+			"fontStyle": true,
+			"lineHeight": true,
+			"textAlign": true,
+			"textColumns": true,
+			"fluid": true
         },
 		"shadow": {
-			"defaultPresets": false,
-			"presets": []
+			"defaultPresets": true
 		}
     }
 }
