@@ -35,7 +35,7 @@ return '
 }
 
 /**********/
-/* Fonts: @font-face are automatically created by the new WP Font Manager and that is great! */
+/* Fonts: @font-face are automatically created and injected into the <head> by the new WP Font Manager and that is great! */
 /********/
 
 /***********/

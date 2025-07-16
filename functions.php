@@ -412,11 +412,11 @@ add_action('admin_enqueue_scripts', 'theme_admin_styles');
 // For the Gutenberg interface.
 function add_scripts_to_gutenberg() {
     wp_enqueue_style( 'additional-gutenberg-styles', get_theme_file_uri('/additional-gutenberg-styles.css'), array(), '1.0');
-    wp_enqueue_script( 'additional-gutenberg-scripts', get_theme_file_uri('/additional-gutenberg-scripts.js'), array(), '1.0', true);
+    wp_enqueue_script( 'additional-gutenberg-ui-scripts', get_theme_file_uri('/additional-gutenberg-ui-scripts.js'), array(), '1.0', true);
 
     // To pass database stuff to editor's JavaScript.
     wp_localize_script(
-        'additional-gutenberg-scripts',
+        'additional-gutenberg-ui-scripts',
         'db_data',
         [
             'siteUrl' => get_site_url()
@@ -424,10 +424,31 @@ function add_scripts_to_gutenberg() {
     );
 }
 add_action('enqueue_block_editor_assets', 'add_scripts_to_gutenberg');
+
 // For inside the editing area iframe to get a true WYSIWYG.
 add_action('enqueue_block_editor_assets', function() {
     wp_add_inline_style('wp-edit-blocks', get_custom_block_common_styles());
 });
+
+// For the editor iframe AND UI (avoid using it for UI only, use the above instead).
+function enqueue_editor_iframe_assets() {
+    if ( is_admin() ) { // Yes it runs in the frontend as well, so carefull with it.
+        wp_enqueue_script(
+            'additional-gutenberg-iframe-scripts',
+            get_theme_file_uri('/additional-gutenberg-iframe-scripts.js'),
+            array(
+                'wp-data',          // Pour wp.data
+                'wp-api-fetch',     // Pour wp.apiFetch
+                'wp-edit-post',     // Pour l'éditeur Gutenberg
+                'wp-editor'         // Pour les fonctions d'édition
+            ),
+            '1.0.0',
+            true
+        );
+        // Could enqueue styles also with wp_enqueue_styles.
+    }
+}
+add_action( 'enqueue_block_assets', 'enqueue_editor_iframe_assets' );
 
 //****************************
 // Bring blocks styles (blocks global styles AND instances styles) into the <head> for a better page quality in the front-end.
@@ -748,9 +769,60 @@ function generate_font_css_variables() {
 }
 
 //****************************
-// Add a custom field that stores LCP datas.
+// Register meta field for used fonts and use it
 //****************************
+function register_used_fonts_meta() {
+    register_post_meta('', 'used_fonts', [
+        'type' => 'object',
+        'single' => true,
+        'show_in_rest' => [
+            'schema' => [
+                'type' => 'object',
+                'properties' => [],
+                'additionalProperties' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'url' => ['type' => 'string'],
+                        'type' => ['type' => 'string']
+                    ]
+                ]
+            ]
+        ]
+    ]);
+}
+add_action('init', 'register_used_fonts_meta');
 
+// Dynamically generate font preloads
+function generate_font_preloads() {
+    global $post;
+
+    if (!$post) {
+        return;
+    }
+
+    $used_fonts = get_post_meta($post->ID, 'used_fonts', true);
+
+    if (empty($used_fonts) || !is_array($used_fonts)) {
+        return;
+    }
+
+    foreach ($used_fonts as $font_data) {
+        $font_url = get_site_url() . $font_data['url'];
+        $mime_type = $font_data['type'] ?? 'font/woff2';
+
+        printf(
+            '<link rel="preload" href="%s" as="font" type="%s" crossorigin="anonymous">%s',
+            esc_url($font_url),
+            esc_attr($mime_type),
+            "\n"
+        );
+    }
+}
+add_action('wp_head', 'generate_font_preloads', 1);
+
+//****************************
+// Register meta field for LCP datas and use it.
+//****************************
 function register_gutenberg_custom_fields() {
     register_post_meta( '', 'lcp_preload', [
         'type' => 'object',
