@@ -117,13 +117,6 @@ function getUsedFonts() {
             const fontVariantKey = `${font.family}-${font.weight}-${font.style}`;
 
             usedFonts.add(fontVariantKey);
-
-            console.log('Used font variant:', {
-                family: font.family,
-                weight: font.weight,
-                style: font.style,
-                variantKey: fontVariantKey
-            });
         }
     }
 
@@ -141,7 +134,6 @@ function getUsedFonts() {
         }
     });
 
-    console.log('Actually used font URLs:', actuallyUsedFontUrls);
     return actuallyUsedFontUrls;
 }
 

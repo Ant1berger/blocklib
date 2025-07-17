@@ -62,7 +62,7 @@ function no_more_jquery(){
 }
 
 //****************************
-// Remove REST API (Put it back if needed it)
+// Remove REST API stuff (REST API remains available though).
 //****************************
 // Disable REST API link tag
 remove_action('wp_head', 'rest_output_link_wp_head', 10);
