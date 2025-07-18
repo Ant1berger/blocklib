@@ -911,7 +911,7 @@ ${query.css ? `${query.css}` : ''}
     });
   }, [persistentID, renderMediaQueries()]);
 
-  // Add and remove images
+  // Add and remove image
   const onSelectImage = picture => {
     setAttributes({
       pictureID: picture.id,
@@ -1030,8 +1030,9 @@ ${query.css ? `${query.css}` : ''}
                 open
               }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
                 children: [!pictureID && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
-                  variant: "secondary",
+                  variant: "primary",
                   onClick: open,
+                  className: "add-media",
                   children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select an image', 'bloclklib')
                 }), pictureID && !imageData && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
                   className: "components-placeholder",
@@ -1100,7 +1101,7 @@ ${query.css ? `${query.css}` : ''}
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Image performance settings', 'bloclklib'),
         initialOpen: true,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalText, {
-          children: hasLCP && !isThisImageLCP ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Warning: Another image is currently set as LCP. Clicking those buttons will override the previous setting.', 'blocklib') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Manage LCP for this post.', 'blocklib')
+          children: hasLCP && !isThisImageLCP ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Warning: Another media is currently set as LCP. Clicking those buttons will override the previous setting.', 'blocklib') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Manage LCP for this post.', 'blocklib')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
           __nextHasNoMarginBottom: true,
           help: hasLCP ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)(`Current LCP: ${lcpData.url}}`, 'blocklib') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('No current LCP'),
@@ -1145,7 +1146,7 @@ ${query.css ? `${query.css}` : ''}
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
           __nextHasNoMarginBottom: true,
-          help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Don\'t overuse fetch priority, but use it when one image has to be loaded first among others, even below the fold.', 'bloclklib'),
+          help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Don\'t overuse fetch priority, but use it when one element has to be loaded first among others, even below the fold.', 'bloclklib'),
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
             __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fetch priority', 'bloclklib'),

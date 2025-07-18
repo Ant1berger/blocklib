@@ -846,22 +846,34 @@ add_action('init', 'register_gutenberg_custom_fields');
 function add_lcp_preload_link() {
     if (is_singular()) {
         $lcp_data = get_post_meta(get_the_ID(), 'lcp_preload', true);
-        if (!empty($lcp_data) && !empty($lcp_data['url']) && !str_contains($lcp_data['mime'], 'svg')) {
-            printf(
-                '<link rel="preload" href="%s" imagesrcset="%s" imagesizes="%s" as="%s" type="%s">',
-                esc_url($lcp_data['url']),
-                esc_attr($lcp_data['srcset']),
-                esc_attr($lcp_data['sizes']),
-                esc_attr($lcp_data['as']),
-                esc_attr($lcp_data['mime'])
-            );
-        } elseif (!empty($lcp_data) && !empty($lcp_data['url']) && str_contains($lcp_data['mime'], 'svg')) {
+        if (!empty($lcp_data) && !empty($lcp_data['url']) && str_contains($lcp_data['mime'], 'image')) {
+            if (!empty($lcp_data) && !empty($lcp_data['url']) && !str_contains($lcp_data['mime'], 'svg')) {
+                printf(
+                    '<link rel="preload" href="%s" imagesrcset="%s" imagesizes="%s" as="%s" type="%s">',
+                    esc_url($lcp_data['url']),
+                    esc_attr($lcp_data['srcset']),
+                    esc_attr($lcp_data['sizes']),
+                    esc_attr($lcp_data['as']),
+                    esc_attr($lcp_data['mime'])
+                );
+            } elseif (!empty($lcp_data) && !empty($lcp_data['url']) && str_contains($lcp_data['mime'], 'svg')) {
+                printf(
+                    '<link rel="preload" href="%s" as="%s" type="%s">',
+                    esc_url($lcp_data['url']),
+                    esc_attr($lcp_data['as']),
+                    esc_attr($lcp_data['mime'])
+                );
+            }
+        }
+        elseif (!empty($lcp_data) && !empty($lcp_data['url']) && str_contains($lcp_data['mime'], 'video')) {
             printf(
                 '<link rel="preload" href="%s" as="%s" type="%s">',
                 esc_url($lcp_data['url']),
                 esc_attr($lcp_data['as']),
                 esc_attr($lcp_data['mime'])
             );
+        } else {
+            echo '';
         }
     }
 }
@@ -878,7 +890,7 @@ function fix_wp_get_attachment_image_svg($image, $attachment_id, $size, $icon) {
         if(is_array($size)) {
             $image[1] = $size[0];
             $image[2] = $size[1];
-        } elseif(($xml = simplexml_load_file($image[0])) !== false) {
+        } elseif(($xml = simplexml_load_file(get_site_url() . $image[0])) !== false) {
             $attr = $xml->attributes();
             $viewbox = explode(' ', $attr->viewBox);
             $image[1] = isset($attr->width) && preg_match('/\d+/', $attr->width, $value) ? (int) $value[0] : (count($viewbox) == 4 ? (int) $viewbox[2] : null);

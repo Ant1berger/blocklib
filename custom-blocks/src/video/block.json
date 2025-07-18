@@ -23,22 +23,19 @@
         "renderedMediaQueries": { "type": "string", "default": "" },
 
         "videoID": { "type": "number", "default": null },
-        "videoURL": { "type": "string", "default": "" },
+        "videoFile": { "type": "string", "default": "" },
         "videoMime": { "type": "string", "default": "" },
         "videoWidth": { "type": "number", "default": null },
         "videoHeight": { "type": "number", "default": null },
         "videoDuration": { "type": "string", "default": "" },
+        "videoPreload": { "type": "string", "default": "lazy" },
+        "videoFetchPriority": { "type": "string", "default": "auto" },
 
-        "posterID": { "type": "number", "default": null },
-        "posterURL": { "type": "string", "default": "" },
         "autoplay": { "type": "boolean", "default": false },
         "playsinline": { "type": "boolean", "default": false },
         "controls": { "type": "boolean", "default": true },
         "loop": { "type": "boolean", "default": false },
         "muted": { "type": "boolean", "default": false },
-
-        "preload": { "type": "string", "default": "metadata" },
-
         "controlslistNoDownload": { "type": "boolean", "default": false },
         "controlslistNoFullscreen": { "type": "boolean", "default": false },
         "controlslistNoRemotePlayback": { "type": "boolean", "default": false }

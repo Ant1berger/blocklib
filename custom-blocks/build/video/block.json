@@ -50,7 +50,7 @@
       "type": "number",
       "default": null
     },
-    "videoURL": {
+    "videoFile": {
       "type": "string",
       "default": ""
     },
@@ -70,13 +70,13 @@
       "type": "string",
       "default": ""
     },
-    "posterID": {
-      "type": "number",
-      "default": null
-    },
-    "posterURL": {
+    "videoPreload": {
       "type": "string",
-      "default": ""
+      "default": "lazy"
+    },
+    "videoFetchPriority": {
+      "type": "string",
+      "default": "auto"
     },
     "autoplay": {
       "type": "boolean",
@@ -97,10 +97,6 @@
     "muted": {
       "type": "boolean",
       "default": false
-    },
-    "preload": {
-      "type": "string",
-      "default": "metadata"
     },
     "controlslistNoDownload": {
       "type": "boolean",

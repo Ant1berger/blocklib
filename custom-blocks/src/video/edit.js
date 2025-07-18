@@ -1,9 +1,10 @@
 
 import { __ } from '@wordpress/i18n';
+import { useState } from 'react';
 import { InspectorControls, useBlockProps, MediaUpload, MediaUploadCheck, store as blockEditorStore} from '@wordpress/block-editor';
 import { Fragment, useEffect } from '@wordpress/element';
 import { MyMonacoEditor, updatePersistentIDs, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
-import { PanelBody, PanelRow, TextControl, Button, BaseControl, __experimentalText as Text, ToggleControl, SelectControl, CheckboxControl, ExternalLink } from '@wordpress/components';
+import { PanelBody, Spinner, Placeholder, PanelRow, TextControl, Button, Popover, BaseControl, __experimentalText as Text, ToggleControl, SelectControl, CheckboxControl, ExternalLink } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -11,15 +12,21 @@ import { useEntityProp } from '@wordpress/core-data';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, videoURL, videoID, videoMime, videoWidth, videoHeight, videoDuration, posterID, posterURL, autoplay, playsinline, controls, loop, muted, preload, controlslistNoDownload, controlslistNoFullscreen, controlslistNoRemotePlayback } = attributes;
+    const { persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, videoID, videoFile, videoMime, videoPreload, videoFetchPriority, videoWidth, videoHeight, videoDuration, autoplay, playsinline, controls, loop, muted, controlslistNoDownload, controlslistNoFullscreen, controlslistNoRemotePlayback } = attributes;
     const blockProps = useBlockProps();
     const { selectBlock } = useDispatch(blockEditorStore);
+
+    const videoData = useSelect(select => {
+        return videoID ? select('core').getMedia(videoID) : null;
+    }, [videoID]);
 
     const handleVideoClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
         selectBlock(clientId);
     };
+
+    const isLoading = videoID && !videoData?.source_url;
 
     // Set the block name attribute from json "name" path for automatic reuse.
     useEffect(() => {
@@ -61,7 +68,7 @@ ${query.css ? `${query.css}` : ''}
     const onSelectVideo = video => {
         setAttributes({
             videoID: video.id,
-            videoURL: db_data.siteUrl+video.url,
+            videoFile: video.filename, // Only for use in save.js.
             videoMime: video.mime,
             videoWidth: video.width,
             videoHeight: video.height,
@@ -72,39 +79,93 @@ ${query.css ? `${query.css}` : ''}
     const onRemoveVideo = () => {
         setAttributes({
             videoID: null,
-            videoURL: null,
+            videoFile: null,
             videoMime: null,
             videoWidth: null,
             videoHeight: null,
             videoDuration: null,
-            posterID: null,
-            posterURL: null,
             autoplay: null,
             playsinline: null,
             controls: null,
             loop: null,
             muted: null,
-            preload: null,
+            videoPreload: null,
             controlslistNoDownload: null,
             controlslistNoFullscreen: null,
             controlslistNoRemotePlayback: null
         })
     }
 
-    // Add and remove poster
-    const onSelectPoster = poster => {
-        setAttributes({
-            posterID: poster.id,
-            posterURL: db_data.siteUrl+poster.url
-        })
-    }
+    // Manage LCP
+    const postType = useSelect(
+        ( select ) => select( 'core/editor' ).getCurrentPostType(),
+        []
+    );
 
-    const onRemovePoster = () => {
-        setAttributes({
-            posterID: null,
-            posterURL: null
-        })
-    }
+    const [ meta, setMeta ] = useEntityProp( 'postType', postType, 'meta' );
+
+    const setAsLCP = () => {
+        const newMeta = {
+            ...meta,
+            lcp_preload: {
+                url: db_data.siteUrl+videoData?.source_url,
+                as: videoMime?.split('/')[0] || 'video',
+                mime: videoMime
+            }
+        };
+        setMeta(newMeta);
+    };
+
+    const disableLCP = () => {
+        const newMeta = {
+            ...meta,
+            lcp_preload: {
+                url: '',
+                as: '',
+                mime: ''
+            }
+        };
+        setMeta(newMeta);
+    };
+
+    const lcpData = meta?.lcp_preload || {};
+    const hasLCP = !!lcpData.url;
+    const isThisVideoLCP = hasLCP && lcpData.url === db_data.siteUrl+videoData?.source_url;
+
+    useEffect(() => {
+        if (isThisVideoLCP) {
+            setAttributes({videoPreload: 'auto', videoFetchPriority: 'high'});
+        }
+    }, [isThisVideoLCP]);
+
+    const posterPopover = () => {
+        const [ isVisible, setIsVisible ] = useState( false );
+        const toggleVisible = () => {
+            setIsVisible( ( state ) => ! state );
+        };
+
+        return (
+            <Button variant="secondary" size="small" onClick={ toggleVisible }>
+                {__( 'Poster instructions', 'bloclklib' )}
+                { isVisible &&
+                <Popover
+                    placement="top-end"
+                    offset={16}
+                    noArrow={false}
+                    className="blocklib-popover"
+                >
+                    <h3>{__( 'Poster instructions:', 'bloclklib' )}</h3>
+                    <p>{__( 'To add a poster for this video, don\'t use the poster="..." attribute: it\'s not responsive and it can\'t be lazy loaded. Instead, with a bit of CSS, position an Image and a Knob blocks above the video following this structure:' )}</p>
+                    <code>{__( 'An encompassing Group with the class "video-with-poster".', 'bloclklib' )}</code>
+                    <code>{__( '|' )}</code>
+                    <code>{__( '|——> A Knob (the "play" button).', 'bloclklib' )}</code>
+                    <code>{__( '|——> An Image (the poster, keep it the same ratio as the video).', 'bloclklib' )}</code>
+                    <code>{__( '|——> The Video.', 'bloclklib' )}</code>
+                    <p>{__( 'A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image will disappear and the video will start playing.' )}</p>
+                </Popover> }
+            </Button>
+        );
+    };
 
     return (
         <Fragment>
@@ -152,13 +213,23 @@ ${query.css ? `${query.css}` : ''}
                                 value={ videoID }
                                 render={ ( { open } ) => (
                                     <div>
-                                        { ! videoID && <Button variant="secondary" onClick={ open }> {__( 'Select a video', 'bloclklib' )}</Button> }
-                                        { !! videoID && videoID &&
-                                            <Button variant="link" onClick={ open }>
-                                                <video src={ videoURL } ></video>
+                                        { ! videoID &&
+                                            <Button variant="primary" onClick={ open } className="add-media">
+                                                {__( 'Select a video', 'bloclklib' )}
                                             </Button>
                                         }
-                                        { !! videoID && videoID && <p>{__( 'Duration:', 'bloclklib' )} { videoDuration }</p> }
+                                        {videoID && !videoData && (
+                                            <div className="components-placeholder">
+                                                <Spinner />
+                                                <p>{__('Loading video...', 'blocklib')}</p>
+                                            </div>
+                                        )}
+                                        { !! videoData?.source_url &&
+                                            <Button variant="link" onClick={ open }>
+                                                <video src={ db_data.siteUrl + videoData.source_url } />
+                                            </Button>
+                                        }
+                                        { !! videoID && <p>{__( 'Duration:', 'bloclklib' )} { videoDuration }</p> }
                                     </div>
                                 ) }
                             />
@@ -170,43 +241,16 @@ ${query.css ? `${query.css}` : ''}
                                 variant="secondary"
                                 size="small"
                                 icon="trash"
-                                className="delete-image"
+                                className="delete-video"
                             >
                             </Button>
                         }
                     </BaseControl>
                     <BaseControl
                         __nextHasNoMarginBottom
-                        label={ __( 'Video poster', 'bloclklib' ) }
+                        label={ __( 'Need a poster?', 'bloclklib' ) }
                     >
-                        <MediaUploadCheck>
-                            <MediaUpload
-                                onSelect={ onSelectPoster }
-                                allowedTypes={ [ 'image' ] }
-                                value={ posterID }
-                                render={ ( { open } ) => (
-                                    <div>
-                                        { ! posterID && <Button variant="secondary" onClick={ open }> {__( 'Select a poster for the video', 'bloclklib' )}</Button> }
-                                        { !! posterID && posterID &&
-                                            <Button variant="link" onClick={ open }>
-                                                <img src={ posterURL } />
-                                            </Button>
-                                        }
-                                    </div>
-                                ) }
-                            />
-                        </MediaUploadCheck>
-                        { !! videoID &&
-                            <Button
-                                onClick={ onRemovePoster }
-                                isDestructive
-                                variant="secondary"
-                                size="small"
-                                icon="trash"
-                                className="delete-image"
-                            >
-                            </Button>
-                        }
+                        {posterPopover()}
                     </BaseControl>
                     <ToggleControl
                         label={__('Autoplay', 'custom-blocks')}
@@ -230,16 +274,6 @@ ${query.css ? `${query.css}` : ''}
                         checked={muted}
                         onChange={(val) => setAttributes({ muted: val })}
                         help={__('Autoplay often requires the video to be muted.', 'custom-blocks')}
-                    />
-                    <SelectControl
-                        label={__('Preload', 'custom-blocks')}
-                        value={preload}
-                        options={[
-                            { label: __('Auto', 'custom-blocks'), value: 'auto' },
-                            { label: __('Metadata', 'custom-blocks'), value: 'metadata' },
-                            { label: __('None', 'custom-blocks'), value: 'none' },
-                        ]}
-                        onChange={(val) => setAttributes({ preload: val })}
                     />
                     <ToggleControl
                         label={__('Show Controls', 'custom-blocks')}
@@ -288,24 +322,133 @@ ${query.css ? `${query.css}` : ''}
                         placeholder={ __( 'Add HTML ID if needed (no spaces)', 'blocklib' ) }
                     />
                 </PanelBody>
+                <PanelBody title={ __( 'Video performance settings', 'bloclklib' ) } initialOpen={true}>
+                    <Text>
+                    {
+                        hasLCP && !isThisVideoLCP
+                            ? __('Warning: Another media is currently set as LCP. Clicking those buttons will override the previous setting.', 'blocklib')
+                            : __('Manage LCP for this post.', 'blocklib')
+                    }
+                    </Text>
+                    <BaseControl
+                        __nextHasNoMarginBottom
+                        help={
+                            hasLCP
+                                ? __(`Current LCP: ${lcpData.url}}`, 'blocklib')
+                                : __('No current LCP')
+                        }
+                    >
+                        <div className="lcp-controls">
+                            <Button
+                                variant={isThisVideoLCP ? "secondary" : "primary"}
+                                onClick={setAsLCP}
+                                disabled={!videoID}
+                                className="set-lcp-button"
+                            >
+                                {isThisVideoLCP
+                                    ? __('This video is the current LCP', 'blocklib')
+                                    : __('Set this video as LCP', 'blocklib')
+                                }
+                            </Button>
+                            <Button
+                                variant="secondary"
+                                onClick={disableLCP}
+                                isDestructive
+                                className="disable-lcp-button"
+                                disabled={!hasLCP}
+                            >
+                                {__('Disable LCP preload for this post', 'blocklib')}
+                            </Button>
+                        </div>
+                    </BaseControl>
+                    <BaseControl
+                        __nextHasNoMarginBottom
+                        help={__( 'Don\'t lazy load images above the fold, but all the others.', 'bloclklib' )}
+                    >
+                    <SelectControl
+                        __nextHasNoMarginBottom
+                        help={__( '"Metadata" setting suits most of the cases. If LCP, "auto" will be automatically set. Use "none" only if you care a lot about bandwidth.', 'bloclklib' )}
+                        label={__('Preload', 'bloclklib')}
+                        value={videoPreload}
+                        options={[
+                            { label: __('Metadata', 'bloclklib'), value: 'metadata' },
+                            { label: __('Auto', 'bloclklib'), value: 'auto' },
+                            { label: __('None', 'bloclklib'), value: 'none' },
+                        ]}
+                        onChange={(val) => setAttributes({ videoPreload: val })}
+                        disabled={isThisVideoLCP}
+                    />
+                    </BaseControl>
+                    <BaseControl
+                        __nextHasNoMarginBottom
+                        help={__( 'Don\'t overuse fetch priority, but use it when one element has to be loaded first among others, even below the fold.', 'bloclklib' )}
+                    >
+                        <SelectControl
+                            __nextHasNoMarginBottom
+                            label={__( 'Fetch priority', 'bloclklib' )}
+                            options={ [
+                                { label: __( 'Not set', 'bloclklib' ), value: '' },
+                                { label: __( 'High', 'bloclklib' ), value: 'high' },
+                                { label: __( 'Low', 'bloclklib' ), value: 'low' }
+                            ] }
+                            value={ videoFetchPriority }
+                            onChange={(newValue) => setAttributes({ videoFetchPriority: newValue })}
+                            disabled={isThisVideoLCP}
+                        />
+                    </BaseControl>
+                </PanelBody>
             </InspectorControls>
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
-            { !! videoID && videoID ?
-                <video
-                    {...blockProps}
-                    onClick={handleVideoClick}
-                    src={ videoURL }
-                    width={ videoWidth }
-                    height={ videoHeight }
-                    poster={ posterURL }
-                    data-persistentid={ persistentID }
-                    className={[
-                        blockName,
-                        manualClasses || ''
-                    ].filter(Boolean).join(' ')}
-                ></video> :
-                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="300" height="300"><title>no-image</title><path class="cls-1" d="M292,256.36a5.13,5.13,0,0,1-5.14,5.14H225.14a5.13,5.13,0,0,1-5.14-5.14V204.93a5.13,5.13,0,0,1,5.14-5.14h61.71a5.13,5.13,0,0,1,5.14,5.14v51.43Zm-5.14-41.14V204.93H253.59L251,210.08H225.14v5.14h61.71Zm0,41.14v-5.14H225.14v5.14h61.71Zm-41.14-48.85v-5.14H230.29v5.14h15.43ZM256,217.87a15.43,15.43,0,1,0,15.43,15.43A15.43,15.43,0,0,0,256,217.87Zm0,25.71a10.29,10.29,0,1,1,10.28-10.29A10.31,10.31,0,0,1,256,243.58Zm0-16.79a6.45,6.45,0,0,0-6.43,6.43,1.29,1.29,0,0,0,2.57,0,3.86,3.86,0,0,1,3.86-3.86A1.29,1.29,0,0,0,256,226.79Z"/><path class="cls-1" d="M162.67,298.14h2.45l0.25,2.52h0.11c1.66-1.66,3.46-3,5.87-3,3.67,0,5.33,2.38,5.33,6.84v11.09h-3V304.94c0-3.28-1-4.68-3.31-4.68-1.8,0-3,.94-4.79,2.7v12.67h-3V298.14Z"/><path class="cls-1" d="M189.17,297.71c4.28,0,8.1,3.35,8.1,9.21s-3.82,9.14-8.1,9.14-8.1-3.35-8.1-9.14S184.88,297.71,189.17,297.71Zm0,15.91c3,0,5-2.7,5-6.7s-2-6.77-5-6.77-5,2.74-5,6.77S186.18,313.62,189.17,313.62Z"/><path class="cls-1" d="M208.61,292.63a2.06,2.06,0,0,1,4.1,0A2.06,2.06,0,0,1,208.61,292.63Zm0.54,5.51h3v17.49h-3V298.14Z"/><path class="cls-1" d="M218,298.14h2.45l0.25,2.52h0.11c1.51-1.66,3.35-3,5.44-3a4.59,4.59,0,0,1,4.82,3.35c1.84-2,3.64-3.35,5.76-3.35,3.6,0,5.33,2.38,5.33,6.84v11.09h-3V304.94c0-3.28-1-4.68-3.24-4.68-1.37,0-2.77.9-4.39,2.7v12.67h-3V304.94c0-3.28-1-4.68-3.28-4.68-1.3,0-2.77.9-4.39,2.7v12.67h-3V298.14Z"/><path class="cls-1" d="M257.74,304.54c0-2.23-.76-4.39-3.6-4.39a9.41,9.41,0,0,0-5.22,1.87L247.74,300a13,13,0,0,1,6.88-2.27c4.28,0,6.08,2.84,6.08,7.2v10.73h-2.45L258,313.54h-0.07a9.51,9.51,0,0,1-5.8,2.52c-3,0-5.15-1.84-5.15-5C247,307.28,250.29,305.37,257.74,304.54ZM253,313.69c1.69,0,3.1-.83,4.79-2.34v-4.86c-5.87.72-7.85,2.16-7.85,4.39C249.9,312.86,251.23,313.69,253,313.69Z"/><path class="cls-1" d="M267.5,315v-0.14A3.23,3.23,0,0,1,266,312a4.1,4.1,0,0,1,1.91-3.24v-0.14a6.19,6.19,0,0,1-2.27-4.71c0-3.82,3-6.23,6.59-6.23a7,7,0,0,1,2.48.43h6.08v2.27h-3.6a5.07,5.07,0,0,1,1.44,3.6c0,3.74-2.84,6.08-6.41,6.08a6.1,6.1,0,0,1-2.63-.61,2.65,2.65,0,0,0-1.12,2.09c0,1.12.72,1.91,3.1,1.91h3.38c4.07,0,6.12,1.26,6.12,4.18,0,3.24-3.42,6-8.86,6-4.28,0-7.23-1.69-7.23-4.72A5.05,5.05,0,0,1,267.5,315Zm5.11,6.62c3.35,0,5.54-1.73,5.54-3.56,0-1.62-1.26-2.16-3.53-2.16h-3a8.52,8.52,0,0,1-2.27-.29,3.68,3.68,0,0,0-1.8,3C267.54,320.46,269.45,321.64,272.61,321.64Zm3.28-17.71c0-2.56-1.66-4.07-3.71-4.07s-3.71,1.51-3.71,4.07,1.69,4.17,3.71,4.17S275.89,306.49,275.89,303.93Z"/><path class="cls-1" d="M290.47,297.71c4.46,0,7,3.2,7,8.21a10.4,10.4,0,0,1-.11,1.62H285.54c0.22,3.78,2.48,6.16,5.83,6.16a7.9,7.9,0,0,0,4.36-1.37l1,1.94a10.41,10.41,0,0,1-5.76,1.8c-4.68,0-8.39-3.42-8.39-9.14S286.47,297.71,290.47,297.71Zm4.39,7.88c0-3.56-1.58-5.54-4.32-5.54-2.45,0-4.68,2-5,5.54h9.36Z"/><path class="cls-1" d="M309.19,320.71c2,0,3.24-1.58,4-3.74l0.4-1.3-7-17.53h3.06l3.56,9.68c0.54,1.51,1.15,3.31,1.69,4.93H315c0.5-1.58,1-3.38,1.48-4.93l3.13-9.68h2.88l-6.59,18.93c-1.22,3.46-3,6.08-6.55,6.08a5.81,5.81,0,0,1-2.05-.36l0.58-2.34A5.13,5.13,0,0,0,309.19,320.71Z"/><path class="cls-1" d="M332.26,297.71c4.46,0,7,3.2,7,8.21a10.4,10.4,0,0,1-.11,1.62H327.33c0.22,3.78,2.48,6.16,5.83,6.16a7.9,7.9,0,0,0,4.36-1.37l1,1.94a10.41,10.41,0,0,1-5.76,1.8c-4.68,0-8.39-3.42-8.39-9.14S328.27,297.71,332.26,297.71Zm4.39,7.88c0-3.56-1.58-5.54-4.32-5.54-2.45,0-4.68,2-5,5.54h9.36Z"/><path class="cls-1" d="M343.57,300.55H341v-2.23l2.74-.18,0.36-4.9h2.48v4.9h4.71v2.41h-4.71v9.72c0,2.16.68,3.38,2.7,3.38a6.36,6.36,0,0,0,2-.47l0.58,2.23a10.79,10.79,0,0,1-3.24.65c-3.74,0-5-2.37-5-5.83v-9.68Z"/><polygon class="cls-1" points="0 40 2 40 2 2 40 2 40 0 0 0 0 40"/><polygon class="cls-1" points="472 0 472 2 510 2 510 40 512 40 512 0 472 0"/><polygon class="cls-1" points="510 510 472 510 472 512 512 512 512 472 510 472 510 510"/><polygon class="cls-1" points="2 472 0 472 0 512 40 512 40 510 2 510 2 472"/></svg>
-            }
+                { isLoading && (
+                    <Placeholder
+                        icon="format-image"
+                        label={__('Loading video...', 'blocklib')}
+                        className="wp-block-image"
+                    >
+                        <Spinner />
+                    </Placeholder>
+                )}
+                { !videoID && (
+                    <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1484_31)">
+<path d="M95.3145 174.691H96.75L96.8965 176.168H96.9609C97.9336 175.195 98.9883 174.41 100.4 174.41C102.551 174.41 103.523 175.805 103.523 178.418V184.916H101.766V178.676C101.766 176.754 101.18 175.934 99.8262 175.934C98.7715 175.934 98.0684 176.484 97.0195 177.516V184.939H95.2617V174.691H95.3145Z" fill="black"/>
+<path d="M110.842 174.439C113.35 174.439 115.588 176.402 115.588 179.836C115.588 183.27 113.35 185.191 110.842 185.191C108.334 185.191 106.096 183.229 106.096 179.836C106.096 176.443 108.328 174.439 110.842 174.439ZM110.842 183.762C112.6 183.762 113.771 182.18 113.771 179.836C113.771 177.492 112.6 175.869 110.842 175.869C109.084 175.869 107.912 177.475 107.912 179.836C107.912 182.197 109.09 183.762 110.842 183.762Z" fill="black"/>
+<path d="M181.166 187.916C182.338 187.916 183.064 186.99 183.51 185.725L183.744 184.963L179.643 174.691H181.436L183.521 180.363C183.838 181.248 184.195 182.303 184.512 183.252H184.57C184.863 182.326 185.156 181.271 185.438 180.363L187.271 174.691H188.959L185.098 185.783C184.383 187.811 183.34 189.346 181.26 189.346C180.85 189.348 180.443 189.277 180.059 189.135L180.398 187.764C180.647 187.848 180.905 187.899 181.166 187.916Z" fill="black"/>
+<path d="M194.684 174.439C197.297 174.439 198.785 176.314 198.785 179.25C198.788 179.568 198.767 179.885 198.721 180.199H191.795C191.924 182.414 193.248 183.809 195.211 183.809C196.123 183.799 197.012 183.519 197.766 183.006L198.352 184.143C197.355 184.82 196.181 185.187 194.977 185.197C192.234 185.197 190.061 183.193 190.061 179.842C190.061 176.49 192.346 174.439 194.684 174.439ZM197.256 179.057C197.256 176.971 196.33 175.811 194.725 175.811C193.289 175.811 191.982 176.982 191.795 179.057H197.279H197.256Z" fill="black"/>
+<path d="M201.311 176.104H199.805V174.797L201.41 174.691L201.621 171.82H203.074V174.691H205.834V176.104H203.074V181.799C203.074 183.064 203.473 183.779 204.656 183.779C205.059 183.752 205.455 183.659 205.828 183.504L206.168 184.811C205.558 185.034 204.918 185.163 204.27 185.191C202.078 185.191 201.34 183.803 201.34 181.775V176.104H201.311Z" fill="black"/>
+<path d="M0 23.4375H1.17188V1.17188H23.4375V0H0V23.4375Z" fill="black"/>
+<path d="M276.562 0V1.17188H298.828V23.4375H300V0H276.562Z" fill="black"/>
+<path d="M298.828 298.828H276.562V300H300V276.562H298.828V298.828Z" fill="black"/>
+<path d="M1.17188 276.562H0V300H23.4375V298.828H1.17188V276.562Z" fill="black"/>
+<path d="M133.225 174.598L129.377 185.005H127.75L123.902 174.598H125.636L128.509 182.891H128.618L131.49 174.598H133.225Z" fill="black"/>
+<path d="M135.336 185.005V174.598H136.935V185.005H135.336ZM136.149 172.863C135.837 172.863 135.568 172.757 135.342 172.545C135.121 172.332 135.01 172.077 135.01 171.779C135.01 171.481 135.121 171.226 135.342 171.013C135.568 170.801 135.837 170.695 136.149 170.695C136.46 170.695 136.727 170.801 136.948 171.013C137.174 171.226 137.287 171.481 137.287 171.779C137.287 172.077 137.174 172.332 136.948 172.545C136.727 172.757 136.46 172.863 136.149 172.863Z" fill="black"/>
+<path d="M143.793 185.222C142.926 185.222 142.16 185.003 141.496 184.564C140.832 184.122 140.313 183.498 139.938 182.694C139.563 181.886 139.376 180.93 139.376 179.828C139.376 178.735 139.563 177.787 139.938 176.983C140.313 176.179 140.835 175.557 141.503 175.119C142.172 174.681 142.944 174.462 143.82 174.462C144.498 174.462 145.033 174.575 145.426 174.801C145.824 175.022 146.126 175.275 146.334 175.56C146.546 175.84 146.711 176.07 146.829 176.251H146.964V171.128H148.563V185.005H147.018V183.406H146.829C146.711 183.595 146.544 183.835 146.327 184.124C146.11 184.409 145.801 184.664 145.399 184.89C144.997 185.111 144.462 185.222 143.793 185.222ZM144.01 183.785C144.651 183.785 145.193 183.618 145.636 183.284C146.079 182.945 146.415 182.478 146.646 181.881C146.876 181.281 146.991 180.587 146.991 179.801C146.991 179.024 146.878 178.344 146.652 177.762C146.427 177.175 146.092 176.718 145.65 176.393C145.207 176.063 144.66 175.898 144.01 175.898C143.332 175.898 142.768 176.072 142.316 176.42C141.869 176.763 141.532 177.231 141.307 177.823C141.085 178.41 140.975 179.069 140.975 179.801C140.975 180.542 141.087 181.215 141.313 181.82C141.544 182.421 141.882 182.9 142.33 183.257C142.781 183.609 143.341 183.785 144.01 183.785Z" fill="black"/>
+<path d="M156.077 185.222C155.074 185.222 154.209 185 153.482 184.558C152.76 184.11 152.202 183.487 151.809 182.688C151.42 181.884 151.226 180.949 151.226 179.882C151.226 178.816 151.42 177.877 151.809 177.064C152.202 176.246 152.748 175.609 153.448 175.153C154.153 174.692 154.975 174.462 155.915 174.462C156.457 174.462 156.992 174.552 157.52 174.733C158.049 174.914 158.53 175.207 158.964 175.614C159.397 176.016 159.743 176.549 160 177.213C160.258 177.877 160.387 178.694 160.387 179.666V180.343H152.364V178.961H158.76C158.76 178.374 158.643 177.85 158.408 177.389C158.178 176.928 157.848 176.565 157.419 176.298C156.994 176.032 156.493 175.898 155.915 175.898C155.278 175.898 154.727 176.057 154.261 176.373C153.801 176.684 153.446 177.091 153.198 177.592C152.949 178.094 152.825 178.631 152.825 179.205V180.126C152.825 180.912 152.961 181.579 153.232 182.125C153.507 182.667 153.889 183.081 154.377 183.365C154.864 183.645 155.431 183.785 156.077 183.785C156.497 183.785 156.877 183.726 157.216 183.609C157.559 183.487 157.855 183.306 158.103 183.067C158.352 182.823 158.544 182.52 158.679 182.159L160.224 182.593C160.061 183.117 159.788 183.577 159.404 183.975C159.02 184.368 158.546 184.675 157.981 184.896C157.417 185.113 156.782 185.222 156.077 185.222Z" fill="black"/>
+<path d="M167.047 185.222C166.107 185.222 165.283 184.998 164.574 184.551C163.869 184.104 163.318 183.478 162.921 182.674C162.528 181.87 162.331 180.93 162.331 179.855C162.331 178.771 162.528 177.825 162.921 177.016C163.318 176.208 163.869 175.58 164.574 175.133C165.283 174.686 166.107 174.462 167.047 174.462C167.986 174.462 168.809 174.686 169.513 175.133C170.222 175.58 170.773 176.208 171.166 177.016C171.564 177.825 171.763 178.771 171.763 179.855C171.763 180.93 171.564 181.87 171.166 182.674C170.773 183.478 170.222 184.104 169.513 184.551C168.809 184.998 167.986 185.222 167.047 185.222ZM167.047 183.785C167.761 183.785 168.348 183.602 168.809 183.236C169.269 182.871 169.61 182.389 169.832 181.793C170.053 181.197 170.164 180.551 170.164 179.855C170.164 179.16 170.053 178.512 169.832 177.911C169.61 177.31 169.269 176.824 168.809 176.454C168.348 176.084 167.761 175.898 167.047 175.898C166.333 175.898 165.746 176.084 165.285 176.454C164.825 176.824 164.483 177.31 164.262 177.911C164.041 178.512 163.93 179.16 163.93 179.855C163.93 180.551 164.041 181.197 164.262 181.793C164.483 182.389 164.825 182.871 165.285 183.236C165.746 183.602 166.333 183.785 167.047 183.785Z" fill="black"/>
+<path d="M168.884 122.663L160.971 127.721C160.839 124.688 158.402 122.267 155.395 122.267H134.506C131.413 122.267 128.906 124.819 128.906 127.963V133.351V135.88V142.191C128.906 145.336 131.413 147.887 134.506 147.887H155.395C158.405 147.887 160.84 145.464 160.971 142.433L168.884 147.492C170.177 148.359 171.23 147.721 171.23 146.068V124.09C171.246 122.434 170.183 121.793 168.884 122.663ZM154.767 127.091C155.689 127.091 156.438 127.843 156.438 128.762C156.438 129.685 155.689 130.433 154.767 130.433C153.843 130.433 153.096 129.685 153.096 128.762C153.096 127.843 153.84 127.091 154.767 127.091Z" fill="#1D1D1B"/>
+</g>
+<defs>
+<clipPath id="clip0_1484_31">
+<rect width="300" height="300" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+
+                )}
+                { !! videoID && videoData?.source_url ? (
+                    <video
+                        {...blockProps}
+                        onClick={handleVideoClick}
+                        src={ db_data.siteUrl + videoData.source_url }
+                        width={ videoWidth }
+                        height={ videoHeight }
+                        data-persistentid={ persistentID }
+                        className={[
+                            blockName,
+                            manualClasses || ''
+                        ].filter(Boolean).join(' ')}
+                    ></video>
+                ) : null}
         </Fragment>
     )
 }

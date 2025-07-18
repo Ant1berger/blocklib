@@ -49,7 +49,8 @@
     inset-inline-end: .2rem;
 }
 
-.add-media-query {
+.add-media-query,
+.add-media {
     display: block;
     inline-size: 100%;
     margin-block-end: 1rem;
@@ -98,8 +99,12 @@
 /* Image and image perf panel */
 .delete-image {
     position: relative;
-    right: calc(-100% + 2.4rem);
-
+    right: calc(-100% + 1.5rem);
+}
+.delete-video {
+    position: absolute;
+    right: 16px;
+    margin-top: -34px;
 }
 .lcp-controls {
     display: flex;
@@ -120,4 +125,18 @@
 
 .components-toggle-control__help {
     margin: 0 0 5px 0;
+}
+
+/* Popover */
+.blocklib-popover .components-popover__content {
+    padding: 1rem 2rem;
+    width: 40rem;
+}
+
+.blocklib-popover .no-margin {
+    margin: 0;
+}
+
+.blocklib-popover code {
+    display: block;
 }

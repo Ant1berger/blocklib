@@ -3,9 +3,13 @@
 
 export default function save(props) {
     const { attributes } = props;
-    const { videoURL, persistentID } = attributes;
+    const { videoFile, persistentID } = attributes;
+
+    const siteUrl = (typeof db_data !== 'undefined' && db_data.siteUrl)
+        ? db_data.siteUrl
+        : window.location.origin;
 
     return (
-        <video src={ videoURL } data-persistentid={ persistentID }></video>
+        <video src={`${siteUrl}/wp-content/uploads/${videoFile}`} data-persistentid={ persistentID }></video>
     );
 }

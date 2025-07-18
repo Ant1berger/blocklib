@@ -13,6 +13,8 @@
 
         add_component($componentName);
     }
+
+    $attachment_id = $attributes['videoID'];
 ?>
 
 <?php
@@ -32,15 +34,14 @@ if (!empty($attributes['renderedMediaQueries'])) {
             echo ' ' . $attributes['manualClasses'];
         }
     ?>"
-    src="<?php echo $attributes['videoURL']; ?>"
+    <?php if (wp_get_attachment_url($attachment_id)) { ?>
+        src="<?php echo get_site_url() . wp_get_attachment_url($attachment_id); ?>"
+    <?php } ?>
     <?php if (!empty($attributes['videoWidth'])) { ?>
         width="<?php echo $attributes['videoWidth']; ?>"
     <?php } ?>
     <?php if (!empty($attributes['videoHeight'])) { ?>
         height="<?php echo $attributes['videoHeight']; ?>"
-    <?php } ?>
-    <?php if (!empty($attributes['posterURL'])) { ?>
-        poster="<?php echo $attributes['posterURL']; ?>"
     <?php } ?>
     <?php if (!empty($attributes['autoplay'])) { ?>
         autoplay
@@ -57,8 +58,11 @@ if (!empty($attributes['renderedMediaQueries'])) {
     <?php if (!empty($attributes['muted'])) { ?>
         muted
     <?php } ?>
-    <?php if (!empty($attributes['preload'])) { ?>
-        preload="<?php echo $attributes['preload']; ?>"
+    <?php if (!empty($attributes['videoPreload'])) { ?>
+        preload="<?php echo $attributes['videoPreload']; ?>"
+    <?php } ?>
+    <?php if (!empty($attributes['videoFetchPriority'])) { ?>
+        fetchpriority="<?php echo $attributes['videoFetchPriority']; ?>"
     <?php } ?>
     <?php
         $controlslist_values = [];
@@ -76,8 +80,5 @@ if (!empty($attributes['renderedMediaQueries'])) {
             echo 'controlslist="' . esc_attr($controlslist_attribute_value) . '"';
         }
     ?>
-    <?php if (!empty($attributes['anchor'])) { ?>
-        id="<?php echo $attributes['anchor']; ?>"
-    <?php } ?>
     <?php echo wp_kses_post($attributes['otherAttributes']); ?>
 ></video>

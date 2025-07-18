@@ -63,7 +63,7 @@ ${query.css ? `${query.css}` : ''}
         setAttributes({renderedMediaQueries: renderMediaQueries()});
     }, [persistentID, renderMediaQueries()] );
 
-    // Add and remove images
+    // Add and remove image
     const onSelectImage = picture => {
         setAttributes({
             pictureID: picture.id,
@@ -188,7 +188,7 @@ ${query.css ? `${query.css}` : ''}
                             render={ ( { open } ) => (
                                 <div>
                                     { ! pictureID &&
-                                        <Button variant="secondary" onClick={ open }>
+                                        <Button variant="primary" onClick={ open } className="add-media">
                                             {__( 'Select an image', 'bloclklib' )}
                                         </Button>
                                     }
@@ -262,7 +262,7 @@ ${query.css ? `${query.css}` : ''}
                     <Text>
                     {
                         hasLCP && !isThisImageLCP
-                            ? __('Warning: Another image is currently set as LCP. Clicking those buttons will override the previous setting.', 'blocklib')
+                            ? __('Warning: Another media is currently set as LCP. Clicking those buttons will override the previous setting.', 'blocklib')
                             : __('Manage LCP for this post.', 'blocklib')
                     }
                     </Text>
@@ -316,7 +316,7 @@ ${query.css ? `${query.css}` : ''}
                     </BaseControl>
                     <BaseControl
                         __nextHasNoMarginBottom
-                        help={__( 'Don\'t overuse fetch priority, but use it when one image has to be loaded first among others, even below the fold.', 'bloclklib' )}
+                        help={__( 'Don\'t overuse fetch priority, but use it when one element has to be loaded first among others, even below the fold.', 'bloclklib' )}
                     >
                         <SelectControl
                             __nextHasNoMarginBottom
