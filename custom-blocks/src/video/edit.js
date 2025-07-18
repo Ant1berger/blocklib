@@ -365,19 +365,19 @@ ${query.css ? `${query.css}` : ''}
                         __nextHasNoMarginBottom
                         help={__( 'Don\'t lazy load images above the fold, but all the others.', 'bloclklib' )}
                     >
-                    <SelectControl
-                        __nextHasNoMarginBottom
-                        help={__( '"Metadata" setting suits most of the cases. If LCP, "auto" will be automatically set. Use "none" only if you care a lot about bandwidth.', 'bloclklib' )}
-                        label={__('Preload', 'bloclklib')}
-                        value={videoPreload}
-                        options={[
-                            { label: __('Metadata', 'bloclklib'), value: 'metadata' },
-                            { label: __('Auto', 'bloclklib'), value: 'auto' },
-                            { label: __('None', 'bloclklib'), value: 'none' },
-                        ]}
-                        onChange={(val) => setAttributes({ videoPreload: val })}
-                        disabled={isThisVideoLCP}
-                    />
+                        <SelectControl
+                            __nextHasNoMarginBottom
+                            help={__( '"Metadata" setting suits most of the cases. If LCP, "auto" will be automatically set. Use "none" only if you care a lot about bandwidth.', 'bloclklib' )}
+                            label={__('Preload', 'bloclklib')}
+                            value={videoPreload}
+                            options={[
+                                { label: __('Metadata', 'bloclklib'), value: 'metadata' },
+                                { label: __('Auto', 'bloclklib'), value: 'auto' },
+                                { label: __('None', 'bloclklib'), value: 'none' },
+                            ]}
+                            onChange={(val) => setAttributes({ videoPreload: val })}
+                            disabled={isThisVideoLCP}
+                        />
                     </BaseControl>
                     <BaseControl
                         __nextHasNoMarginBottom

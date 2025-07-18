@@ -125,13 +125,17 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                     { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
-                    <TextControl
+                    <BaseControl
                         __nextHasNoMarginBottom
-                        label={ __( 'Custom marker', 'bloclklib' ) }
-                        value={ customMarker || '' }
-                        onChange={ ( value ) => setAttributes( { customMarker: value } ) }
-                        placeholder={ __( 'Paste data-uri\'ed <svg>', 'blocklib' ) }
-                    />
+                        help={__( '!!! Paste DATA-URI\'ed <svg> !!!', 'bloclklib' )}
+                    >
+                        <TextControl
+                            label={ __( 'Custom marker', 'bloclklib' ) }
+                            value={ customMarker || '' }
+                            onChange={ ( value ) => setAttributes( { customMarker: value } ) }
+                            placeholder={ __( '!!! Paste DATA-URI\'ed <svg> !!!', 'blocklib' ) }
+                        />
+                    </BaseControl>
                 </PanelBody>
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <TextControl
