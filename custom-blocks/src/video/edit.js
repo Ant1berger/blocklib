@@ -158,10 +158,10 @@ ${query.css ? `${query.css}` : ''}
                     <p>{__( 'To add a poster for this video, don\'t use the poster="..." attribute: it\'s not responsive and it can\'t be lazy loaded. Instead, with a bit of CSS, position an Image and a Knob blocks above the video following this structure:' )}</p>
                     <code>{__( 'An encompassing Group with the class "video-with-poster".', 'bloclklib' )}</code>
                     <code>{__( '|' )}</code>
-                    <code>{__( '|——> A Knob (the "play" button).', 'bloclklib' )}</code>
-                    <code>{__( '|——> An Image (the poster, keep it the same ratio as the video).', 'bloclklib' )}</code>
                     <code>{__( '|——> The Video.', 'bloclklib' )}</code>
-                    <p>{__( 'A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image will disappear and the video will start playing.' )}</p>
+                    <code>{__( '|——> An Image (the poster, keep it the same ratio as the video).', 'bloclklib' )}</code>
+                    <code>{__( '|——> A Knob (the "play" button).', 'bloclklib' )}</code>
+                    <p>{__( 'A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image and the button will disappear and the video will start playing.' )}</p>
                 </Popover> }
             </Button>
         );

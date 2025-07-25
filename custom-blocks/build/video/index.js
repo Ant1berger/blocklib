@@ -1014,13 +1014,13 @@ ${query.css ? `${query.css}` : ''}
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("code", {
           children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("code", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> A Knob (the "play" button).', 'bloclklib')
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> The Video.', 'bloclklib')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("code", {
           children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> An Image (the poster, keep it the same ratio as the video).', 'bloclklib')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("code", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> The Video.', 'bloclklib')
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> A Knob (the "play" button).', 'bloclklib')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image will disappear and the video will start playing.')
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image and the button will disappear and the video will start playing.')
         })]
       })]
     });

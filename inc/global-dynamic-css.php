@@ -42,6 +42,7 @@ return '
 /* Global */
 /*********/
 
+/* This should not be here but in the WordPress CSS editor. It could be different for each website. */
 /* carefull with those two : test contrast for accessibility. Should be optional. */
 /* * {
     scrollbar-color: var(--brand_1) var(--brand_2);
@@ -96,14 +97,12 @@ return '
 
     body {
         margin: 0;
-        font-family: var(--font_1);
-        font-size: 1rem;
-        color: var(--grey_start);
         min-inline-size: 20rem;
         min-block-size: 100vh;
         display: flex;
         flex-direction: column;
 
+        /* This should not be here but in the WordPress CSS editor. It could be different for each website. */
         &:has(.menuOpen) {
             overflow: hidden;
 
@@ -139,36 +138,5 @@ return '
         z-index: 1000000;
     }
 }
-
-/* To hide page title on editing area. */
-.editor-visual-editor__post-title-wrapper {
-    display: none;
-}
-
-/* To see white stuff in composition editor. */
-.block-editor-iframe__body:not(.post-type-page) {
-    background-color: #eeeeee;
-}
-
-/* Disable styles of some intermediary editor blocks to preserve the WYSIWYG experience */
-/* For Stage and Dropdown blocks */
-.is-root-container .stage > .block-editor-inner-blocks,
-.is-root-container .stage > .block-editor-inner-blocks > .block-editor-block-list__layout,
-.is-root-container .stage-content > .block-editor-inner-blocks,
-.is-root-container .stage-content > .block-editor-inner-blocks > .block-editor-block-list__layout,
-.is-root-container .dropdown > .block-editor-inner-blocks,
-.is-root-container .dropdown > .block-editor-inner-blocks > .block-editor-block-list__layout {
-    display: contents;
-}
-
-/* To apply a background image to iframes when they have no url yet. */
-.is-root-container iframe.embed[src=""] {
-    background-image: url(' . get_template_directory_uri() . '/assets/images/iframe.webp);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    background-color: lightgray;
-}
-
 ';
 }

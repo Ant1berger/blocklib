@@ -865,6 +865,8 @@ function Edit(props) {
   const [selectBGColorOptions, setSelectBGColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const [selectBorderColorOptions, setSelectBorderColorOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const [selectFontOptions, setSelectFontOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+  const [isEditingHidden, setIsEditingHidden] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
+  const [overlayColor, setOverlayColor] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('#f5f5f5');
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
 
   // Fetches datas from WP database and pass it to the themeOptions state.
@@ -929,6 +931,7 @@ ${query.css ? `${query.css}` : ''}`}`;
     });
   }, [persistentID, renderMediaQueries()]);
   const leftSvg = (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.parseSVG)(leftIcon);
+  const iframeBody = document.querySelector('iframe[name="editor-canvas"]').contentDocument?.body || document.querySelector('iframe[name="editor-canvas"]').contentWindow?.document?.body;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
@@ -1093,13 +1096,44 @@ ${query.css ? `${query.css}` : ''}`}`;
           }),
           placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add HTML ID if needed (no spaces)', 'blocklib')
         })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Alternative editing', 'bloclklib'),
+        initialOpen: false,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
+          __nextHasNoMarginBottom: true,
+          help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Use this to edit some hidden content.', 'bloclklib'),
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            className: "alternative-editing",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+              variant: "secondary",
+              onClick: () => {
+                setIsEditingHidden(!isEditingHidden);
+                if (!isEditingHidden) {
+                  iframeBody.style.setProperty('--alt-edit-overlay-bg', overlayColor);
+                }
+              },
+              children: isEditingHidden ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Stop editing', 'bloclklib') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Start editing', 'bloclklib')
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              type: "color",
+              value: overlayColor,
+              onChange: e => {
+                const newColor = e.target.value;
+                setOverlayColor(newColor);
+                if (isEditingHidden) {
+                  iframeBody.style.setProperty('--alt-edit-overlay-bg', newColor);
+                }
+              },
+              title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Overlay color', 'bloclklib')
+            })]
+          })
+        })
       })]
     }), renderedMediaQueries && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("style", {
       children: renderedMediaQueries
     }), React.createElement(tag, {
       ...blockProps,
       'data-persistentid': persistentID,
-      className: [blockName, leftIcon ? '-leftIcon' : '', invisibleText ? '-invisibleText' : '', fullWidth ? '-fullWidth' : '', hoverState ? hoverState : '', manualClasses || ''].filter(Boolean).join(' ')
+      className: [blockName, isEditingHidden ? 'beingAlternativelyEdited' : '', leftIcon ? '-leftIcon' : '', invisibleText ? '-invisibleText' : '', fullWidth ? '-fullWidth' : '', hoverState ? hoverState : '', manualClasses || ''].filter(Boolean).join(' ')
     }, leftSvg, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
       className: `${blockName}-text`,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {

@@ -16,6 +16,8 @@ export default function Edit(props) {
     const [selectColorOptions, setSelectColorOptions] = useState([]);
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
     const [selectFontOptions, setSelectFontOptions] = useState([]);
+    const [isEditingHidden, setIsEditingHidden] = useState(false);
+    const [overlayColor, setOverlayColor] = useState('#f5f5f5');
     const blockProps = useBlockProps();
 
     // Fetches datas from WP database and pass it to the themeOptions state.
@@ -78,6 +80,8 @@ ${query.css ? `${query.css}` : ''}`
 
     const leftSvg = parseSVG(leftIcon);
     const rightSvg = parseSVG(rightIcon);
+
+    const iframeBody = document.querySelector('iframe[name="editor-canvas"]').contentDocument?.body || document.querySelector('iframe[name="editor-canvas"]').contentWindow?.document?.body;
 
     return (
         <Fragment>
@@ -248,6 +252,38 @@ ${query.css ? `${query.css}` : ''}`
                         placeholder={ __( 'Add HTML ID if needed (no spaces)', 'blocklib' ) }
                     />
                 </PanelBody>
+                <PanelBody title={ __( 'Alternative editing', 'bloclklib' ) } initialOpen={false}>
+                    <BaseControl
+                        __nextHasNoMarginBottom
+                        help={ __( 'Use this to edit some hidden content.', 'bloclklib' )}
+                    >
+                        <div className="alternative-editing">
+                            <Button
+                                variant="secondary"
+                                onClick={() => {
+                                    setIsEditingHidden(!isEditingHidden);
+                                    if (!isEditingHidden) {
+                                        iframeBody.style.setProperty('--alt-edit-overlay-bg', overlayColor);
+                                    }
+                                }}
+                            >
+                                {isEditingHidden ? __('Stop editing', 'bloclklib') : __('Start editing', 'bloclklib')}
+                            </Button>
+                            <input
+                                type="color"
+                                value={overlayColor}
+                                onChange={(e) => {
+                                    const newColor = e.target.value;
+                                    setOverlayColor(newColor);
+                                    if (isEditingHidden) {
+                                        iframeBody.style.setProperty('--alt-edit-overlay-bg', newColor);
+                                    }
+                                }}
+                                title={__('Overlay color', 'bloclklib')}
+                            />
+                        </div>
+                    </BaseControl>
+                </PanelBody>
             </InspectorControls>
             { renderedMediaQueries && <style>{ renderedMediaQueries }</style> }
             { React.createElement(
@@ -257,6 +293,7 @@ ${query.css ? `${query.css}` : ''}`
                     'data-persistentid': persistentID,
                     className: [
                         blockName,
+                        isEditingHidden ? 'beingAlternativelyEdited' : '',
                         leftIcon ? '-leftIcon' : '',
                         rightIcon ? '-rightIcon' : '',
                         hoverState ? hoverState : '',

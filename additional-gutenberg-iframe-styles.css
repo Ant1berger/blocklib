@@ -1,0 +1,62 @@
+/* Alternative editing for hidden texts. */
+.alternative-editing {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+*:has(.beingAlternativelyEdited) {
+    display: block !important;
+}
+
+body:has(.beingAlternativelyEdited)::after {
+    content: "";
+    position: fixed;
+    z-index: 998;
+    inset: 0;
+    height: 100%;
+    background-color: var(--alt-edit-overlay-bg, oklch(0.95 0 0));
+    transition: background-color .2s;
+}
+
+body:has(.beingAlternativelyEdited) {
+    overflow: hidden;
+}
+
+.beingAlternativelyEdited {
+    position: fixed !important;
+    top: 100px !important;
+    left: 70px !important;
+    z-index: 999 !important;
+    visibility: visible !important;
+}
+
+/* To hide page title on editing area. */
+.editor-visual-editor__post-title-wrapper {
+    display: none;
+}
+
+/* To see white stuff in composition editor. */
+.block-editor-iframe__body:not(.post-type-page) {
+    background-color: #eeeeee;
+}
+
+/* Disable styles of some intermediary editor blocks to preserve the WYSIWYG experience */
+/* For Stage and Dropdown blocks */
+.is-root-container .stage > .block-editor-inner-blocks,
+.is-root-container .stage > .block-editor-inner-blocks > .block-editor-block-list__layout,
+.is-root-container .stage-content > .block-editor-inner-blocks,
+.is-root-container .stage-content > .block-editor-inner-blocks > .block-editor-block-list__layout,
+.is-root-container .dropdown > .block-editor-inner-blocks,
+.is-root-container .dropdown > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    display: contents;
+}
+
+/* To apply a background image to iframes when they have no url yet. */
+.is-root-container iframe.embed[src=""] {
+    background-image: url(assets/images/iframe.webp);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: lightgray;
+}

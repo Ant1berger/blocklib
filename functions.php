@@ -411,7 +411,7 @@ add_action('admin_enqueue_scripts', 'theme_admin_styles');
 //****************************
 // For the Gutenberg interface.
 function add_scripts_to_gutenberg() {
-    wp_enqueue_style( 'additional-gutenberg-styles', get_theme_file_uri('/additional-gutenberg-styles.css'), array(), '1.0');
+    wp_enqueue_style( 'additional-gutenberg-ui-styles', get_theme_file_uri('/additional-gutenberg-ui-styles.css'), array(), '1.0');
     wp_enqueue_script( 'additional-gutenberg-ui-scripts', get_theme_file_uri('/additional-gutenberg-ui-scripts.js'), array(), '1.0', true);
 
     // To pass database stuff to editor's JavaScript.
@@ -424,11 +424,6 @@ function add_scripts_to_gutenberg() {
     );
 }
 add_action('enqueue_block_editor_assets', 'add_scripts_to_gutenberg');
-
-// For inside the editing area iframe to get a true WYSIWYG.
-add_action('enqueue_block_editor_assets', function() {
-    wp_add_inline_style('wp-edit-blocks', get_custom_block_common_styles());
-});
 
 // For the editor iframe AND UI (avoid using it for UI only, use the above instead).
 function enqueue_editor_iframe_assets() {
@@ -445,10 +440,19 @@ function enqueue_editor_iframe_assets() {
             '1.0.0',
             true
         );
-        // Could enqueue styles also with wp_enqueue_styles.
+        wp_enqueue_style(
+            'additional-gutenberg-iframe-scripts',
+            get_theme_file_uri('/additional-gutenberg-iframe-styles.css')
+        );
     }
 }
 add_action( 'enqueue_block_assets', 'enqueue_editor_iframe_assets' );
+
+// For inside the editing area iframe to get a true WYSIWYG.
+// This one doesn't work like the others.
+add_action('enqueue_block_editor_assets', function() {
+    wp_add_inline_style('wp-edit-blocks', get_custom_block_common_styles());
+});
 
 //****************************
 // Bring blocks styles (blocks global styles AND instances styles) into the <head> for a better page quality in the front-end.
