@@ -21,7 +21,7 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            setSelectBGColorOptions(handleWPOptionsColorsForSelects(settings.theme_colors, __( 'Select a background color', 'bloclklib' )));
+            setSelectBGColorOptions(handleWPOptionsColorsForSelects(settings.color_matching_mapping, __( 'Select a background color', 'bloclklib' )));
         })
         .catch((error) => {
             console.error('Erreur lors de la récupération des options de thème :', error);
