@@ -724,13 +724,15 @@ const handleWPOptionsColorsForSelects = (optionId, emptyOptionText) => {
     label: emptyOptionText,
     value: ''
   }];
-  for (const property in optionId) {
-    if (optionId[property]) {
-      optionsArray.push({
-        label: property,
-        value: 'var(--' + property + ')'
-      });
-    }
+  if (Array.isArray(optionId)) {
+    optionId.forEach(colorItem => {
+      if (colorItem.variable && colorItem.color) {
+        optionsArray.push({
+          label: `${colorItem.variable} (${colorItem.color})`,
+          value: `var(${colorItem.variable})`
+        });
+      }
+    });
   }
   ;
   return optionsArray;

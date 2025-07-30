@@ -62,10 +62,15 @@ export const parseSVG = (svgString) => {
 // Generates the choices for <select>s from wp_options for colors.
 export const handleWPOptionsColorsForSelects = (optionId, emptyOptionText) => {
     let optionsArray = [{ label: emptyOptionText, value: '' }];
-    for (const property in optionId) {
-        if( optionId[property] ) {
-            optionsArray.push({ label: property, value: 'var(--' + property + ')' });
-        }
+    if (Array.isArray(optionId)) {
+        optionId.forEach(colorItem => {
+            if (colorItem.variable && colorItem.color) {
+                optionsArray.push({
+                    label: `${colorItem.variable} (${colorItem.color})`,
+                    value: `var(${colorItem.variable})`
+                });
+            }
+        });
     };
     return optionsArray;
 }
@@ -73,7 +78,6 @@ export const handleWPOptionsColorsForSelects = (optionId, emptyOptionText) => {
 // Generates the choices for <select>s from wp_options for fonts.
 export const handleWPOptionsFontsForSelects = (optionId, emptyOptionText) => {
     let optionsArray = [{ label: emptyOptionText, value: '' }];
-
     if (Array.isArray(optionId)) {
         optionId.forEach(fontItem => {
             if (fontItem.variable && fontItem.font_family) {

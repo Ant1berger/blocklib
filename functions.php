@@ -501,172 +501,32 @@ add_action('shutdown', function () {
 }, 0);
 
 //****************************
-// Add theme customizer options.
+// Managing colors and fonts for wp_options.
 //****************************
-add_action( 'customize_register', 'my_theme_customize_register' );
-function my_theme_customize_register( $wp_customize ) {
 
-    // Add Graphic Chart panel
-    $wp_customize->add_panel( 'graphic_chart_panel', array(
-        'title' => __( 'Graphic Chart', 'blocklib' ),
-        'description' => __( 'Manage styles of the site: colors, fonts, etc.', 'blocklib' ),
-        'priority' => 10,
-    ));
-
-    // Add Colors section
-    $wp_customize->add_section(
-        // ID
-        'colors_section',
-        // Arguments array
-        array(
-            'title' => __( 'Colors', 'blocklib' ),
-            'panel' => 'graphic_chart_panel',
-            'capability' => 'edit_theme_options',
-            'description' => __( 'Manage theme\'s colors.', 'blocklib' )
-        )
-    );
-
-    // Sanitize colors
-
-    function sanitize_css_color($color) {
-        if (empty($color)) {
-            return '';
-        }
-
-        $color = trim($color);
-
-        $color_patterns = array(
-            // Hex colors (#fff, #ffffff)
-            '/^#([A-Fa-f0-9]{3}){1,2}$/',
-
-            // Hex colors with alpha (#fff8, #ffffff88)
-            '/^#([A-Fa-f0-9]{4}){1,2}$/',
-
-            // RGB and RGBA - old and new syntaxes
-            '/^rgb\(\s*(\d{1,3}(?:\.\d+)?%?)\s*(?:,\s*|\s+)(\d{1,3}(?:\.\d+)?%?)\s*(?:,\s*|\s+)(\d{1,3}(?:\.\d+)?%?)\s*(?:\/\s*(0|1|0?\.\d+|(?:\d{1,3})?%))?\s*\)$/',
-
-            // HSL and HSLA - old and new syntaxes
-            '/^hsl\(\s*(\d+|calc\([^)]+\))\s*(?:(?:,\s*(\d{1,3}%)\s*,\s*(\d{1,3}%)|(?:\s+\d{1,3}%\s+\d{1,3}%)))\s*(?:\/\s*(0|1|0?\.\d+|(?:\d{1,3})?%))?\s*\)$/',
-
-            // LCH
-            '/^lch\(\s*(\d+(?:\.\d+)?%?|0?\.\d+%?)\s+(\d+(?:\.\d+)?%?|0?\.\d+%?)\s+(\d+(?:\.\d+)?(?:deg|rad|grad|turn)?|0?\.\d+(?:deg|rad|grad|turn)?)\s*(?:\/\s*(\d+(?:\.\d+)?%?|0?\.\d+%?))?\s*\)$/i',
-
-            // OKLCH
-            '/^oklch\(\s*(\d+(?:\.\d+)?%?|0?\.\d+%?)\s+(\d+(?:\.\d+)?%?|0?\.\d+%?)\s+(\d+(?:\.\d+)?(?:deg|rad|grad|turn)?|0?\.\d+(?:deg|rad|grad|turn)?)\s*(?:\/\s*(\d+(?:\.\d+)?%?|0?\.\d+%?))?\s*\)$/i',
-
-            // Keywords
-            '/^(aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|rebeccapurple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen|transparent|currentcolor|inherit)$/i',
-        );
-
-        foreach ($color_patterns as $pattern) {
-            if (preg_match($pattern, $color)) {
-                return $color;
-            }
-        }
-
-        return '';
-    }
-
-    // Add colors array setting.
-    $wp_customize->add_setting( 'theme_colors[brand_1]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[brand_2]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[brand_3]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[brand_4]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[brand_5]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[brand_6]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[brand_7]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[brand_8]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[brand_9]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[brand_10]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[cool]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[relax]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[warning]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[danger]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[grey_start]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[grey_end]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-    $wp_customize->add_setting( 'theme_colors[transparent]', array( 'default' => '', 'type' => 'option', 'capability' => 'edit_theme_options', 'sanitize_callback' => 'sanitize_css_color' ));
-
-    // Add each color setting.
-    /* !!! WARNING !!! Carfull when changing control keys. Old keys will persist in the array. Check phpMyAdmin if cleaning is needed. */
-    $wp_customize->add_control(
-        'brand_1', array( 'label' => __( 'Brand 1', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_1]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'brand_2', array( 'label' => __( 'Brand 2', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_2]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'brand_3', array( 'label' => __( 'Brand 3', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_3]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'brand_4', array( 'label' => __( 'Brand 4', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_4]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'brand_5', array( 'label' => __( 'Brand 5', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_5]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'brand_6', array( 'label' => __( 'Brand 6', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_6]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'brand_7', array( 'label' => __( 'Brand 7', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_7]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'brand_8', array( 'label' => __( 'Brand 8', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_8]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'brand_9', array( 'label' => __( 'Brand 9', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_9]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'brand_10', array( 'label' => __( 'Brand 10', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[brand_10]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'cool', array( 'label' => __( 'Cool', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[cool]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'relax', array( 'label' => __( 'Relax', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[relax]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'warning', array( 'label' => __( 'Warning', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[warning]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'danger', array( 'label' => __( 'Danger', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[danger]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'grey_start', array( 'label' => __( 'Grey start', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[grey_start]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'grey_end', array( 'label' => __( 'Grey end', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[grey_end]', 'type' => 'text' )
-    );
-
-    $wp_customize->add_control(
-        'transparent', array( 'label' => __( 'Transparent', 'blocklib' ), 'section' => 'colors_section', 'settings' => 'theme_colors[transparent]', 'type' => 'text' )
-    );
+// They get a dedicated page
+if (is_admin()) {
+    require_once get_template_directory() . '/inc/graphic-chart-page.php';
 }
 
-// Need to expose theme options in the REST API.
-function mytheme_register_theme_options_in_rest() {
+// Need to expose colors and fonts in the REST API.
+function expose_graphic_chart_in_rest() {
 
-    register_setting('general', 'theme_colors', [
+    register_setting('general', 'color_matching_mapping', [
         'show_in_rest' => [
             'schema' => [
-                'type' => 'object',
-                'additionalProperties' => [
-                    'type' => 'string'
-                ],
+                'type' => 'array',
+                'items' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'variable' => [
+                            'type' => 'string'
+                        ],
+                        'color' => [
+                            'type' => 'string'
+                        ]
+                    ]
+                ]
             ],
         ],
         'type' => 'array',
@@ -694,11 +554,38 @@ function mytheme_register_theme_options_in_rest() {
         'default' => [],
     ]);
 }
-add_action('rest_api_init', 'mytheme_register_theme_options_in_rest');
+add_action('rest_api_init', 'expose_graphic_chart_in_rest');
 
-//****************************
-// A new way to manage fonts with WP 6.5 Font Manager.
-//****************************
+// Saving colors matchings in wp_options
+function save_color_matching_mapping($mappings) {
+    update_option('color_matching_mapping', $mappings);
+}
+
+// Retrieving colors matchings (empty array if nothing)
+function get_color_matching_mapping() {
+    return get_option('color_matching_mapping', []);
+}
+
+function generate_color_css_variables() {
+    $mappings = get_color_matching_mapping();
+
+    if (empty($mappings)) {
+        return '';
+    }
+
+    $css_variables = [];
+
+    foreach ($mappings as $mapping) {
+        $variable_name = $mapping['variable'];
+        $color = $mapping['color'];
+
+        $css_variables[] = "{$variable_name}: {$color};";
+    }
+
+    return implode("\n", $css_variables);
+}
+
+// A new way to manage @font-face with WP 6.5 Font Manager.
 function get_fonts_from_global_styles() {
     $global_styles_posts = get_posts([
         'post_type' => 'wp_global_styles',
@@ -739,18 +626,14 @@ function get_fonts_from_global_styles() {
     return $fonts_data;
 }
 
-// Saving matchings in wp_options
+// Saving font matchings in wp_options
 function save_font_matching_mapping($mappings) {
     update_option('font_matching_mapping', $mappings);
 }
 
-// Retrieving matchings (empty array if nothing)
+// Retrieving font matchings (empty array if nothing)
 function get_font_matching_mapping() {
     return get_option('font_matching_mapping', []);
-}
-
-if (is_admin()) {
-    require_once get_template_directory() . '/inc/font-matching-page.php';
 }
 
 function generate_font_css_variables() {
@@ -769,11 +652,11 @@ function generate_font_css_variables() {
         $css_variables[] = "{$variable_name}: {$font_family};";
     }
 
-    return implode('; ', $css_variables);
+    return implode("\n", $css_variables);
 }
 
 //****************************
-// Register meta field for used fonts and use it
+// Register meta field for used fonts and use it (for generating preloads).
 //****************************
 function register_used_fonts_meta() {
     register_post_meta('', 'used_fonts', [
@@ -825,7 +708,7 @@ function generate_font_preloads() {
 add_action('wp_head', 'generate_font_preloads', 1);
 
 //****************************
-// Register meta field for LCP datas and use it.
+// Register meta field for LCP datas and use it (to generate preloads also).
 //****************************
 function register_gutenberg_custom_fields() {
     register_post_meta( '', 'lcp_preload', [

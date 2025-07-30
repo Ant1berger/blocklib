@@ -6,14 +6,22 @@ return '
 /* Order matters: keep variables first */
 /*************************************/
 
+/**********/
+/* Fonts: */
+/* @font-face are automatically created and injected into the <head> by the WP Font Manager and that is great! */
+/* So nothing here, look for <style class="wp-fonts-local"> to find them. */
+/********/
+
 /**************/
 /* Variables */
 /************/
 
 :root {
 
-' . writeCssVariablesFromThemeOptions( 'theme_colors' ) . '
+/* Generated colors variables */
+' . generate_color_css_variables() . '
 
+/* Generated fonts variables */
 ' . generate_font_css_variables() . '
 
     /* Some recurring lengths */
@@ -33,10 +41,6 @@ return '
         }
     }
 }
-
-/**********/
-/* Fonts: @font-face are automatically created and injected into the <head> by the new WP Font Manager and that is great! */
-/********/
 
 /***********/
 /* Global */

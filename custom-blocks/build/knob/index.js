@@ -724,13 +724,15 @@ const handleWPOptionsColorsForSelects = (optionId, emptyOptionText) => {
     label: emptyOptionText,
     value: ''
   }];
-  for (const property in optionId) {
-    if (optionId[property]) {
-      optionsArray.push({
-        label: property,
-        value: 'var(--' + property + ')'
-      });
-    }
+  if (Array.isArray(optionId)) {
+    optionId.forEach(colorItem => {
+      if (colorItem.variable && colorItem.color) {
+        optionsArray.push({
+          label: `${colorItem.variable} (${colorItem.color})`,
+          value: `var(${colorItem.variable})`
+        });
+      }
+    });
   }
   ;
   return optionsArray;
@@ -877,9 +879,9 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
-      setSelectColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
-      setSelectBGColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a background color', 'bloclklib')));
-      setSelectBorderColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.theme_colors, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a border color', 'bloclklib')));
+      setSelectColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.color_matching_mapping, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
+      setSelectBGColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.color_matching_mapping, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a background color', 'bloclklib')));
+      setSelectBorderColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.color_matching_mapping, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a border color', 'bloclklib')));
       setSelectFontOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsFontsForSelects)(settings.font_matching_mapping, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
     }).catch(error => {
       console.error('Erreur lors de la récupération des options de thème :', error);
