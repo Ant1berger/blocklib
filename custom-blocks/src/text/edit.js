@@ -24,7 +24,6 @@ export default function Edit(props) {
         apiFetch({ path: '/wp/v2/settings' })
         .then((settings) => {
             setThemeOptions(settings);
-            console.log(settings);
             setSelectColorOptions(handleWPOptionsColorsForSelects(settings.color_matching_mapping, __( 'Select a color', 'bloclklib' )));
             setSelectFontOptions(handleWPOptionsFontsForSelects(settings.font_matching_mapping, __( 'Select a font', 'bloclklib' )));
         })

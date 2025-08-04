@@ -264,6 +264,8 @@ function graphic_chart_admin_page() {
         <form method="post" action="">
             <?php wp_nonce_field('save_font_matching', 'font_matching_nonce'); ?>
 
+            <h2><?php _e('Fonts management', 'blocklib'); ?></h2>
+
             <table class="wp-list-table widefat striped" id="font-variables-table">
                 <thead>
                     <tr>
@@ -356,6 +358,8 @@ function graphic_chart_admin_page() {
         <form method="post" action="">
             <?php wp_nonce_field('save_color_matching', 'color_matching_nonce'); ?>
 
+            <h2 class="colors-management-title"><?php _e('Colors management', 'blocklib'); ?></h2>
+
             <table class="wp-list-table widefat striped" id="color-variables-table">
                 <thead>
                     <tr>
@@ -428,6 +432,10 @@ function graphic_chart_admin_page() {
         }
         .card h2 {
             margin-top: 0;
+        }
+        .colors-management-title {
+            padding-block-start: 20px;
+            border-block-start: 1px solid #afafafff;
         }
         .variable-name-input.error,
         .color-name-input.error {
@@ -537,10 +545,13 @@ function graphic_chart_admin_page() {
             inputVariable.className = 'variable-name-input';
             tdVariable.appendChild(inputVariable);
 
-            // Create the font select (SAFE METHOD)
+            // Create the color input.
             const tdColor = document.createElement('td');
             const inputColor = document.createElement('input');
             inputColor.name = 'colors[]';
+            inputColor.type = 'text';
+            inputColor.className = 'variable-name-input';
+            inputColor.placeholder = '<?php esc_attr_e('e.g: oklch(0.79 0.18 96.46)', 'blocklib'); ?>';
 
             tdColor.appendChild(inputColor);
 

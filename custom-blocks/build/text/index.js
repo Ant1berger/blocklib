@@ -868,7 +868,6 @@ function Edit(props) {
       path: '/wp/v2/settings'
     }).then(settings => {
       setThemeOptions(settings);
-      console.log(settings);
       setSelectColorOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsColorsForSelects)(settings.color_matching_mapping, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a color', 'bloclklib')));
       setSelectFontOptions((0,_blocks__WEBPACK_IMPORTED_MODULE_3__.handleWPOptionsFontsForSelects)(settings.font_matching_mapping, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Select a font', 'bloclklib')));
     }).catch(error => {
