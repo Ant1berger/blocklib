@@ -48,11 +48,11 @@ if (!empty($attributes['renderedMediaQueries'])) {
         if (!empty($attributes['rounded'])) {
             echo ' -rounded';
         }
-        if (!empty($attributes['inverted'])) {
-            echo ' -inverted';
-        }
         if (!empty($attributes['leftIcon'])) {
             echo ' -leftIcon';
+        }
+        if (!empty($attributes['rightIcon'])) {
+            echo ' -rightIcon';
         }
         if (!empty($attributes['invisibleText'])) {
             echo ' -invisibleText';
@@ -72,4 +72,7 @@ if (!empty($attributes['renderedMediaQueries'])) {
 <span class="<?php echo $attributes['blockName']; ?>-text">
     <?php echo $attributes['content']; ?>
 </span>
+<?php if (!empty($attributes['rightIcon'])) { ?>
+    <?php echo $attributes['rightIcon'];?>
+<?php } ?>
 </<?php echo $attributes['tag']; ?>>

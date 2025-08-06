@@ -43,15 +43,19 @@ export default function Edit(props) {
         if (mediaQueries.length > 0) {
             return `[data-persistentid="${persistentID}"] {
 ${mediaQueries.map((query) => {
-                    if (!query.css && !query.predefinedBGColor ) {
+                    if (!query.css && !query.predefinedBGColor && !query.predefinedMaxInlineSize && !query.predefinedPaddingInline ) {
                         return null;
                     } else {
                         return `${query.minWidth ?
 `@media (min-width: ${query.minWidth}px) {
-${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.predefinedBGColor ? `background-color: ${query.predefinedBGColor};` : ''}
+${query.predefinedMaxInlineSize ? `max-inline-size: ${query.predefinedMaxInlineSize};` : ''}
+${query.predefinedPaddingInline ? `padding-inline: ${query.predefinedPaddingInline};` : ''}
 ${query.css ? `${query.css}` : ''}
 }` :
-`${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+`${query.predefinedBGColor ? `background-color: ${query.predefinedBGColor};` : ''}
+${query.predefinedMaxInlineSize ? `max-inline-size: ${query.predefinedMaxInlineSize};` : ''}
+${query.predefinedPaddingInline ? `padding-inline: ${query.predefinedPaddingInline};` : ''}
 ${query.css ? `${query.css}` : ''}`
 }`;
                     }
@@ -84,6 +88,20 @@ ${query.css ? `${query.css}` : ''}`
                                 options={selectBGColorOptions}
                                 value={query.predefinedBGColor}
                                 onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedBGColor', newValue, mediaQueries)}
+                            />
+                            <TextControl
+                                __nextHasNoMarginBottom
+                                label={ __( 'Max inline size', 'bloclklib' ) }
+                                value={query.predefinedMaxInlineSize}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedMaxInlineSize', newValue, mediaQueries)}
+                                placeholder={ __( 'Défault: none', 'blocklib' ) }
+                            />
+                            <TextControl
+                                __nextHasNoMarginBottom
+                                label={ __( 'Padding inline', 'bloclklib' ) }
+                                value={query.predefinedPaddingInline}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedPaddingInline', newValue, mediaQueries)}
+                                placeholder={ __( 'Défault: 0', 'blocklib' ) }
                             />
                             <PanelRow className="monaco-editor">
                                 <MyMonacoEditor

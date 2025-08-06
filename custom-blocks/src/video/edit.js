@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { InspectorControls, useBlockProps, MediaUpload, MediaUploadCheck, store as blockEditorStore} from '@wordpress/block-editor';
 import { Fragment, useEffect } from '@wordpress/element';
 import { MyMonacoEditor, updatePersistentIDs, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
-import { PanelBody, Spinner, Placeholder, PanelRow, TextControl, Button, Popover, BaseControl, __experimentalText as Text, ToggleControl, SelectControl, CheckboxControl, ExternalLink } from '@wordpress/components';
+import { PanelBody, Spinner, Placeholder, PanelRow, TextControl, Button, Modal, BaseControl, __experimentalText as Text, ToggleControl, SelectControl, CheckboxControl, ExternalLink } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -138,32 +138,31 @@ ${query.css ? `${query.css}` : ''}
         }
     }, [isThisVideoLCP]);
 
-    const posterPopover = () => {
-        const [ isVisible, setIsVisible ] = useState( false );
-        const toggleVisible = () => {
-            setIsVisible( ( state ) => ! state );
-        };
+    const posterPopin = () => {
+        const [ isOpen, setOpen ] = useState( false );
+        const openModal = () => setOpen( true );
+        const closeModal = () => setOpen( false );
 
         return (
-            <Button variant="secondary" size="small" onClick={ toggleVisible }>
-                {__( 'Poster instructions', 'bloclklib' )}
-                { isVisible &&
-                <Popover
-                    placement="top-end"
-                    offset={16}
-                    noArrow={false}
-                    className="blocklib-popover"
-                >
-                    <h3>{__( 'Poster instructions:', 'bloclklib' )}</h3>
-                    <p>{__( 'To add a poster for this video, don\'t use the poster="..." attribute: it\'s not responsive and it can\'t be lazy loaded. Instead, with a bit of CSS, position an Image and a Knob blocks above the video following this structure:' )}</p>
+            <>
+            <Button variant="secondary" onClick={ openModal }>
+                { __( 'Poster instructions', 'bloclklib' ) }
+            </Button>
+            { isOpen && (
+                <Modal className='blocklib-popin' title={ __( 'Poster instructions:', 'bloclklib' ) } onRequestClose={ closeModal }>
+                    <p>{__( 'To add a poster for this video, don\'t use the poster="..." attribute: it\'s not responsive and it can\'t be lazy loaded. Instead, with a bit of CSS, position an Image and a Knob blocks above the video following this structure:', 'bloclklib' )}</p>
                     <code>{__( 'An encompassing Group with the class "video-with-poster".', 'bloclklib' )}</code>
                     <code>{__( '|' )}</code>
                     <code>{__( '|——> The Video.', 'bloclklib' )}</code>
                     <code>{__( '|——> An Image (the poster, keep it the same ratio as the video).', 'bloclklib' )}</code>
                     <code>{__( '|——> A Knob (the "play" button).', 'bloclklib' )}</code>
                     <p>{__( 'A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image and the button will disappear and the video will start playing.' )}</p>
-                </Popover> }
-            </Button>
+                    <Button variant="secondary" onClick={ closeModal }>
+                        { __( 'Close', 'bloclklib' ) }
+                    </Button>
+                </Modal>
+            ) }
+            </>
         );
     };
 
@@ -250,7 +249,7 @@ ${query.css ? `${query.css}` : ''}
                         __nextHasNoMarginBottom
                         label={ __( 'Need a poster?', 'bloclklib' ) }
                     >
-                        {posterPopover()}
+                        {posterPopin()}
                     </BaseControl>
                     <ToggleControl
                         label={__('Autoplay', 'custom-blocks')}

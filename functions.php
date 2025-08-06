@@ -382,7 +382,7 @@ function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/group' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/grouping-link' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/image' );
-    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/knob' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/trigger' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/knob-glossy' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/knob-neumo' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/knob-clipped' );
@@ -412,7 +412,7 @@ function custom_allowed_block_types( $allowed_block_types, $block_editor_context
         'custom-blocks/group',
         'custom-blocks/grouping-link',
         'custom-blocks/image',
-        'custom-blocks/knob',
+        'custom-blocks/trigger',
         'custom-blocks/knob-glossy',
         'custom-blocks/knob-neumo',
         'custom-blocks/knob-clipped',

@@ -1,1 +1,1 @@
-{"version":3,"file":"group/index.css","mappings":";;;AAAA;IACI,gCAAgC;AACpC","sources":["webpack://custom-blocks/./src/group/index.css"],"sourcesContent":[".group {\n    background-color: var(--bgColor);\n}\n"],"names":[],"sourceRoot":""}
+{"version":3,"file":"group/index.css","mappings":";;;AAAA,kBAAkB","sources":["webpack://custom-blocks/./src/group/index.css"],"sourcesContent":["/* Nothing here! */\n"],"names":[],"sourceRoot":""}

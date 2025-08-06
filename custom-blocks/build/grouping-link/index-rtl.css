@@ -3,8 +3,7 @@
   \*********************************************************************************************************************************************************************************/
 .grouping-link {
     display: block;
-    color: inherit;
-    background-color: var(--bgColor);
+    color: inherit; /* Because <a> tags have their own color otherwise. */
     text-decoration: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;

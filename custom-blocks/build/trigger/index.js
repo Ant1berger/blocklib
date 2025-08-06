@@ -802,10 +802,10 @@ const updateMediaQuery = (setAttributes, index, field, value, mediaQueries) => {
 
 /***/ }),
 
-/***/ "./src/knob/edit.js":
-/*!**************************!*\
-  !*** ./src/knob/edit.js ***!
-  \**************************/
+/***/ "./src/trigger/edit.js":
+/*!*****************************!*\
+  !*** ./src/trigger/edit.js ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -823,7 +823,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/knob/block.json");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./block.json */ "./src/trigger/block.json");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
@@ -852,9 +852,9 @@ function Edit(props) {
     blockName,
     otherAttributes,
     rounded,
-    inverted,
     hoverState,
     leftIcon,
+    rightIcon,
     invisibleText,
     fullWidth,
     manualClasses,
@@ -905,21 +905,35 @@ function Edit(props) {
     if (mediaQueries.length > 0) {
       return `[data-persistentid="${persistentID}"] {
 ${mediaQueries.map(query => {
-        if (!query.css && !query.predefinedColor && !query.predefinedBGColor && !query.predefinedBorderColor && !query.predefinedFont && !query.predefinedSize) {
+        if (!query.css && !query.predefinedColor && !query.predefinedBGColor && !query.predefinedBorderColor && !query.predefinedBorderStyle && !query.predefinedBorderWidth && !query.predefinedFont && !query.predefinedFontSize && !query.predefinedFontSize && !query.predefinedBorderRadius && !query.predefinedPaddingInline && !query.predefinedPaddingBlock && !query.predefinedGap && !query.predefinedLineHeight) {
           return null;
         } else {
           return `${query.minWidth ? `@media (min-width: ${query.minWidth}px) {
-${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
-${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
-${query.predefinedBorderColor ? `--borderColor: ${query.predefinedBorderColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
-${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
+${query.predefinedColor ? `color: ${query.predefinedColor};` : ''}
+${query.predefinedBGColor ? `background-color: ${query.predefinedBGColor};` : ''}
+${query.predefinedBorderColor ? `border-color: ${query.predefinedBorderColor};` : ''}
+${query.predefinedBorderStyle ? `border-style: ${query.predefinedBorderStyle};` : ''}
+${query.predefinedBorderWidth ? `border-width: ${query.predefinedBorderWidth};` : ''}
+${query.predefinedFont ? `font-family: ${query.predefinedFont};` : ''}
+${query.predefinedFontSize ? `font-size: ${query.predefinedFontSize};` : ''}
+${query.predefinedBorderRadius ? `border-radius: ${query.predefinedBorderRadius};` : ''}
+${query.predefinedPaddingInline ? `padding-inline: ${query.predefinedPaddingInline};` : ''}
+${query.predefinedPaddingBlock ? `padding-block: ${query.predefinedPaddingBlock};` : ''}
+${query.predefinedGap ? `gap: ${query.predefinedGap};` : ''}
+${query.predefinedLineHeight ? `line-height: ${query.predefinedLineHeight};` : ''}
 ${query.css ? `${query.css}` : ''}
-}` : `${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
-${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
-${query.predefinedBorderColor ? `--borderColor: ${query.predefinedBorderColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
-${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
+}` : `${query.predefinedColor ? `color: ${query.predefinedColor};` : ''}
+${query.predefinedBGColor ? `background-color: ${query.predefinedBGColor};` : ''}
+${query.predefinedBorderColor ? `border-color: ${query.predefinedBorderColor};` : ''}
+${query.predefinedBorderStyle ? `border-style: ${query.predefinedBorderStyle};` : ''}
+${query.predefinedBorderWidth ? `border-width: ${query.predefinedBorderWidth};` : ''}
+${query.predefinedFont ? `font-family: ${query.predefinedFont};` : ''}
+${query.predefinedFontSize ? `font-size: ${query.predefinedFontSize};` : ''}
+${query.predefinedBorderRadius ? `border-radius: ${query.predefinedBorderRadius};` : ''}
+${query.predefinedPaddingInline ? `padding-inline: ${query.predefinedPaddingInline};` : ''}
+${query.predefinedPaddingBlock ? `padding-block: ${query.predefinedPaddingBlock};` : ''}
+${query.predefinedGap ? `gap: ${query.predefinedGap};` : ''}
+${query.predefinedLineHeight ? `line-height: ${query.predefinedLineHeight};` : ''}
 ${query.css ? `${query.css}` : ''}`}`;
         }
       }).join('\n')}
@@ -935,7 +949,189 @@ ${query.css ? `${query.css}` : ''}`}`;
     });
   }, [persistentID, renderMediaQueries()]);
   const leftSvg = (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.parseSVG)(leftIcon);
+  const rightSvg = (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.parseSVG)(rightIcon);
   const iframeBody = document.querySelector('iframe[name="editor-canvas"]').contentDocument?.body || document.querySelector('iframe[name="editor-canvas"]').contentWindow?.document?.body;
+  const pouet = () => {
+    const [isVisible, setIsVisible] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
+    const toggleVisible = () => {
+      setIsVisible(state => !state);
+    };
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+      variant: "secondary",
+      size: "small",
+      onClick: toggleVisible,
+      children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Poster instructions', 'bloclklib'), isVisible && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(Popover, {
+        placement: "top-end",
+        offset: 16,
+        noArrow: false,
+        className: "blocklib-popover",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Poster instructions:', 'bloclklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('To add a poster for this video, don\'t use the poster="..." attribute: it\'s not responsive and it can\'t be lazy loaded. Instead, with a bit of CSS, position an Image and a Trigger blocks above the video following this structure:')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('An encompassing Group with the class "video-with-poster".', 'bloclklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> The Video.', 'bloclklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> An Image (the poster, keep it the same ratio as the video).', 'bloclklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> A Trigger (the "play" button).', 'bloclklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image and the button will disappear and the video will start playing.')
+        })]
+      })]
+    });
+  };
+  const hoverPopin = () => {
+    const [isOpen, setOpen] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
+    const openModal = () => setOpen(true);
+    const closeModal = () => setOpen(false);
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+        variant: "secondary",
+        onClick: openModal,
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Show hover samples', 'bloclklib')
+      }), isOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Modal, {
+        className: "blocklib-popin",
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hover and focus samples', 'bloclklib'),
+        onRequestClose: closeModal,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Copy and paste those CSS templates in your block instances CSS to quick style hover and focus states. Change the values afterwards to suit your needs. You can even mix several templates if you like.')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          className: "two-columns",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("pre", {
+            className: "codesample",
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)(`/* "Underlined" hover & focus-visible */
+
+@media(prefers-reduced-motion: no-preference) {
+
+    &:after {
+        transition: block-size .2s;
+    }
+}
+
+position: relative;
+
+&:after {
+    content: "";
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    block-size: 0;
+    background-color: var(--test-color);
+}
+
+&:hover::after,
+&:focus-visible::after,
+&.-current::after {
+    block-size: .2em;
+}`, 'bloclklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("pre", {
+            className: "codesample",
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)(`/* "Inverted" hover & focus-visible */
+
+@media(prefers-reduced-motion: no-preference) {
+
+    transition: background-color .2s, color .2s;
+
+    .-leftIcon svg {
+        transition: fill .2s;
+    }
+}
+
+outline: none;
+
+&:hover,
+&:focus-visible {
+    background-color: transparent;
+    color: var(--test-color);
+}`, 'bloclklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("pre", {
+            className: "codesample",
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)(`/* "Unstuck" hover & focus-visible */
+
+@media(prefers-reduced-motion: no-preference) {
+
+    transition: scale .2s, box-shadow .2s;
+}
+
+scale: 1;
+box-shadow: none;
+outline: none;
+
+&:hover,
+&:focus-visible {
+    scale: 1.05;
+    box-shadow: 0 0.2em 0.5em oklch(from var(--grey_start) l c h / 40%);
+}`, 'bloclklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("pre", {
+            className: "codesample",
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)(`/* "BG Lighten / darken" hover & focus-visible */
+
+@media(prefers-reduced-motion: no-preference) {
+
+    transition: background-color .2s;
+}
+
+outline: none;
+
+/* Ask for a result in HSL to get a constant */
+/* lightening (or darkening) while keeping the same hue. */
+&:hover,
+&:focus-visible {
+    background-color: color-mix(in hsl, #fff 100%, #000000 30%);
+}`, 'bloclklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("pre", {
+            className: "codesample",
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)(`/* "Outlined" hover & focus-visible */
+
+@media(prefers-reduced-motion: no-preference) {
+
+    transition: outline-color .2s;
+}
+
+outline-color: oklch(from var(--grey_end) l c h / 0%);
+outline-width: .3rem;
+outline-offset: .3rem;
+outline-style: dotted;
+
+&:hover,
+&:focus-visible {
+    outline-color: oklch(from var(--grey_end) l c h / 100%);
+}`, 'bloclklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("pre", {
+            className: "codesample",
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)(`/* "Translated icon" hover & focus-visible */
+
+@media(prefers-reduced-motion: no-preference) {
+
+    &.-rightIcon > svg:last-child {
+        transition: translate .2s;
+    }
+}
+
+&.-rightIcon > svg:last-child,
+&.-rightIcon > svg:last-child {
+    translate: 0;
+}
+
+&:hover.-rightIcon > svg:last-child,
+&:focus-visible.-rightIcon > svg:last-child {
+    translate: .5em;
+}`, 'bloclklib')
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+          variant: "secondary",
+          onClick: closeModal,
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Close', 'bloclklib')
+        })]
+      })]
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
@@ -966,6 +1162,18 @@ ${query.css ? `${query.css}` : ''}`}`;
             options: selectBorderColorOptions,
             value: query.predefinedBorderColor,
             onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedBorderColor', newValue, mediaQueries)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Border style', 'bloclklib'),
+            value: query.predefinedBorderStyle,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedBorderStyle', newValue, mediaQueries),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: none', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Border width', 'bloclklib'),
+            value: query.predefinedBorderWidth,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedBorderWidth', newValue, mediaQueries),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: medium', 'blocklib')
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
             __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font', 'bloclklib'),
@@ -974,10 +1182,42 @@ ${query.css ? `${query.css}` : ''}`}`;
             onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedFont', newValue, mediaQueries)
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
             __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Size', 'bloclklib'),
-            value: query.predefinedSize,
-            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedSize', newValue, mediaQueries),
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Font size', 'bloclklib'),
+            value: query.predefinedFontSize,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedFontSize', newValue, mediaQueries),
             placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: inherit', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Border radius', 'bloclklib'),
+            value: query.predefinedBorderRadius,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedBorderRadius', newValue, mediaQueries),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: 0', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Padding inline', 'bloclklib'),
+            value: query.predefinedPaddingInline,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedPaddingInline', newValue, mediaQueries),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: 0', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Padding block', 'bloclklib'),
+            value: query.predefinedPaddingBlock,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedPaddingBlock', newValue, mediaQueries),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: 0', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Gap', 'bloclklib'),
+            value: query.predefinedGap,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedGap', newValue, mediaQueries),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: normal', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Line height', 'bloclklib'),
+            value: query.predefinedLineHeight,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedLineHeight', newValue, mediaQueries),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: normal', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Try "em" unit for other lengths to follow the font-size of your block.', 'bloclklib')
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_blocks__WEBPACK_IMPORTED_MODULE_3__.MyMonacoEditor, {
@@ -1005,22 +1245,23 @@ ${query.css ? `${query.css}` : ''}`}`;
           onChange: () => setAttributes({
             rounded: !rounded
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
-          __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Inverted ?', 'bloclklib'),
-          checked: !!inverted,
-          onChange: () => setAttributes({
-            inverted: !inverted
-          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
           __nextHasNoMarginBottom: true,
-          help: !leftIcon && invisibleText ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hide text only if there is at least one icon, or your knob will be empty!', 'bloclklib') : '',
+          help: !leftIcon && invisibleText ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hide text only if there is at least one icon, or your Trigger will be empty!', 'bloclklib') : '',
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
             __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Left icon', 'bloclklib'),
             value: leftIcon || '',
             onChange: value => setAttributes({
               leftIcon: value
+            }),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Paste <svg>', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Right icon', 'bloclklib'),
+            value: rightIcon || '',
+            onChange: value => setAttributes({
+              rightIcon: value
             }),
             placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Paste <svg>', 'blocklib')
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
@@ -1038,32 +1279,10 @@ ${query.css ? `${query.css}` : ''}`}`;
           onChange: () => setAttributes({
             fullWidth: !fullWidth
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.SelectControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
           __nextHasNoMarginBottom: true,
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hover state', 'bloclklib'),
-          options: [{
-            label: 'Select a state',
-            value: ''
-          }, {
-            label: 'Outlined',
-            value: '-hoverOutlined'
-          }, {
-            label: 'Background darken',
-            value: '-hoverBGDarken'
-          }, {
-            label: 'Background lighten',
-            value: '-hoverBGLighten'
-          }, {
-            label: 'Unstuck',
-            value: '-hoverUnstuck'
-          }, {
-            label: 'Inverted',
-            value: '-hoverInverted'
-          }],
-          value: hoverState,
-          onChange: newValue => setAttributes({
-            hoverState: newValue
-          })
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hover state?', 'bloclklib'),
+          children: hoverPopin()
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Other settings', 'bloclklib'),
@@ -1163,7 +1382,7 @@ ${query.css ? `${query.css}` : ''}`}`;
     }), React.createElement(tag, {
       ...blockProps,
       'data-persistentid': persistentID,
-      className: [blockName, isEditingHidden ? 'beingAlternativelyEdited' : '', rounded ? '-rounded' : '', inverted ? '-inverted' : '', leftIcon ? '-leftIcon' : '', invisibleText ? '-invisibleText' : '', fullWidth ? '-fullWidth' : '', hoverState ? hoverState : '', manualClasses || ''].filter(Boolean).join(' ')
+      className: [blockName, isEditingHidden ? 'beingAlternativelyEdited' : '', rounded ? '-rounded' : '', leftIcon ? '-leftIcon' : '', rightIcon ? '-rightIcon' : '', invisibleText ? '-invisibleText' : '', fullWidth ? '-fullWidth' : '', hoverState ? hoverState : '', manualClasses || ''].filter(Boolean).join(' ')
     }, leftSvg, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
       className: `${blockName}-text`,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
@@ -1174,16 +1393,16 @@ ${query.css ? `${query.css}` : ''}`}`;
         }),
         allowedFormats: ['core/bold', 'core/italic', 'core/underline', 'core/strikethrough', 'core/code', 'core/keyboard', 'core/image', 'core/subscript', 'core/superscript', 'core/language', 'core/non-breaking-space']
       })
-    }))]
+    }), rightSvg)]
   });
 }
 
 /***/ }),
 
-/***/ "./src/knob/save.js":
-/*!**************************!*\
-  !*** ./src/knob/save.js ***!
-  \**************************/
+/***/ "./src/trigger/save.js":
+/*!*****************************!*\
+  !*** ./src/trigger/save.js ***!
+  \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1217,10 +1436,10 @@ function save(props) {
 
 /***/ }),
 
-/***/ "./src/knob/index.css":
-/*!****************************!*\
-  !*** ./src/knob/index.css ***!
-  \****************************/
+/***/ "./src/trigger/index.css":
+/*!*******************************!*\
+  !*** ./src/trigger/index.css ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1537,13 +1756,13 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
 
 /***/ }),
 
-/***/ "./src/knob/block.json":
-/*!*****************************!*\
-  !*** ./src/knob/block.json ***!
-  \*****************************/
+/***/ "./src/trigger/block.json":
+/*!********************************!*\
+  !*** ./src/trigger/block.json ***!
+  \********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/knob","version":"0.1.0","title":"Knob","category":"text","keywords":["blocklib","text","knob","button"],"description":"A fully customizable button.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"rounded":{"type":"boolean","default":false},"inverted":{"type":"boolean","default":false},"hoverState":{"type":"string","default":""},"leftIcon":{"type":"string","default":""},"invisibleText":{"type":"boolean","default":false},"fullWidth":{"type":"boolean","default":false},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/trigger","version":"0.1.0","title":"Trigger","category":"text","keywords":["blocklib","link","trigger","button"],"description":"Buttons or links.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"rounded":{"type":"boolean","default":false},"hoverState":{"type":"string","default":""},"leftIcon":{"type":"string","default":""},"rightIcon":{"type":"string","default":""},"invisibleText":{"type":"boolean","default":false},"fullWidth":{"type":"boolean","default":false},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 
@@ -1618,16 +1837,16 @@ module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/tru
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-/*!***************************!*\
-  !*** ./src/knob/index.js ***!
-  \***************************/
+/*!******************************!*\
+  !*** ./src/trigger/index.js ***!
+  \******************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/knob/edit.js");
-/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./src/knob/save.js");
-/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.css */ "./src/knob/index.css");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/knob/block.json");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit */ "./src/trigger/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./save */ "./src/trigger/save.js");
+/* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.css */ "./src/trigger/index.css");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/trigger/block.json");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
 /**

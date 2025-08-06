@@ -887,13 +887,17 @@ function Edit(props) {
     if (mediaQueries.length > 0) {
       return `[data-persistentid="${persistentID}"] {
 ${mediaQueries.map(query => {
-        if (!query.css && !query.predefinedBGColor) {
+        if (!query.css && !query.predefinedBGColor && !query.predefinedMaxInlineSize && !query.predefinedPaddingInline) {
           return null;
         } else {
           return `${query.minWidth ? `@media (min-width: ${query.minWidth}px) {
-${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.predefinedBGColor ? `background-color: ${query.predefinedBGColor};` : ''}
+${query.predefinedMaxInlineSize ? `max-inline-size: ${query.predefinedMaxInlineSize};` : ''}
+${query.predefinedPaddingInline ? `padding-inline: ${query.predefinedPaddingInline};` : ''}
 ${query.css ? `${query.css}` : ''}
-}` : `${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+}` : `${query.predefinedBGColor ? `background-color: ${query.predefinedBGColor};` : ''}
+${query.predefinedMaxInlineSize ? `max-inline-size: ${query.predefinedMaxInlineSize};` : ''}
+${query.predefinedPaddingInline ? `padding-inline: ${query.predefinedPaddingInline};` : ''}
 ${query.css ? `${query.css}` : ''}`}`;
         }
       }).join('\n')}
@@ -926,6 +930,18 @@ ${query.css ? `${query.css}` : ''}`}`;
             options: selectBGColorOptions,
             value: query.predefinedBGColor,
             onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedBGColor', newValue, mediaQueries)
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Max inline size', 'bloclklib'),
+            value: query.predefinedMaxInlineSize,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedMaxInlineSize', newValue, mediaQueries),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: none', 'blocklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+            __nextHasNoMarginBottom: true,
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Padding inline', 'bloclklib'),
+            value: query.predefinedPaddingInline,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedPaddingInline', newValue, mediaQueries),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: 0', 'blocklib')
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_blocks__WEBPACK_IMPORTED_MODULE_3__.MyMonacoEditor, {
@@ -1015,7 +1031,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // Blocks that use InnerBlocks render with do_blocks( $content ) in render.php, and this takes the whole returned material of save(),
 // unlike with RichText that renders only its value attribute.
-// So in this case, save() has to handle the HTML and HTML attributes of the block instead of render.php.
+// So in this case, it's up to save() to handle the HTML and HTML attributes of the block, not render.php.
 
 
 

@@ -127,16 +127,26 @@
     margin: 0 0 5px 0;
 }
 
-/* Popover */
-.blocklib-popover .components-popover__content {
-    padding: 1rem 2rem;
-    width: 40rem;
-}
-
-.blocklib-popover .no-margin {
-    margin: 0;
-}
-
-.blocklib-popover code {
+/* Popins */
+.blocklib-popin code {
     display: block;
+}
+
+.blocklib-popin p,
+.blocklib-popin p {
+    max-width: 640px;
+}
+
+.two-columns {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.codesample {
+    width: calc(50% - 20px);
+    background-color: oklch(0.9491 0 0);
+    padding: 10px;
+    box-shadow: 0px 3px 5px 0px oklch(0 0 0 / 30%);
+    border-radius: 10px;
 }

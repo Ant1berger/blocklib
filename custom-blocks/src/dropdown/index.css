@@ -1,5 +1,4 @@
 .dropdown {
-    background-color: var(--bgColor);
     display: none;
     grid-template-rows: 0fr;
     @media(prefers-reduced-motion: no-preference) {

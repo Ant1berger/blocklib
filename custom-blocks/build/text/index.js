@@ -892,17 +892,17 @@ function Edit(props) {
     if (mediaQueries.length > 0) {
       return `[data-persistentid="${persistentID}"] {
 ${mediaQueries.map(query => {
-        if (!query.css && !query.predefinedColor && !query.predefinedFont && !query.predefinedSize) {
+        if (!query.css && !query.predefinedColor && !query.predefinedFont && !query.predefinedFontSize) {
           return null;
         } else {
           return `${query.minWidth ? `@media (min-width: ${query.minWidth}px) {
-${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
-${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
+${query.predefinedColor ? `color: ${query.predefinedColor};` : ''}
+${query.predefinedFont ? `font-family: ${query.predefinedFont};` : ''}
+${query.predefinedFontSize ? `font-size: ${query.predefinedFontSize};` : ''}
 ${query.css ? `${query.css}` : ''}
-}` : `${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
-${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
+}` : `${query.predefinedColor ? `color: ${query.predefinedColor};` : ''}
+${query.predefinedFont ? `font-family: ${query.predefinedFont};` : ''}
+${query.predefinedFontSize ? `font-size: ${query.predefinedFontSize};` : ''}
 ${query.css ? `${query.css}` : ''}`}`;
         }
       }).join('\n')}
@@ -945,8 +945,8 @@ ${query.css ? `${query.css}` : ''}`}`;
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
             __nextHasNoMarginBottom: true,
             label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Size', 'bloclklib'),
-            value: query.predefinedSize,
-            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedSize', newValue, mediaQueries),
+            value: query.predefinedFontSize,
+            onChange: newValue => (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.updateMediaQuery)(setAttributes, index, 'predefinedFontSize', newValue, mediaQueries),
             placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Défault: inherit', 'blocklib')
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelRow, {
             className: "monaco-editor",

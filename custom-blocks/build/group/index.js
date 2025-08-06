@@ -892,9 +892,9 @@ ${mediaQueries.map(query => {
           return null;
         } else {
           return `${query.minWidth ? `@media (min-width: ${query.minWidth}px) {
-${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+${query.predefinedBGColor ? `background-color: ${query.predefinedBGColor};` : ''}
 ${query.css ? `${query.css}` : ''}
-}` : `${query.predefinedBGColor ? `--bgColor: ${query.predefinedBGColor};` : ''}
+}` : `${query.predefinedBGColor ? `background-color: ${query.predefinedBGColor};` : ''}
 ${query.css ? `${query.css}` : ''}`}`;
         }
       }).join('\n')}

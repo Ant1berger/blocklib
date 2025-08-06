@@ -44,19 +44,19 @@ export default function Edit(props) {
         if (mediaQueries.length > 0) {
             return `[data-persistentid="${persistentID}"] {
 ${mediaQueries.map((query) => {
-                    if (!query.css && !query.predefinedColor && !query.predefinedFont && !query.predefinedSize ) {
+                    if (!query.css && !query.predefinedColor && !query.predefinedFont && !query.predefinedFontSize ) {
                         return null;
                     } else {
                         return `${query.minWidth ?
 `@media (min-width: ${query.minWidth}px) {
-${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
-${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
+${query.predefinedColor ? `color: ${query.predefinedColor};` : ''}
+${query.predefinedFont ? `font-family: ${query.predefinedFont};` : ''}
+${query.predefinedFontSize ? `font-size: ${query.predefinedFontSize};` : ''}
 ${query.css ? `${query.css}` : ''}
 }` :
-`${query.predefinedColor ? `--color: ${query.predefinedColor};` : ''}
-${query.predefinedFont ? `--fontFamily: ${query.predefinedFont};` : ''}
-${query.predefinedSize ? `--size: ${query.predefinedSize};` : ''}
+`${query.predefinedColor ? `color: ${query.predefinedColor};` : ''}
+${query.predefinedFont ? `font-family: ${query.predefinedFont};` : ''}
+${query.predefinedFontSize ? `font-size: ${query.predefinedFontSize};` : ''}
 ${query.css ? `${query.css}` : ''}`
 }`;
                     }
@@ -100,8 +100,8 @@ ${query.css ? `${query.css}` : ''}`
                             <TextControl
                                 __nextHasNoMarginBottom
                                 label={ __( 'Size', 'bloclklib' ) }
-                                value={query.predefinedSize}
-                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedSize', newValue, mediaQueries)}
+                                value={query.predefinedFontSize}
+                                onChange={(newValue) => updateMediaQuery(setAttributes, index, 'predefinedFontSize', newValue, mediaQueries)}
                                 placeholder={ __( 'Défault: inherit', 'blocklib' ) }
                             />
                             <PanelRow className="monaco-editor">

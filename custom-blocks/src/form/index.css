@@ -1,8 +1,5 @@
 .form {
-    color: var(--color);
-    font-family: var(--fontFamily);
-    font-size: var(--size);
-    accent-color: var(--color);
+    accent-color: currentColor;
 
     .form-group {
         width: 100%;
@@ -24,14 +21,14 @@
     input[type="search"],
     textarea,
     select {
-        font-size: var(--size);
+        font-size: inherit;
         padding: 1em;
-        border: .1em solid var(--color);
+        border: .1em solid currentColor;
         border-radius: .4em;
         width: 100%;
         display: block;
         margin-block-start: .5em;
-        outline-color: oklch(from var(--color) l c h / 0%);
+        outline-color: oklch(from currentColor l c h / 0%);
         outline-width: .3em;
         outline-offset: .2em;
         outline-style: solid;
@@ -40,7 +37,7 @@
         }
 
         &:focus {
-            outline-color: oklch(from var(--color) l c h / 100%);
+            outline-color: oklch(from currentColor l c h / 100%);
         }
     }
 
@@ -53,13 +50,13 @@
 
     input[type="checkbox"],
     input[type="radio"] {
-        font-size: var(--size);
+        font-size: inherit;
         width: 1em;
         height: 1em;
         margin-inline-end: .5em;
 
         &:focus {
-            outline-color: oklch(from var(--color) l c h / 100%);
+            outline-color: oklch(from currentColor l c h / 100%);
         }
     }
 

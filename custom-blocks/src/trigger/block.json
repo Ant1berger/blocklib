@@ -1,12 +1,12 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "custom-blocks/knob",
+	"name": "custom-blocks/trigger",
 	"version": "0.1.0",
-	"title": "Knob",
+	"title": "Trigger",
 	"category": "text",
-    "keywords": [ "blocklib", "text", "knob", "button" ],
-	"description": "A fully customizable button.",
+    "keywords": [ "blocklib", "link", "trigger", "button" ],
+	"description": "Buttons or links.",
 	"example": {},
     "supports": {
         "html": false,
@@ -46,15 +46,15 @@
             "type": "boolean",
             "default": false
         },
-        "inverted": {
-            "type": "boolean",
-            "default": false
-        },
         "hoverState": {
             "type": "string",
             "default": ""
         },
         "leftIcon": {
+            "type": "string",
+            "default": ""
+        },
+        "rightIcon": {
             "type": "string",
             "default": ""
         },

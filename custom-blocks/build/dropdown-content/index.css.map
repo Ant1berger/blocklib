@@ -1,1 +1,1 @@
-{"version":3,"file":"dropdown-content/index.css","mappings":";;;AAAA;IACI,gCAAgC;IAChC,gBAAgB;AACpB","sources":["webpack://custom-blocks/./src/dropdown-content/index.css"],"sourcesContent":[".dropdown-content {\n    background-color: var(--bgColor);\n    overflow: hidden;\n}\n"],"names":[],"sourceRoot":""}
+{"version":3,"file":"dropdown-content/index.css","mappings":";;;AAAA;IACI,gBAAgB;AACpB","sources":["webpack://custom-blocks/./src/dropdown-content/index.css"],"sourcesContent":[".dropdown-content {\n    overflow: hidden;\n}\n"],"names":[],"sourceRoot":""}

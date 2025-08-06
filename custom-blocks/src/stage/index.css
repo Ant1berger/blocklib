@@ -1,5 +1,4 @@
 .stage {
-    background-color: var(--bgColor);
     display: flex;
     justify-content: center;
 }

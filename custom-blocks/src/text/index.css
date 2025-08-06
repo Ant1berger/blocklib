@@ -1,7 +1,4 @@
 .text {
-    color: var(--color);
-    font-family: var(--fontFamily);
-    font-size: var(--size);
     margin: 0;
     text-wrap: pretty;
     hyphens: auto;
