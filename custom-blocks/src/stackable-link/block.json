@@ -6,7 +6,7 @@
 	"title": "Stackable link",
 	"category": "text",
     "keywords": [ "blocklib", "text", "stackable-link" ],
-	"description": "A link that can be stacked for menus, accordions...",
+	"description": "DEPRECATED",
 	"example": {},
     "supports": {
         "html": false,

@@ -88,7 +88,7 @@ function graphic_chart_admin_page() {
 
     // === FORM PROCESSING ===
     // For fonts:
-    if (isset($_POST['submit']) && wp_verify_nonce($_POST['font_matching_nonce'], 'save_font_matching')) {
+    if (isset($_POST['save-fonts-name']) && wp_verify_nonce($_POST['font_matching_nonce'], 'save_font_matching')) {
         $fonts_mappings = [];
         $fonts_has_errors = false;
 
@@ -151,7 +151,7 @@ function graphic_chart_admin_page() {
     }
 
     // For colors:
-    if (isset($_POST['submit']) && wp_verify_nonce($_POST['color_matching_nonce'], 'save_color_matching')) {
+    if (isset($_POST['save-colors-name']) && wp_verify_nonce($_POST['color_matching_nonce'], 'save_color_matching')) {
         $colors_mappings = [];
         $colors_has_errors = false;
 
@@ -332,7 +332,7 @@ function graphic_chart_admin_page() {
                 <button type="button" class="button" id="add-font-row"><?php _e('Add Variable', 'blocklib'); ?></button>
             </p>
 
-            <?php submit_button(__('Save fonts', 'blocklib')); ?>
+            <?php submit_button(__('Save fonts', 'blocklib'), 'primary', 'save-fonts-name', true, array( 'id' => 'save-fonts-id' )); ?>
         </form>
     </div>
 
@@ -418,7 +418,7 @@ function graphic_chart_admin_page() {
                 <button type="button" class="button" id="add-color-row"><?php _e('Add Variable', 'blocklib'); ?></button>
             </p>
 
-            <?php submit_button(__('Save colors', 'blocklib')); ?>
+            <?php submit_button(__('Save colors', 'blocklib'), 'primary', 'save-colors-name', true, array( 'id' => 'save-colors-id' )); ?>
         </form>
     </div>
 
@@ -550,7 +550,7 @@ function graphic_chart_admin_page() {
             const inputColor = document.createElement('input');
             inputColor.name = 'colors[]';
             inputColor.type = 'text';
-            inputColor.className = 'variable-name-input';
+            inputColor.className = 'color-name-input';
             inputColor.placeholder = '<?php esc_attr_e('e.g: oklch(0.79 0.18 96.46)', 'blocklib'); ?>';
 
             tdColor.appendChild(inputColor);

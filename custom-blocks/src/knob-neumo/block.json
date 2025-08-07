@@ -6,7 +6,7 @@
 	"title": "Knob neumorphic",
 	"category": "text",
     "keywords": [ "blocklib", "text", "knob", "button" ],
-	"description": "A fully customizable button.",
+	"description": "DEPRECATED",
 	"example": {},
     "supports": {
         "html": false,

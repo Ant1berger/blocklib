@@ -11,7 +11,7 @@
     "knob",
     "button"
   ],
-  "description": "A fully customizable button.",
+  "description": "DEPRECATED",
   "example": {},
   "supports": {
     "html": false,
