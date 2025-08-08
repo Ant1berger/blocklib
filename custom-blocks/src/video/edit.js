@@ -155,7 +155,7 @@ ${query.css ? `${query.css}` : ''}
                     <code>{__( '|' )}</code>
                     <code>{__( '|——> The Video.', 'bloclklib' )}</code>
                     <code>{__( '|——> An Image (the poster, keep it the same ratio as the video).', 'bloclklib' )}</code>
-                    <code>{__( '|——> A Knob (the "play" button).', 'bloclklib' )}</code>
+                    <code>{__( '|——> A Trigger (the "play" button).', 'bloclklib' )}</code>
                     <p>{__( 'A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image and the button will disappear and the video will start playing.' )}</p>
                     <Button variant="secondary" onClick={ closeModal }>
                         { __( 'Close', 'bloclklib' ) }
