@@ -1,0 +1,36 @@
+.inline-scroll-scroller {
+    overflow: auto;
+    max-inline-size: 100%;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        inline-size: 4rem;
+        block-size: 100%;
+        inset-block-start: 0;
+        pointer-events: none;
+        z-index: 1;
+        display: none;
+    }
+
+    &:has(.inline-scroll-startDetector)::before,
+    &:has(.inline-scroll-endDetector)::after {
+        display: block;
+    }
+
+    &::before {
+        inset-inline-start: 0;
+        background-image: linear-gradient(90deg, var(--grey_end) 0%, oklch(from var(--grey_end) l c h / 0%) 100%); /* Default */
+    }
+
+    &::after {
+        inset-inline-end: 0;
+        background-image: linear-gradient(270deg, var(--grey_end) 0%, oklch(from var(--grey_end) l c h / 0%) 100%); /* Default */
+    }
+
+    &.fullyScrolledStart::before,
+    &.fullyScrolledEnd::after {
+        display: none;
+    }
+}

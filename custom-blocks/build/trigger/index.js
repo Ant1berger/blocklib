@@ -852,7 +852,6 @@ function Edit(props) {
     blockName,
     otherAttributes,
     rounded,
-    hoverState,
     leftIcon,
     rightIcon,
     invisibleText,
@@ -951,40 +950,6 @@ ${query.css ? `${query.css}` : ''}`}`;
   const leftSvg = (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.parseSVG)(leftIcon);
   const rightSvg = (0,_blocks__WEBPACK_IMPORTED_MODULE_3__.parseSVG)(rightIcon);
   const iframeBody = document.querySelector('iframe[name="editor-canvas"]').contentDocument?.body || document.querySelector('iframe[name="editor-canvas"]').contentWindow?.document?.body;
-  const pouet = () => {
-    const [isVisible, setIsVisible] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
-    const toggleVisible = () => {
-      setIsVisible(state => !state);
-    };
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
-      variant: "secondary",
-      size: "small",
-      onClick: toggleVisible,
-      children: [(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Poster instructions', 'bloclklib'), isVisible && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(Popover, {
-        placement: "top-end",
-        offset: 16,
-        noArrow: false,
-        className: "blocklib-popover",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Poster instructions:', 'bloclklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('To add a poster for this video, don\'t use the poster="..." attribute: it\'s not responsive and it can\'t be lazy loaded. Instead, with a bit of CSS, position an Image and a Trigger blocks above the video following this structure:')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('An encompassing Group with the class "video-with-poster".', 'bloclklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> The Video.', 'bloclklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> An Image (the poster, keep it the same ratio as the video).', 'bloclklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("code", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('|——> A Trigger (the "play" button).', 'bloclklib')
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image and the button will disappear and the video will start playing.')
-        })]
-      })]
-    });
-  };
   const hoverPopin = () => {
     const [isOpen, setOpen] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
     const openModal = () => setOpen(true);
@@ -1382,7 +1347,7 @@ outline-style: dotted;
     }), React.createElement(tag, {
       ...blockProps,
       'data-persistentid': persistentID,
-      className: [blockName, isEditingHidden ? 'beingAlternativelyEdited' : '', rounded ? '-rounded' : '', leftIcon ? '-leftIcon' : '', rightIcon ? '-rightIcon' : '', invisibleText ? '-invisibleText' : '', fullWidth ? '-fullWidth' : '', hoverState ? hoverState : '', manualClasses || ''].filter(Boolean).join(' ')
+      className: [blockName, isEditingHidden ? 'beingAlternativelyEdited' : '', rounded ? '-rounded' : '', leftIcon ? '-leftIcon' : '', rightIcon ? '-rightIcon' : '', invisibleText ? '-invisibleText' : '', fullWidth ? '-fullWidth' : '', manualClasses || ''].filter(Boolean).join(' ')
     }, leftSvg, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
       className: `${blockName}-text`,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText, {
@@ -1762,7 +1727,7 @@ var le={wrapper:{display:"flex",position:"relative",textAlign:"initial"},fullWid
   \********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/trigger","version":"0.1.0","title":"Trigger","category":"text","keywords":["blocklib","link","trigger","button"],"description":"Buttons or links.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"rounded":{"type":"boolean","default":false},"hoverState":{"type":"string","default":""},"leftIcon":{"type":"string","default":""},"rightIcon":{"type":"string","default":""},"invisibleText":{"type":"boolean","default":false},"fullWidth":{"type":"boolean","default":false},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"custom-blocks/trigger","version":"0.1.0","title":"Trigger","category":"text","keywords":["blocklib","link","trigger","button"],"description":"Buttons or links.","example":{},"supports":{"html":false,"className":false,"customClassName":false},"attributes":{"anchor":{"type":"string","default":""},"content":{"type":"string","default":""},"persistentID":{"type":"string","default":""},"tag":{"type":"string","default":"a"},"url":{"type":"string","default":"#"},"openInNewTab":{"type":"boolean","default":false},"type":{"type":"string","default":""},"rounded":{"type":"boolean","default":false},"leftIcon":{"type":"string","default":""},"rightIcon":{"type":"string","default":""},"invisibleText":{"type":"boolean","default":false},"fullWidth":{"type":"boolean","default":false},"manualClasses":{"type":"string","default":""},"blockName":{"type":"string","default":""},"otherAttributes":{"type":"string","default":""},"mediaQueries":{"type":"array","default":[]},"renderedMediaQueries":{"type":"string","default":""}},"textdomain":"custom-blocks","render":"file:./render.php","editorScript":"file:./index.js","editorStyle":"file:./index.css"}');
 
 /***/ })
 

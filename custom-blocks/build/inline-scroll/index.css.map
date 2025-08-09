@@ -1,0 +1,1 @@
+{"version":3,"file":"inline-scroll/index.css","mappings":";;;AAAA;IACI,aAAa;IACb,uBAAuB;IACvB,kBAAkB;AACtB","sources":["webpack://custom-blocks/./src/inline-scroll/index.css"],"sourcesContent":[".inline-scroll {\n    display: flex;\n    justify-content: center;\n    position: relative;\n}\n"],"names":[],"sourceRoot":""}

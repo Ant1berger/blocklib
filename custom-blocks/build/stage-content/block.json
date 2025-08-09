@@ -18,7 +18,8 @@
   "supports": {
     "html": false,
     "className": false,
-    "customClassName": false
+    "customClassName": false,
+    "lock": false
   },
   "attributes": {
     "anchor": {
@@ -52,6 +53,13 @@
     "renderedMediaQueries": {
       "type": "string",
       "default": ""
+    },
+    "lock": {
+      "type": "object",
+      "default": {
+        "move": true,
+        "remove": true
+      }
     }
   },
   "textdomain": "custom-blocks",

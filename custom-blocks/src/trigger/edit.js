@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, rounded, hoverState, leftIcon, rightIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
+    const { tag, url, openInNewTab, type, persistentID, blockName, otherAttributes, rounded, leftIcon, rightIcon, invisibleText, fullWidth, manualClasses, mediaQueries = [], renderedMediaQueries, anchor, content } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectColorOptions, setSelectColorOptions] = useState([]);
@@ -100,35 +100,6 @@ ${query.css ? `${query.css}` : ''}`
     const rightSvg = parseSVG(rightIcon);
 
     const iframeBody = document.querySelector('iframe[name="editor-canvas"]').contentDocument?.body || document.querySelector('iframe[name="editor-canvas"]').contentWindow?.document?.body;
-
-    const pouet = () => {
-        const [ isVisible, setIsVisible ] = useState( false );
-        const toggleVisible = () => {
-            setIsVisible( ( state ) => ! state );
-        };
-
-        return (
-            <Button variant="secondary" size="small" onClick={ toggleVisible }>
-                {__( 'Poster instructions', 'bloclklib' )}
-                { isVisible &&
-                <Popover
-                    placement="top-end"
-                    offset={16}
-                    noArrow={false}
-                    className="blocklib-popover"
-                >
-                    <h3>{__( 'Poster instructions:', 'bloclklib' )}</h3>
-                    <p>{__( 'To add a poster for this video, don\'t use the poster="..." attribute: it\'s not responsive and it can\'t be lazy loaded. Instead, with a bit of CSS, position an Image and a Trigger blocks above the video following this structure:' )}</p>
-                    <code>{__( 'An encompassing Group with the class "video-with-poster".', 'bloclklib' )}</code>
-                    <code>{__( '|' )}</code>
-                    <code>{__( '|——> The Video.', 'bloclklib' )}</code>
-                    <code>{__( '|——> An Image (the poster, keep it the same ratio as the video).', 'bloclklib' )}</code>
-                    <code>{__( '|——> A Trigger (the "play" button).', 'bloclklib' )}</code>
-                    <p>{__( 'A script will trigger automatically when reading the class "video-with-poster", having the following effects: on click on the button, the image and the button will disappear and the video will start playing.' )}</p>
-                </Popover> }
-            </Button>
-        );
-    };
 
     const hoverPopin = () => {
         const [ isOpen, setOpen ] = useState( false );
@@ -561,7 +532,6 @@ outline-style: dotted;
                         rightIcon ? '-rightIcon' : '',
                         invisibleText ? '-invisibleText' : '',
                         fullWidth ? '-fullWidth' : '',
-                        hoverState ? hoverState : '',
                         manualClasses || ''
                     ].filter(Boolean).join(' ')
                 },

@@ -395,6 +395,9 @@ function theme_register_blocks() {
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/form' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/embed' );
     register_block_type( get_stylesheet_directory() . '/custom-blocks/build/video' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/inline-scroll' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/inline-scroll-scroller' );
+    register_block_type( get_stylesheet_directory() . '/custom-blocks/build/inline-scroll-content' );
 }
 add_action( 'init', 'theme_register_blocks' );
 
@@ -424,7 +427,10 @@ function custom_allowed_block_types( $allowed_block_types, $block_editor_context
         'custom-blocks/language-switcher',
         'custom-blocks/form',
         'custom-blocks/embed',
-        'custom-blocks/video'
+        'custom-blocks/video',
+        'custom-blocks/inline-scroll',
+        'custom-blocks/inline-scroll-scroller',
+        'custom-blocks/inline-scroll-content'
     );
     return $allowed_block_types;
 }

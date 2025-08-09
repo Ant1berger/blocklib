@@ -1015,7 +1015,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // Blocks that use InnerBlocks render with do_blocks( $content ) in render.php, and this takes the whole returned material of save(),
 // unlike with RichText that renders only its value attribute.
-// So in this case, save() has to handle the HTML and HTML attributes of the block instead of render.php.
+// So in this case, it's up to save() to handle the HTML and HTML attributes of the block, not render.php.
 
 
 

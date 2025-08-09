@@ -1,0 +1,72 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "custom-blocks/inline-scroll-scroller",
+  "version": "0.1.0",
+  "title": "Inline-scroll-scroller",
+  "category": "design",
+  "keywords": [
+    "blocklib",
+    "design",
+    "inline-scroll-scroller"
+  ],
+  "description": "The mandatory direct children of Inline-scroll.",
+  "parent": [
+    "custom-blocks/inline-scroll"
+  ],
+  "allowedBlocks": [
+    "custom-blocks/inline-scroll-content"
+  ],
+  "example": {},
+  "supports": {
+    "html": false,
+    "className": false,
+    "customClassName": false,
+    "lock": false
+  },
+  "attributes": {
+    "anchor": {
+      "type": "string",
+      "default": ""
+    },
+    "persistentID": {
+      "type": "string",
+      "default": ""
+    },
+    "tag": {
+      "type": "string",
+      "default": "div"
+    },
+    "manualClasses": {
+      "type": "string",
+      "default": ""
+    },
+    "blockName": {
+      "type": "string",
+      "default": ""
+    },
+    "otherAttributes": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaQueries": {
+      "type": "array",
+      "default": []
+    },
+    "renderedMediaQueries": {
+      "type": "string",
+      "default": ""
+    },
+    "lock": {
+      "type": "object",
+      "default": {
+        "move": true,
+        "remove": true
+      }
+    }
+  },
+  "textdomain": "custom-blocks",
+  "render": "file:./render.php",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css"
+}

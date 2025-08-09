@@ -42,13 +42,19 @@ body:has(.beingAlternativelyEdited) {
 }
 
 /* Disable styles of some intermediary editor blocks to preserve the WYSIWYG experience */
-/* For Stage and Dropdown blocks */
+/* For Stage, Dropdown and Inline-scroll blocks */
 .is-root-container .stage > .block-editor-inner-blocks,
 .is-root-container .stage > .block-editor-inner-blocks > .block-editor-block-list__layout,
 .is-root-container .stage-content > .block-editor-inner-blocks,
 .is-root-container .stage-content > .block-editor-inner-blocks > .block-editor-block-list__layout,
 .is-root-container .dropdown > .block-editor-inner-blocks,
-.is-root-container .dropdown > .block-editor-inner-blocks > .block-editor-block-list__layout {
+.is-root-container .dropdown > .block-editor-inner-blocks > .block-editor-block-list__layout,
+.is-root-container .inline-scroll > .block-editor-inner-blocks,
+.is-root-container .inline-scroll > .block-editor-inner-blocks > .block-editor-block-list__layout,
+.is-root-container .inline-scroll-scroller > .block-editor-inner-blocks,
+.is-root-container .inline-scroll-scroller > .block-editor-inner-blocks > .block-editor-block-list__layout,
+.is-root-container .inline-scroll-content > .block-editor-inner-blocks,
+.is-root-container .inline-scroll-content > .block-editor-inner-blocks > .block-editor-block-list__layout {
     display: contents;
 }
 
