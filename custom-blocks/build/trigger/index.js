@@ -957,6 +957,7 @@ ${query.css ? `${query.css}` : ''}`}`;
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
         variant: "secondary",
+        "data-class": "flex-item",
         onClick: openModal,
         children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Show hover samples', 'bloclklib')
       }), isOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Modal, {
@@ -964,7 +965,7 @@ ${query.css ? `${query.css}` : ''}`}`;
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hover and focus samples', 'bloclklib'),
         onRequestClose: closeModal,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Copy and paste those CSS templates in your block instances CSS to quick style hover and focus states. Change the values afterwards to suit your needs. You can even mix several templates if you like.')
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Copy and paste those CSS templates in your block instances CSS to quick style hover and focus states. Change the values afterwards to suit your needs. You can even mix several templates if you like.', 'bloclklib')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
           className: "two-columns",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("pre", {
@@ -1247,6 +1248,7 @@ outline-style: dotted;
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
           __nextHasNoMarginBottom: true,
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hover state?', 'bloclklib'),
+          className: "flex-base-control",
           children: hoverPopin()
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {

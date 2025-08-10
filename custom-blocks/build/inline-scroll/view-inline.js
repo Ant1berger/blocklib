@@ -8,7 +8,6 @@ if (inlineScrollers.length > 0) {
     const inlineStartDetector = i.querySelector('.inline-scroll-startDetector');
     const inlineEndDetector = i.querySelector('.inline-scroll-endDetector');
     if (inlineStartDetector || inlineEndDetector) {
-      console.log('there are des détecteurs');
       const extremitiesCallback = entries => {
         entries.forEach(entry => {
           const {

@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 export default function Edit(props) {
     const { attributes, setAttributes, clientId } = props;
-    const { tag, persistentID, blockName, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
+    const { tag, persistentID, blockName, noScrollBar, otherAttributes, manualClasses, mediaQueries = [], renderedMediaQueries, anchor } = attributes;
     const [tagName, setTagName] = useState(tag);
     const [themeOptions, setThemeOptions] = useState({});
     const [selectBGColorOptions, setSelectBGColorOptions] = useState([]);
@@ -106,6 +106,21 @@ ${query.css ? `${query.css}` : ''}`
                     <Button variant="primary" onClick={() => addMediaQuery(setAttributes, mediaQueries)} className="add-media-query">
                     { __( 'Add a media query', 'bloclklib' ) }
                     </Button>
+                    <BaseControl
+                        __nextHasNoMarginBottom
+                        help={ noScrollBar ? __( 'Avoid hiding all scrolling indicators.', 'bloclklib' ) : ''}
+                    >
+                        <ToggleControl
+                            __nextHasNoMarginBottom
+                            label={ __( 'No scroll bar ?', 'bloclklib' ) }
+                            checked={ !! noScrollBar }
+                            onChange={ () =>
+                                setAttributes( {
+                                    noScrollBar: ! noScrollBar,
+                                } )
+                            }
+                        />
+                    </BaseControl>
                 </PanelBody>
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <TextControl
@@ -151,6 +166,7 @@ ${query.css ? `${query.css}` : ''}`
                     'data-persistentid': persistentID,
                     className: [
                         blockName,
+                        noScrollBar ? '-noScrollBar' : '',
                         manualClasses || ''
                     ].filter(Boolean).join(' ')
                 },

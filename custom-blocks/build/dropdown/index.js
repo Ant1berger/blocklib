@@ -910,6 +910,40 @@ ${query.css ? `${query.css}` : ''}`}`;
       renderedMediaQueries: renderMediaQueries()
     });
   }, [persistentID, renderMediaQueries()]);
+  const helpPopin = () => {
+    const [isOpen, setOpen] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
+    const openModal = () => setOpen(true);
+    const closeModal = () => setOpen(false);
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+        variant: "secondary",
+        onClick: openModal,
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Help', 'bloclklib')
+      }), isOpen && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Modal, {
+        className: "blocklib-popin",
+        size: "medium",
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('How to use the Dropdown block', 'bloclklib'),
+        onRequestClose: closeModal,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Dropdowns are used to show or hide content when clicking on a controller. They integrate easily into components that require them. They can be found, for example, in navigation menus, language switchers, and other components like accordions, etc. Here’s how to use them on pages:', 'bloclklib')
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("ol", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Place the dropdown where you want it to appear. Do not change its structure: keep its “Dropdown content” block inside. Then place the content to be shown/hidden inside “Dropdown content”', 'bloclklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add the class “dropdown-controller” to the element that will act as the trigger (most often a Trigger block with the <button type="button"> element).', 'bloclklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Make sure the Dropdown and its controller share a common ancestor that contains no other Dropdowns. Give this ancestor the class “dropdown-parent”.', 'bloclklib')
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("li", {
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Avoid margins and paddings on the Dropdown or its Dropdown-content, as they can interfere with the animation. Prefer using translate or inset properties where possible, or apply spacing to the elements around the dropdown or to the content inside it.', 'bloclklib')
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+          variant: "secondary",
+          onClick: closeModal,
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Close', 'bloclklib')
+        })]
+      })]
+    });
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
@@ -963,6 +997,11 @@ ${query.css ? `${query.css}` : ''}`}`;
           onChange: () => setAttributes({
             openOnHover: !openOnHover
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
+          __nextHasNoMarginBottom: true,
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('How to use?', 'bloclklib'),
+          className: "flex-base-control",
+          children: helpPopin()
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Other settings', 'bloclklib'),

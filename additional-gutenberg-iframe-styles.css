@@ -49,6 +49,8 @@ body:has(.beingAlternativelyEdited) {
 .is-root-container .stage-content > .block-editor-inner-blocks > .block-editor-block-list__layout,
 .is-root-container .dropdown > .block-editor-inner-blocks,
 .is-root-container .dropdown > .block-editor-inner-blocks > .block-editor-block-list__layout,
+.is-root-container .dropdown-content > .block-editor-inner-blocks,
+.is-root-container .dropdown-content > .block-editor-inner-blocks > .block-editor-block-list__layout,
 .is-root-container .inline-scroll > .block-editor-inner-blocks,
 .is-root-container .inline-scroll > .block-editor-inner-blocks > .block-editor-block-list__layout,
 .is-root-container .inline-scroll-scroller > .block-editor-inner-blocks,

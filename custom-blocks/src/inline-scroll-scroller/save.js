@@ -9,7 +9,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
 
 export default function save(props) {
     const { attributes } = props;
-    const { tag, persistentID, blockName, anchor, manualClasses, otherAttributes } = attributes;
+    const { tag, persistentID, blockName, noScrollBar, anchor, manualClasses, otherAttributes } = attributes;
 
     const extraAttributes = {};
     if (anchor) {
@@ -36,6 +36,7 @@ export default function save(props) {
             'data-persistentid': persistentID,
             className: [
                 blockName,
+                noScrollBar ? '-noScrollBar' : '',
                 manualClasses || ''
             ].filter(Boolean).join(' '),
             ...extraAttributes

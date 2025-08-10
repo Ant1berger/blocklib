@@ -45,6 +45,10 @@
       "type": "string",
       "default": ""
     },
+    "noScrollBar": {
+      "type": "boolean",
+      "default": false
+    },
     "otherAttributes": {
       "type": "string",
       "default": ""

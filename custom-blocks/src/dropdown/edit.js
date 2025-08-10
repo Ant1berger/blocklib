@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import { MyMonacoEditor, updatePersistentIDs, handleWPOptionsColorsForSelects, updateTagName, addMediaQuery, removeMediaQuery, updateMediaQuery } from '../blocks';
-import { PanelBody, PanelRow, TextControl, Button, ToggleControl, SelectControl, BaseControl } from '@wordpress/components';
+import { PanelBody, PanelRow, TextControl, Button, Modal, ToggleControl, SelectControl, BaseControl } from '@wordpress/components';
 import { setAttributes } from '@wordpress/blocks';
 import metadata from './block.json';
 import apiFetch from '@wordpress/api-fetch';
@@ -66,6 +66,42 @@ ${query.css ? `${query.css}` : ''}`
         setAttributes({renderedMediaQueries: renderMediaQueries()});
     }, [persistentID, renderMediaQueries()] );
 
+    const helpPopin = () => {
+        const [ isOpen, setOpen ] = useState( false );
+        const openModal = () => setOpen( true );
+        const closeModal = () => setOpen( false );
+
+        return (
+            <>
+            <Button variant="secondary" onClick={ openModal }>
+                { __( 'Help', 'bloclklib' ) }
+            </Button>
+            { isOpen && (
+                <Modal className='blocklib-popin' size="medium" title={ __( 'How to use the Dropdown block', 'bloclklib' ) } onRequestClose={ closeModal }>
+                    <p>{__( 'Dropdowns are used to show or hide content when clicking on a controller. They integrate easily into components that require them. They can be found, for example, in navigation menus, language switchers, and other components like accordions, etc. Here’s how to use them on pages:', 'bloclklib' )}</p>
+                    <ol>
+                        <li>
+                            {__( 'Place the dropdown where you want it to appear. Do not change its structure: keep its “Dropdown content” block inside. Then place the content to be shown/hidden inside “Dropdown content”', 'bloclklib' )}
+                        </li>
+                        <li>
+                            {__( 'Add the class “dropdown-controller” to the element that will act as the trigger (most often a Trigger block with the <button type="button"> element).', 'bloclklib' )}
+                        </li>
+                        <li>
+                            {__( 'Make sure the Dropdown and its controller share a common ancestor that contains no other Dropdowns. Give this ancestor the class “dropdown-parent”.', 'bloclklib' )}
+                        </li>
+                        <li>
+                            {__( 'Avoid margins and paddings on the Dropdown or its Dropdown-content, as they can interfere with the animation. Prefer using translate or inset properties where possible, or apply spacing to the elements around the dropdown or to the content inside it.', 'bloclklib' )}
+                        </li>
+                    </ol>
+                    <Button variant="secondary" onClick={ closeModal }>
+                        { __( 'Close', 'bloclklib' ) }
+                    </Button>
+                </Modal>
+            ) }
+            </>
+        );
+    };
+
     return (
         <Fragment>
             <InspectorControls>
@@ -127,6 +163,13 @@ ${query.css ? `${query.css}` : ''}`
                             } )
                         }
                     />
+                    <BaseControl
+                        __nextHasNoMarginBottom
+                        label={ __( 'How to use?', 'bloclklib' ) }
+                        className="flex-base-control"
+                    >
+                        {helpPopin()}
+                    </BaseControl>
                 </PanelBody>
                 <PanelBody title={ __( 'Other settings', 'bloclklib' ) }>
                     <TextControl

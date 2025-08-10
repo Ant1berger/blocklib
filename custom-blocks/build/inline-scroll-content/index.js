@@ -949,10 +949,10 @@ ${query.css ? `${query.css}` : ''}`}`;
           children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Add a media query', 'bloclklib')
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.BaseControl, {
           __nextHasNoMarginBottom: true,
-          help: !extremitiesDetector ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Avoid hiding every clues of scrolling content', 'bloclklib') : '',
+          help: !extremitiesDetector ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Avoid hiding all scrolling indicators.', 'bloclklib') : '',
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
             __nextHasNoMarginBottom: true,
-            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Extremities detector ?', 'bloclklib'),
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Detect extremities ?', 'bloclklib'),
             checked: !!extremitiesDetector,
             onChange: () => setAttributes({
               extremitiesDetector: !extremitiesDetector

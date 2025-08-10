@@ -8,7 +8,6 @@ if(inlineScrollers.length > 0) {
         const inlineEndDetector = i.querySelector('.inline-scroll-endDetector');
 
         if (inlineStartDetector || inlineEndDetector) {
-            console.log('there are des détecteurs');
             const extremitiesCallback = (entries) => {
                 entries.forEach((entry) => {
                     const { intersectionRatio, target } = entry; // Destructuring: affectation par décomposition.

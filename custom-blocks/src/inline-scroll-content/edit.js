@@ -108,11 +108,11 @@ ${query.css ? `${query.css}` : ''}`
                     </Button>
                     <BaseControl
                         __nextHasNoMarginBottom
-                        help={ !extremitiesDetector ? __( 'Avoid hiding every clues of scrolling content', 'bloclklib' ) : ''}
+                        help={ !extremitiesDetector ? __( 'Avoid hiding all scrolling indicators.', 'bloclklib' ) : ''}
                     >
                         <ToggleControl
                             __nextHasNoMarginBottom
-                            label={ __( 'Extremities detector ?', 'bloclklib' ) }
+                            label={ __( 'Detect extremities ?', 'bloclklib' ) }
                             checked={ !! extremitiesDetector }
                             onChange={ () =>
                                 setAttributes( {

@@ -108,12 +108,12 @@ ${query.css ? `${query.css}` : ''}`
 
         return (
             <>
-            <Button variant="secondary" onClick={ openModal }>
+            <Button variant="secondary" data-class="flex-item" onClick={ openModal }>
                 { __( 'Show hover samples', 'bloclklib' ) }
             </Button>
             { isOpen && (
                 <Modal className='blocklib-popin' title={ __( 'Hover and focus samples', 'bloclklib' ) } onRequestClose={ closeModal }>
-                    <p>{__( 'Copy and paste those CSS templates in your block instances CSS to quick style hover and focus states. Change the values afterwards to suit your needs. You can even mix several templates if you like.' )}</p>
+                    <p>{__( 'Copy and paste those CSS templates in your block instances CSS to quick style hover and focus states. Change the values afterwards to suit your needs. You can even mix several templates if you like.', 'bloclklib' )}</p>
                     <div className='two-columns'>
                         <pre className='codesample'>
                         {__( `/* "Underlined" hover & focus-visible */
@@ -416,6 +416,7 @@ outline-style: dotted;
                     <BaseControl
                         __nextHasNoMarginBottom
                         label={ __( 'Hover state?', 'bloclklib' ) }
+                        className="flex-base-control"
                     >
                         {hoverPopin()}
                     </BaseControl>
