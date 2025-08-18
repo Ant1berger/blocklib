@@ -1,1 +1,0 @@
-{"version":3,"file":"text/index.css","mappings":";;;AAAA;IACI,SAAS;IACT,iBAAiB;IACjB,qBAAa;YAAb,aAAa;;IAEb;QACI,cAAc;IAClB;AACJ","sources":["webpack://custom-blocks/./src/text/index.css"],"sourcesContent":[".text {\n    margin: 0;\n    text-wrap: pretty;\n    hyphens: auto;\n\n    a {\n        color: inherit;\n    }\n}\n"],"names":[],"sourceRoot":""}

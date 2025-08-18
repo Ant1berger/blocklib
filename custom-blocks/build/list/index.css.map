@@ -1,1 +1,0 @@
-{"version":3,"file":"list/index.css","mappings":";;;AAAA;IACI,SAAS;IACT,yBAAyB;AAC7B","sources":["webpack://custom-blocks/./src/list/index.css"],"sourcesContent":[".list {\n    margin: 0;\n    padding-inline-start: 1lh;\n}\n"],"names":[],"sourceRoot":""}

@@ -1,1 +1,0 @@
-{"version":3,"file":"image/index.css","mappings":";;;AAAA;IACI,qBAAqB;IACrB,gBAAgB;IAChB,cAAc;AAClB","sources":["webpack://custom-blocks/./src/image/index.css"],"sourcesContent":[".image {\n    max-inline-size: 100%;\n    block-size: auto;\n    display: block;\n}\n"],"names":[],"sourceRoot":""}
