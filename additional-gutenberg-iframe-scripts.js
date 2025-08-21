@@ -2,7 +2,7 @@
 if(window.parent === window) {
     console.log('Additional Gutenberg IFRAME scripts OUTSIDE iframe');
 } else {
-    console.log('Additional Gutenberg IFRAME scripts INTSIDE iframe');
+    console.log('Additional Gutenberg IFRAME scripts INSIDE iframe');
 }
 
 // =============================================================================

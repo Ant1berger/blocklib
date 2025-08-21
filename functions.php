@@ -1,6 +1,17 @@
 <?php
 
 //****************************
+// Reset cache for debugging.
+//****************************
+add_action('wp_head', function() {
+    if (is_admin() || current_user_can('edit_posts')) {
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+    }
+});
+
+//****************************
 // Remove block theme support.
 //****************************
 remove_theme_support( 'block-templates' );
@@ -545,37 +556,8 @@ add_action('shutdown', function () {
 }, 0);
 
 //****************************
-// Add a meta boxe to allow adding CSS and JS to pages.
+// CSS and JS editors with AJAX bypass for Hostinger WAF
 //****************************
-// Enqueue code editor assets only once for both editors
-function enqueue_custom_editors_assets() {
-    // Check if we're on a post edit screen
-    $screen = get_current_screen();
-    if ($screen && in_array($screen->base, ['post', 'page'])) {
-        // Enqueue base code editor
-        wp_enqueue_code_editor(['type' => 'text/css']);
-
-        // Manually enqueue JavaScript mode for CodeMirror
-        wp_enqueue_script('code-editor');
-        wp_enqueue_style('code-editor');
-
-        // Add JavaScript mode
-        wp_add_inline_script('code-editor', '
-            if (typeof wp !== "undefined" && wp.codeEditor && wp.codeEditor.defaultSettings) {
-                // Ensure JavaScript mode is available
-                if (typeof CodeMirror !== "undefined") {
-                    // Load JavaScript mode if not already loaded
-                    if (!CodeMirror.modes.javascript) {
-                        CodeMirror.defineMode("javascript", function() {
-                            return CodeMirror.getMode({}, "text/javascript");
-                        });
-                    }
-                }
-            }
-        ');
-    }
-}
-add_action('admin_enqueue_scripts', 'enqueue_custom_editors_assets');
 // Add meta box for custom CSS
 function add_custom_css_meta_box() {
     add_meta_box(
@@ -589,212 +571,119 @@ function add_custom_css_meta_box() {
 }
 add_action('add_meta_boxes', 'add_custom_css_meta_box');
 
-// Meta box callback
+// Meta box callback for CSS with AJAX
 function custom_css_meta_box_callback($post) {
-    wp_nonce_field('custom_css_meta_box_nonce', 'custom_css_meta_box_nonce');
-
     $custom_css = get_post_meta($post->ID, '_custom_css', true);
 
+    echo '<div id="custom-css-container">';
     echo '<label for="custom_css">' . __('Add your custom CSS:', 'blocklib') . '</label>';
-    echo '<textarea id="custom_css" name="custom_css" rows="15" style="width:100%;">' . esc_textarea($custom_css) . '</textarea>';
-    echo '<p><em>' . __('This CSS will only be loaded on this specific page.', 'blocklib') . '</em></p>';
+    echo '<textarea id="custom_css" rows="15" style="width:100%; font-family: monospace; font-size: 13px; background: #f9f9f9; border: 1px solid #ddd; padding: 10px;">' . esc_textarea($custom_css) . '</textarea>';
+    echo '<p><em>' . __('This CSS will be saved automatically when you save/update the page.', 'blocklib') . '</em></p>';
+    echo '</div>';
 
-    echo '<style>
-.CodeMirror {
-    border: 1px solid #ddd;
-}
-</style>';
-
-    // Initialize CodeMirror with proper save handling
     echo '<script>
         document.addEventListener("DOMContentLoaded", function() {
-            let editor;
+            const textarea = document.getElementById("custom_css");
             let previewStyle = null;
-            let iframePreviewStyle = null;
             let previewTimeout = null;
+            let isProcessing = false;
 
-            if (typeof wp !== "undefined" && wp.codeEditor) {
-                const settings = wp.codeEditor.defaultSettings ? wp.codeEditor.defaultSettings : {};
+            // Live preview function
+            function updatePreview() {
+                const cssContent = textarea.value;
 
-                const editorSettings = Object.assign({}, settings, {
-                    codemirror: Object.assign({}, settings.codemirror || {}, {
-                        mode: "css",
-                        lineNumbers: false,
-                        lineWrapping: true,
-                        indentUnit: 2,
-                        tabSize: 2,
-                        theme: "default"
-                    })
-                });
+                // Remove existing preview
+                if (previewStyle) {
+                    previewStyle.remove();
+                }
 
-                const cssEditorInstance = wp.codeEditor.initialize("custom_css", editorSettings);
+                // Add new preview if content exists
+                if (cssContent.trim()) {
+                    previewStyle = document.createElement("style");
+                    previewStyle.id = "custom-css-live-preview";
+                    previewStyle.textContent = cssContent;
+                    document.head.appendChild(previewStyle);
 
-                if (cssEditorInstance && cssEditorInstance.codemirror) {
-                    editor = cssEditorInstance.codemirror;
+                    // Try to inject into Gutenberg iframe too
+                    const editorIframe = document.querySelector("iframe[name=\"editor-canvas\"]");
+                    if (editorIframe && editorIframe.contentDocument) {
+                        const existingIframeStyle = editorIframe.contentDocument.getElementById("custom-css-live-preview");
+                        if (existingIframeStyle) {
+                            existingIframeStyle.remove();
+                        }
 
-                    // Save functionality
-                    const cssForm = document.getElementById("post");
-                    if (cssForm) {
-                        cssForm.addEventListener("submit", function(e) {
-                            editor.save();
-                        });
-
-                        const saveButtons = cssForm.querySelectorAll("input[type=submit], button[type=submit], #publish, #save-post");
-                        saveButtons.forEach(function(button) {
-                            button.addEventListener("click", function() {
-                                editor.save();
-                            });
-                        });
+                        const iframeStyle = editorIframe.contentDocument.createElement("style");
+                        iframeStyle.id = "custom-css-live-preview";
+                        iframeStyle.textContent = cssContent;
+                        editorIframe.contentDocument.head.appendChild(iframeStyle);
                     }
-
-                    editor.on("blur", function() {
-                        editor.save();
-                    });
-
-                    // Function to find and inject CSS into Gutenberg iframe
-                    function injectCSSIntoEditor(cssContent) {
-                        // Try to find the Gutenberg editor iframe
-                        const editorIframe = document.querySelector("iframe[name=\"editor-canvas\"]");
-
-                        if (editorIframe && editorIframe.contentDocument) {
-                            const iframeDoc = editorIframe.contentDocument;
-
-                            // Remove existing preview style from iframe
-                            if (iframePreviewStyle) {
-                                iframePreviewStyle.remove();
-                            }
-
-                            if (cssContent.trim()) {
-                                // Create and inject new style into iframe
-                                iframePreviewStyle = iframeDoc.createElement("style");
-                                iframePreviewStyle.id = "custom-css-live-preview";
-                                iframePreviewStyle.textContent = cssContent;
-                                iframeDoc.head.appendChild(iframePreviewStyle);
-                            }
-                        }
-
-                        // Also inject into main admin page (for non-iframe elements)
-                        if (previewStyle) {
-                            previewStyle.remove();
-                        }
-
-                        if (cssContent.trim()) {
-                            previewStyle = document.createElement("style");
-                            previewStyle.id = "custom-css-admin-preview";
-                            previewStyle.textContent = cssContent;
-                            document.head.appendChild(previewStyle);
-                        }
-                    }
-
-                    // Wait for Gutenberg to be loaded, then apply existing CSS
-                    function waitForEditor() {
-                        const editorIframe = document.querySelector("iframe[name=\"editor-canvas\"]");
-                        if (editorIframe && editorIframe.contentDocument) {
-                            const initialCSS = editor.getValue();
-                            if (initialCSS.trim()) {
-                                injectCSSIntoEditor(initialCSS);
-                            }
-                        } else {
-                            // Retry after 500ms if iframe not ready
-                            setTimeout(waitForEditor, 500);
-                        }
-                    }
-
-                    // Start waiting for editor
-                    setTimeout(waitForEditor, 1000);
-
-                    // Update preview on every change with debounce
-                    editor.on("change", function() {
-                        // Clear existing timeout to debounce
-                        if (previewTimeout) {
-                            clearTimeout(previewTimeout);
-                        }
-
-                        // Set new timeout (300ms after user stops typing)
-                        previewTimeout = setTimeout(function() {
-                            injectCSSIntoEditor(editor.getValue());
-                        }, 300);
-                    });
-
-                    // Clean up preview when leaving the page
-                    window.addEventListener("beforeunload", function() {
-                        if (previewStyle) {
-                            previewStyle.remove();
-                        }
-                        if (iframePreviewStyle) {
-                            iframePreviewStyle.remove();
-                        }
-                    });
                 }
             }
+
+            // Add live preview on input with debounce
+            if (textarea) {
+                textarea.addEventListener("input", function() {
+                    if (previewTimeout) {
+                        clearTimeout(previewTimeout);
+                    }
+                    previewTimeout = setTimeout(updatePreview, 300);
+                });
+
+                // Initial preview load
+                setTimeout(function() {
+                    if (textarea.value.trim()) {
+                        updatePreview();
+                    }
+                }, 1000);
+            }
+
+            // Auto-save on WordPress save/update
+            if (typeof wp !== "undefined" && wp.data && wp.data.select("core/editor")) {
+                wp.data.subscribe(() => {
+                    const isSavingPost = wp.data.select("core/editor").isSavingPost();
+                    const isAutosaving = wp.data.select("core/editor").isAutosavingPost();
+
+                    if (isSavingPost && !isAutosaving && !isProcessing) {
+                        isProcessing = true;
+
+                        const cssData = textarea.value;
+                        const postId = ' . $post->ID . ';
+
+                        // Save CSS via AJAX
+                        fetch(ajaxurl, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded",
+                            },
+                            body: new URLSearchParams({
+                                action: "save_custom_css",
+                                post_id: postId,
+                                css_data: cssData,
+                                nonce: "' . wp_create_nonce('custom_css_nonce') . '"
+                            })
+                        })
+                        .catch(error => {
+                            console.error("CSS save error:", error);
+                        })
+                        .finally(() => {
+                            // Reset processing flag after a delay
+                            setTimeout(() => {
+                                isProcessing = false;
+                            }, 1000);
+                        });
+                    }
+                });
+            }
+
+            // Clean up on page unload
+            window.addEventListener("beforeunload", function() {
+                if (previewStyle) {
+                    previewStyle.remove();
+                }
+            });
         });
     </script>';
 }
-
-// Save meta box data
-function save_custom_css_meta_box($post_id) {
-    // Check if this is an autosave
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
-    }
-
-    // Verify nonce
-    if (!isset($_POST['custom_css_meta_box_nonce']) || !wp_verify_nonce($_POST['custom_css_meta_box_nonce'], 'custom_css_meta_box_nonce')) {
-        return;
-    }
-
-    // Check user permissions
-    if (isset($_POST['post_type'])) {
-        if ('page' === $_POST['post_type']) {
-            if (!current_user_can('edit_page', $post_id)) {
-                return;
-            }
-        } else {
-            if (!current_user_can('edit_post', $post_id)) {
-                return;
-            }
-        }
-    }
-
-    // Save the CSS
-    if (isset($_POST['custom_css'])) {
-        $custom_css = sanitize_textarea_field($_POST['custom_css']);
-        if (!empty($custom_css)) {
-            update_post_meta($post_id, '_custom_css', $custom_css);
-        } else {
-            delete_post_meta($post_id, '_custom_css');
-        }
-    }
-}
-add_action('save_post', 'save_custom_css_meta_box');
-
-// Output custom CSS in the head
-function output_custom_css() {
-    error_log('output_custom_css function called');
-
-    if (is_singular()) {
-        global $post;
-
-        if ($post && isset($post->ID)) {
-            $custom_css = get_post_meta($post->ID, '_custom_css', true);
-
-            if (!empty($custom_css)) {
-                echo "\n<!-- Custom CSS for post ID: " . $post->ID . " -->\n";
-                echo '<style id="custom-page-css">' . "\n";
-                echo wp_strip_all_tags($custom_css) . "\n";
-                echo '</style>' . "\n";
-                echo "<!-- End Custom CSS -->\n";
-            } else {
-                echo "<!-- No custom CSS found for post ID: " . $post->ID . " -->\n";
-            }
-        } else {
-            error_log('Global $post is not available or has no ID');
-        }
-    } else {
-        error_log('is_singular() = false - Current page type: ' . (is_home() ? 'home' : (is_archive() ? 'archive' : 'other')));
-    }
-}
-add_action('wp_head', 'output_custom_css', 5);
 
 // Add meta box for custom JavaScript
 function add_custom_js_meta_box() {
@@ -809,188 +698,163 @@ function add_custom_js_meta_box() {
 }
 add_action('add_meta_boxes', 'add_custom_js_meta_box');
 
-// Meta box callback for JavaScript
+// Meta box callback for JavaScript with AJAX
 function custom_js_meta_box_callback($post) {
-    wp_nonce_field('custom_js_meta_box_nonce', 'custom_js_meta_box_nonce');
-
     $custom_js = get_post_meta($post->ID, '_custom_js', true);
 
+    echo '<div id="custom-js-container">';
     echo '<label for="custom_js">' . __('Add your custom JavaScript:', 'blocklib') . '</label>';
-    echo '<textarea id="custom_js" name="custom_js" rows="15" style="width:100%;">' . esc_textarea($custom_js) . '</textarea>';
-    echo '<p><em>' . __('This JavaScript will only be loaded on this specific page. Changes are previewed live in the editor.', 'blocklib') . '</em></p>';
+    echo '<textarea id="custom_js" rows="15" style="width:100%; font-family: monospace; font-size: 13px; background: #f9f9f9; border: 1px solid #ddd; padding: 10px;">' . esc_textarea($custom_js) . '</textarea>';
+    echo '<p><em>' . __('This JavaScript will be saved automatically when you save/update the page.', 'blocklib') . '</em></p>';
+    echo '</div>';
 
-    // Styles for CodeMirror
-    echo '<style>
-.CodeMirror {
-    border: 1px solid #ddd;
-}
-</style>';
-
-    // Initialize CodeMirror with live preview
     echo '<script>
         document.addEventListener("DOMContentLoaded", function() {
-            let jsEditor;
-            let previewScript = null;
-            let iframePreviewScript = null;
-            let previewTimeout = null;
+            const textarea = document.getElementById("custom_js");
+            let isProcessing = false;
 
-            if (typeof wp !== "undefined" && wp.codeEditor) {
-                const settings = wp.codeEditor.defaultSettings ? wp.codeEditor.defaultSettings : {};
+            // Auto-save on WordPress save/update
+            if (typeof wp !== "undefined" && wp.data && wp.data.select("core/editor")) {
+                wp.data.subscribe(() => {
+                    const isSavingPost = wp.data.select("core/editor").isSavingPost();
+                    const isAutosaving = wp.data.select("core/editor").isAutosavingPost();
 
-                const editorSettings = Object.assign({}, settings, {
-                    codemirror: Object.assign({}, settings.codemirror || {}, {
-                        mode: "javascript",
-                        lineNumbers: false,
-                        lineWrapping: true,
-                        indentUnit: 2,
-                        tabSize: 2,
-                        theme: "default"
-                    })
+                    if (isSavingPost && !isAutosaving && !isProcessing) {
+                        isProcessing = true;
+
+                        const jsData = textarea.value;
+                        const postId = ' . $post->ID . ';
+
+                        // Save JS via AJAX
+                        fetch(ajaxurl, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded",
+                            },
+                            body: new URLSearchParams({
+                                action: "save_custom_js",
+                                post_id: postId,
+                                js_data: jsData,
+                                nonce: "' . wp_create_nonce('custom_js_nonce') . '"
+                            })
+                        })
+                        .catch(error => {
+                            console.error("JS save error:", error);
+                        })
+                        .finally(() => {
+                            setTimeout(() => {
+                                isProcessing = false;
+                            }, 1000);
+                        });
+                    }
                 });
-
-                const editorInstance = wp.codeEditor.initialize("custom_js", editorSettings);
-
-                if (editorInstance && editorInstance.codemirror) {
-                    jsEditor = editorInstance.codemirror;
-
-                    // Save functionality
-                    const form = document.getElementById("post");
-                    if (form) {
-                        form.addEventListener("submit", function(e) {
-                            jsEditor.save();
-                        });
-
-                        const saveButtons = form.querySelectorAll("input[type=submit], button[type=submit], #publish, #save-post");
-                        saveButtons.forEach(function(button) {
-                            button.addEventListener("click", function() {
-                                jsEditor.save();
-                            });
-                        });
-                    }
-
-                    jsEditor.on("blur", function() {
-                        jsEditor.save();
-                    });
-
-                    // Function to inject JavaScript into editor and admin
-                    function injectJSIntoEditor(jsContent) {
-                        // Remove existing preview scripts
-                        if (previewScript) {
-                            previewScript.remove();
-                        }
-                        if (iframePreviewScript) {
-                            iframePreviewScript.remove();
-                        }
-
-                        if (jsContent.trim()) {
-                            try {
-                                // Inject into main admin page
-                                previewScript = document.createElement("script");
-                                previewScript.id = "custom-js-admin-preview";
-                                previewScript.textContent = jsContent;
-                                document.head.appendChild(previewScript);
-
-                                // Try to inject into Gutenberg iframe
-                                const editorIframe = document.querySelector("iframe[name=\"editor-canvas\"]");
-                                if (editorIframe && editorIframe.contentDocument) {
-                                    const iframeDoc = editorIframe.contentDocument;
-                                    iframePreviewScript = iframeDoc.createElement("script");
-                                    iframePreviewScript.id = "custom-js-live-preview";
-                                    iframePreviewScript.textContent = jsContent;
-                                    iframeDoc.head.appendChild(iframePreviewScript);
-                                }
-                            } catch (error) {
-                                console.warn("JavaScript preview error:", error);
-                            }
-                        }
-                    }
-
-                    // Wait for editor and apply existing JS
-                    function waitForEditor() {
-                        const editorIframe = document.querySelector("iframe[name=\"editor-canvas\"]");
-                        if (editorIframe && editorIframe.contentDocument) {
-                            const initialJS = jsEditor.getValue();
-                            if (initialJS.trim()) {
-                                injectJSIntoEditor(initialJS);
-                            }
-                        } else {
-                            setTimeout(waitForEditor, 500);
-                        }
-                    }
-
-                    setTimeout(waitForEditor, 1000);
-
-                    // Update preview on every change with debounce
-                    jsEditor.on("change", function() {
-                        if (previewTimeout) {
-                            clearTimeout(previewTimeout);
-                        }
-
-                        previewTimeout = setTimeout(function() {
-                            injectJSIntoEditor(jsEditor.getValue());
-                        }, 500); // Slightly longer debounce for JS to avoid too many executions
-                    });
-
-                    // Clean up on page unload
-                    window.addEventListener("beforeunload", function() {
-                        if (previewScript) {
-                            previewScript.remove();
-                        }
-                        if (iframePreviewScript) {
-                            iframePreviewScript.remove();
-                        }
-                    });
-                }
             }
         });
     </script>';
 }
 
-// Save JavaScript meta box
-function save_custom_js_meta_box($post_id) {
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
+// AJAX handler for CSS
+function handle_custom_css_ajax() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'custom_css_nonce')) {
+        wp_send_json_error('Invalid nonce');
     }
 
-    if (!isset($_POST['custom_js_meta_box_nonce']) || !wp_verify_nonce($_POST['custom_js_meta_box_nonce'], 'custom_js_meta_box_nonce')) {
-        return;
+    // Check permissions
+    if (!current_user_can('edit_posts')) {
+        wp_send_json_error('Insufficient permissions');
     }
 
-    if (isset($_POST['post_type'])) {
-        if ('page' === $_POST['post_type']) {
-            if (!current_user_can('edit_page', $post_id)) {
-                return;
+    $post_id = intval($_POST['post_id']);
+    $css_data = sanitize_textarea_field($_POST['css_data']);
+
+    // Verify user can edit this specific post
+    if (!current_user_can('edit_post', $post_id)) {
+        wp_send_json_error('Cannot edit this post');
+    }
+
+    // Save data
+    if (!empty($css_data)) {
+        $result = update_post_meta($post_id, '_custom_css', $css_data);
+    } else {
+        $result = delete_post_meta($post_id, '_custom_css');
+    }
+
+    if ($result !== false) {
+        wp_send_json_success('CSS saved successfully');
+    } else {
+        wp_send_json_error('Failed to save CSS');
+    }
+}
+add_action('wp_ajax_save_custom_css', 'handle_custom_css_ajax');
+
+// AJAX handler for JavaScript
+function handle_custom_js_ajax() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'custom_js_nonce')) {
+        wp_send_json_error('Invalid nonce');
+    }
+
+    // Check permissions
+    if (!current_user_can('edit_posts')) {
+        wp_send_json_error('Insufficient permissions');
+    }
+
+    $post_id = intval($_POST['post_id']);
+    $js_data = sanitize_custom_js($_POST['js_data']);
+
+    // Verify user can edit this specific post
+    if (!current_user_can('edit_post', $post_id)) {
+        wp_send_json_error('Cannot edit this post');
+    }
+
+    // Save data
+    if (!empty($js_data)) {
+        $result = update_post_meta($post_id, '_custom_js', $js_data);
+    } else {
+        $result = delete_post_meta($post_id, '_custom_js');
+    }
+
+    if ($result !== false) {
+        wp_send_json_success('JavaScript saved successfully');
+    } else {
+        wp_send_json_error('Failed to save JavaScript');
+    }
+}
+add_action('wp_ajax_save_custom_js', 'handle_custom_js_ajax');
+
+// Output CSS in the head
+function output_custom_css() {
+    if (is_singular()) {
+        global $post;
+        if ($post && isset($post->ID)) {
+            $custom_css = get_post_meta($post->ID, '_custom_css', true);
+
+            if (!empty($custom_css)) {
+                $clean_css = wp_kses($custom_css, array(), array());
+
+                echo "\n<!-- Custom CSS for post ID: " . $post->ID . " -->\n";
+                echo '<style id="custom-page-css">' . "\n";
+                echo $clean_css . "\n";
+                echo '</style>' . "\n";
+                echo "<!-- End Custom CSS -->\n";
             }
-        } else {
-            if (!current_user_can('edit_post', $post_id)) {
-                return;
-            }
-        }
-    }
-
-    if (isset($_POST['custom_js'])) {
-        $custom_js = sanitize_custom_js($_POST['custom_js']);
-        if (!empty($custom_js)) {
-            update_post_meta($post_id, '_custom_js', $custom_js);
-        } else {
-            delete_post_meta($post_id, '_custom_js');
         }
     }
 }
-add_action('save_post', 'save_custom_js_meta_box');
+add_action('wp_head', 'output_custom_css', 5);
 
-// Output JavaScript in front-end
+// Output JavaScript in footer
 function output_custom_page_js() {
     if (is_singular()) {
         global $post;
-
         if ($post && isset($post->ID)) {
             $custom_js = get_post_meta($post->ID, '_custom_js', true);
 
             if (!empty($custom_js)) {
                 echo "\n<!-- Custom JavaScript for post ID: " . $post->ID . " -->\n";
                 echo '<script id="custom-page-js">' . "\n";
-                echo wp_strip_all_tags($custom_js) . "\n";
+                echo $custom_js . "\n";
                 echo '</script>' . "\n";
                 echo "<!-- End Custom JavaScript -->\n";
             }
